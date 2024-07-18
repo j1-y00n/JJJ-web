@@ -1,7 +1,15 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
 
 function App() {
-  return <div>제이스 프로젝트 셋업</div>;
+  return (
+    <div>
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
