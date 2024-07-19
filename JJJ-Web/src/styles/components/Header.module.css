@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.main_icon {
+  border: 1px solid black;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.text_content {
+  /* border: 1px solid black; */
+  display: flex;
+  width: 200px;
+  padding: 10px;
+  float: right;
+  list-style: none;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+#header {
+  display: flex;
+  justify-content: center;
+  background-color: var(--blue);
+}
+
+.top_header {
+  width: 100%;
+  height: var(--box-height);
+  margin: 0 auto;
+  background-color: var(--blue);
+}
+
+.middle_header {
+  border: 1px solid red;
+  width: 80%;
+  height: var(--box-height);
+  margin: 0 auto;
+  background-color: var(--blue);
+}
+
+.middle_header_contianer {
+  display: flex;
+}
+
+.page_title_list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  border: 1px solid green;
+  width: 100%;
+  padding: 5px;
+  color: var(--white);
+}
+
+.search_basket {
+  display: flex;
+  list-style: none;
+  border: 1px solid purple;
+  padding: 5px;
+}
+
+.navi_body {
+  border: 1px solid black;
+  height: 400px;
+  background-color: var(--blue-light);
+}
+
+.search_tab {
+  border: 1px solid black;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.search_input {
+  width: 400px;
+  height: 50%;
+  display: flex;
+  margin-top: 10px;
+}
+
+.search_title {
+  margin: 0;
+  padding: 12px;
+}
+
+.login,
+.sign_up,
+.my_page,
+.search_icon,
+.shopping_icon {
+  &:hover {
+    font-weight: bold;
+    color: var(--black);
+  }
+  color: var(--white);
+}
