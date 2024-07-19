@@ -1,10 +1,10 @@
 :root {
-  --blue: #637a9f;
-  --blue-light: #c9d7dd;
-  --white: #fff;
-  --black: #000;
-  --red: #f00;
-  --orange: #ec952e;
+  --color-blue: #637a9f;
+  --color-blue-light: #c9d7dd;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-red: #f00;
+  --color-orange: #ec952e;
   --box-height: 80px;
   --margin-space: 50px;
   --margin-horizontal: 0 240px;

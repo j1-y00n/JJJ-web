@@ -1,0 +1,42 @@
+:root {
+  --color-deepblue: #637A9F;
+  --color-skyblue: #C9D7DD;
+  --color-red: #FF0000;
+  --color-orange: #EC952E;
+}
+
+.footer {
+  background-color: var(--color-skyblue);
+  width: 100%;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer__inner {
+  width: 400px;
+  margin: 30px auto 50px;
+  
+}
+
+.footer__map {
+  background-color: var(--color-deepblue);
+  height: 80px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+}
+
+.footer__map p {
+  color: white;
+}
+
+.footer__detail p {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
