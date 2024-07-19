@@ -1,0 +1,10 @@
+.best__reviews {
+  margin-top: var(--margin-space);
+  width: 100%;
+}
+
+.grid__items {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(4, 1fr);
+}

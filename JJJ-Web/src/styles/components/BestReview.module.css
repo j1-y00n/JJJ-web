@@ -1,0 +1,38 @@
+.item {
+  display: block;
+}
+
+.item__img {
+  width: 100%;
+  height: 300px;
+  border-radius: var(--border-radius);
+}
+
+.item__descriptions {
+  padding: 10px 5px;
+}
+
+.item__infos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.item__price {
+  color: var(--red);
+}
+
+.rating__star__container {
+  display: flex;
+  margin-right: 10px;
+}
+
+.stars {
+  display: flex;
+  color: var(--orange);
+}
+
+.rating__count {
+  color: var(--blue);
+}
