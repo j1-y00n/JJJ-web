@@ -1,0 +1,27 @@
+.search {
+  width: 100%;
+  height: var(--box-height);
+  display: flex;
+  background-color: var(--blue);
+  justify-content: center;
+  align-items: center;
+}
+
+.search label {
+  font-size: 1rem;
+  margin-right: 2rem;
+}
+
+.search input {
+  width: 600px;
+  font-size: 2rem;
+  height: 60px;
+  border: none;
+  outline: none;
+  border-radius: var(--border-radius);
+  padding-left: 20px;
+}
+
+.search input::placeholder {
+  text-align: center;
+}
