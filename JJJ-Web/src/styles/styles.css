@@ -1,0 +1,27 @@
+:root {
+  --blue: #637a9f;
+  --blue-light: #c9d7dd;
+  --white: #fff;
+  --black: #000;
+  --red: #f00;
+  --orange: #ec952e;
+  --box-height: 80px;
+  --margin-space: 50px;
+  --margin-horizontal: 0 240px;
+  --border-radius: 10px;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black);
+}
