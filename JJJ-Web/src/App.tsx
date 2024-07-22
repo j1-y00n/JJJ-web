@@ -27,10 +27,12 @@ function App() {
         <Route path='/payment' element={<Payment />} />
         <Route path='/company' element={<Company />} />
         <Route path='/category/:categoryId' element={<ProductList />} />
-        <Route
+        {/* <Route
           path='/category/:categoryId/product/:productId'
           element={<ProductDetail />}
-        />
+        /> */}
+        {/* 임시 디테일 라우트 */}
+        <Route path='productDetail' element={<ProductDetail />} />
         {/* 중고 상품 등록 페이지 */}
         <Route path='/createUsedProduct' element={<CreateUsedProduct />} />
       </Routes>
