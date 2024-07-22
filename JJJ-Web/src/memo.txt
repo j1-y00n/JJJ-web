@@ -1,0 +1,8 @@
+팀 컨벤션
+
+이름 규칙
+
+ClassName : __ 언더바 두개 사용 - ex. product__item
+Others : camelCase 적용 - ex. 파일, 변수, 컴포넌트, URL
+컴포넌트 이름에 단수명 지향 - carts 보다는 cart, products 보다는 product
+

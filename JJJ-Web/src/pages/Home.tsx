@@ -5,11 +5,11 @@ import Search from '../components/Search';
 import BestItems from '../components/BestItems';
 import BestReviews from '../components/BestReviews';
 import Footer from '../components/Footer';
-import '../styles/pages/Home.module.css';
+import styles from '../styles/pages/Home.module.css';
 
 export default function Home() {
   return (
-    <div>
+    <div className={styles.home__container}>
       {/* Header, Slider - 용재님 */}
       {/* BestItems, Footer - 지윤님 */}
       <Header />
