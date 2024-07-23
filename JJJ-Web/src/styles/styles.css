@@ -6,8 +6,7 @@
   --color-red: #f00;
   --color-orange: #ec952e;
   --box-height: 80px;
-  --margin-space: 50px;
-  --margin-horizontal: 0 240px;
+  --page-side-margin: 0 240px;
   --border-radius: 10px;
 }
 
@@ -18,4 +17,8 @@ body * {
 a {
   text-decoration: none;
   color: var(--black);
+}
+
+.page__margin {
+  margin: var(--page-side-margin);
 }
