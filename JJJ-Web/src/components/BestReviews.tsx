@@ -3,8 +3,8 @@ import BestReview from './BestReview';
 export default function BestReviews() {
   return (
     <section className={styles.best__reviews}>
-      <h3>베스트 리뷰</h3>
-      <div className={styles.grid__items}>
+      <h3 className={styles.best__reviews__title}>베스트 리뷰</h3>
+      <div className={styles.best__reviews__items}>
         <BestReview />
         <BestReview />
         <BestReview />
