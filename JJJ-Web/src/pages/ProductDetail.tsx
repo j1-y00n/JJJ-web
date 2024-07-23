@@ -1,6 +1,7 @@
+// 신승주
 import React, { useState } from 'react';
 import styles from '../styles/pages/ProductDetail.module.css';
-import ImageTabs from '../muiComponents/productDetail/LabTabs';
+import MuiImageTabs from '../muiComponents/productDetail/LabTabs';
 
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -13,7 +14,7 @@ export default function ProductDetail() {
   return (
     <div className='page__margin'>
       <div className={styles.product__container}>
-        <ImageTabs />
+        <MuiImageTabs />
         <div className={styles.detail__right}>
           <div className={styles.details}>
             <p>상품명</p>

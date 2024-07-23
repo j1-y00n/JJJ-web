@@ -1,6 +1,7 @@
+// 신승주
 import styles from '../styles/components/Search.module.css';
 
-export default function Search() {
+export default function SearchBar() {
   return (
     <section className={styles.search}>
       <label htmlFor='search__input'>통합검색</label>

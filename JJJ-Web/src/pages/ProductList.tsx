@@ -1,7 +1,6 @@
-import React from 'react'
+// 신승주
+import React from 'react';
 
 export default function ProductList() {
-  return (
-    <div>ProductList</div>
-  )
+  return <div>ProductList</div>;
 }

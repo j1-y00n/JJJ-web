@@ -1,3 +1,4 @@
+// 신승주
 import exampleImg from '../assets/images/cars.jpg';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import styles from '../styles/components/BestReview.module.css';
@@ -14,11 +15,11 @@ export default function BestReview() {
             <div className={styles.item__price}>26,700원</div>
             <div className={styles.rating__star__container}>
               <div className={styles.stars}>
-                <StarRateIcon fontSize='small' />
-                <StarRateIcon fontSize='small' />
-                <StarRateIcon fontSize='small' />
-                <StarRateIcon fontSize='small' />
-                <StarRateIcon fontSize='small' />
+                <StarRateIcon fontSize='small' sx={{ margin: '0 -1.4px' }} />
+                <StarRateIcon fontSize='small' sx={{ margin: '0 -1.4px' }} />
+                <StarRateIcon fontSize='small' sx={{ margin: '0 -1.4px' }} />
+                <StarRateIcon fontSize='small' sx={{ margin: '0 -1.4px' }} />
+                <StarRateIcon fontSize='small' sx={{ margin: '0 -1.4px' }} />
               </div>
               <div className={styles.rating__count}>(256)</div>
             </div>

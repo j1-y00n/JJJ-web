@@ -1,7 +1,8 @@
+// 신승주
 import React from 'react';
 import Header from '../components/Header';
 import Slider from '../components/Slider';
-import Search from '../components/Search';
+import SearchBar from '../components/SearchBar';
 import BestItems from '../components/BestItems';
 import BestReviews from '../components/BestReviews';
 import Footer from '../components/Footer';
@@ -14,7 +15,7 @@ export default function Home() {
       {/* BestItems, Footer - 지윤님 */}
       <Header />
       <Slider />
-      <Search />
+      <SearchBar />
       <BestItems />
       <BestReviews />
       <Footer />
