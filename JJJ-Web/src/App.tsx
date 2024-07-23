@@ -5,7 +5,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage';
 import Cart from './pages/Cart';
-import Search from './components/Search';
+import Search from './components/SearchBar';
 import Payment from './pages/Payment';
 import Company from './pages/Company';
 import ProductList from './pages/ProductList';

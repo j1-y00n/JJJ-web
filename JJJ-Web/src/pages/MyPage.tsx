@@ -1,4 +1,6 @@
+// 신승주
 import React from 'react';
+import styles from '../styles/pages/MyPage.module.css';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import OrderedList from './OrderedList';
 import EditUser from './EditUser';
@@ -56,13 +58,15 @@ export default function MyPage() {
   return (
     <div>
       <TempLinks />
-      <Routes>
-        <Route path='/' element={<OrderedList />} />
-        <Route path='editUser' element={<EditUser />} />
-        <Route path='wishList' element={<WishList />} />
-        {/* 나의 중고 상품 */}
-        <Route path='myUsedProduct' element={<MyUsedProduct />} />
-      </Routes>
+      <div className={styles.myPage__container}>
+        <Routes>
+          <Route path='/' element={<OrderedList />} />
+          <Route path='editUser' element={<EditUser />} />
+          <Route path='wishList' element={<WishList />} />
+          {/* 나의 중고 상품 */}
+          <Route path='myUsedProduct' element={<MyUsedProduct />} />
+        </Routes>
+      </div>
     </div>
   );
 }

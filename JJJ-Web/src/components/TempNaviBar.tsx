@@ -1,3 +1,4 @@
+// 신승주
 // ProductDetail에 대한 설정 해야 함
 // 중고상품 등록은 중고 상품 안에 있어야 함
 import { NavLink } from 'react-router-dom';

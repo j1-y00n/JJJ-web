@@ -1,6 +1,6 @@
 /* 신승주 */
 
-.home__container {
+.myPage__container {
   background-color: var(--white);
   display: flex;
   flex-direction: column;
