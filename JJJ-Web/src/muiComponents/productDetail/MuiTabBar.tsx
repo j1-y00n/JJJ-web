@@ -42,8 +42,8 @@ export default function MuiTabBar() {
               value='2'
               sx={{
                 flex: '1',
-                // borderLeft: '1px solid black',
-                // borderRight: '1px solid black',
+                borderLeft: '1px solid black',
+                borderRight: '1px solid black',
                 backgroundColor: 'default',
                 color: 'text.primary',
                 '&.Mui-selected': {
