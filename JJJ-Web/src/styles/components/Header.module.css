@@ -1,50 +1,80 @@
-body {
+/* 박용재 */
+
+* {
   margin: 0;
   padding: 0;
 }
 
-.main_icon {
-  border: 1px solid black;
-  width: 200px;
+.top_header {
+  width: 1200px;
+  height: 110px;
+  background-color: var(--color-blue);
   display: flex;
   justify-content: center;
-  font-size: 30px;
+  align-items: center;
+}
+
+.box_head_content {
+  justify-content: center;
+}
+
+.box_mytools {
+  display: flex;
+  align-items: flex-end;
+}
+
+.main_icon {
+  border: 1px solid black;
+  font-size: 3rem;
+}
+
+.list_mytools {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+  font-size: 1.5rem;
+  width: 200px;
+}
+
+/* 
+.top_header {
+  height: var(--box-height);
+  width: 1200px;
+  background-color: var(--color-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main_title {
+  border: 1px solid black;
+  width: 200px;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
 }
 
 .text_content {
-  /* border: 1px solid black; */
-  display: flex;
+  border: 1px solid black;
   width: 200px;
   padding: 10px;
-  float: right;
-  list-style: none;
-  justify-content: space-between;
-  font-weight: bold;
-}
-
-#header {
   display: flex;
-  justify-content: center;
-  background-color: var(--blue);
-}
+  justify-content: space-around;
 
-.top_header {
-  width: 100%;
-  height: var(--box-height);
-  margin: 0 auto;
-  background-color: var(--blue);
-}
+} */
+
+/* 
 
 .middle_header {
-  border: 1px solid red;
-  width: 80%;
+  border: 1px solid black;
   height: var(--box-height);
-  margin: 0 auto;
-  background-color: var(--blue);
+  background-color: var(--color-blue);
 }
 
 .middle_header_contianer {
   display: flex;
+  align-items: center;
 }
 
 .page_title_list {
@@ -52,22 +82,29 @@ body {
   justify-content: space-around;
   list-style: none;
   border: 1px solid green;
-  width: 100%;
-  padding: 5px;
-  color: var(--white);
+  width: 50%;
+  padding: 30px;
 }
 
-.search_basket {
+.user_area {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   list-style: none;
+  
+  padding: 10px;
   border: 1px solid purple;
-  padding: 5px;
+  &:hover {
+    color: var(--color-white);
+  }
 }
+
 
 .navi_body {
   border: 1px solid black;
   height: 400px;
-  background-color: var(--blue-light);
+  background-color: var(--color-white);
+
 }
 
 .search_tab {
@@ -89,6 +126,12 @@ body {
   padding: 12px;
 }
 
+.navi_image {
+  width: 850px;
+  height: 400px;
+}
+
+
 .login,
 .sign_up,
 .my_page,
@@ -96,7 +139,5 @@ body {
 .shopping_icon {
   &:hover {
     font-weight: bold;
-    color: var(--black);
   }
-  color: var(--white);
-}
+} */
