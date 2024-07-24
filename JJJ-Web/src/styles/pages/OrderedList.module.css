@@ -1,1 +1,17 @@
-/* 변지윤 */
+/* 신승주 */
+.ordered__list__container {
+  width: var(--max-width);
+  background-color: var(--color-blue);
+  display: flex;
+}
+
+.navbar {
+  width: 300px;
+  background-color: var(--color-orange);
+  height: 400px;
+}
+
+.ordered__list {
+  width: 100%;
+  height: 100vh;
+}

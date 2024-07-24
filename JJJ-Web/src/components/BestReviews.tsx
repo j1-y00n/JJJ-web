@@ -1,3 +1,4 @@
+// 신승주
 import styles from '../styles/components/BestReviews.module.css';
 import BestReview from './BestReview';
 export default function BestReviews() {

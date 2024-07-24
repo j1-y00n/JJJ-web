@@ -8,6 +8,7 @@
   --box-height: 80px;
   --page-side-margin: 0 240px;
   --border-radius: 10px;
+  --max-width: 1200px;
 }
 
 body * {
