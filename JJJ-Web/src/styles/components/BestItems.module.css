@@ -1,5 +1,6 @@
+/* 변지윤 */
 .best__product {
-  width: 1400px;
+  width: var(--max-width);
   margin: 50px 240px 25px;
 }
 

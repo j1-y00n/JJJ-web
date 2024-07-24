@@ -1,8 +1,8 @@
-/* title에 margin-left 10px, width 1400px  */
+/* 신승주 */
 
 .best__reviews {
   margin: 50px 240px 25px;
-  width: 1400px;
+  width: var(--max-width);
 }
 
 .best__reviews__title {

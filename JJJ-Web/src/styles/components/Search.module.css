@@ -1,8 +1,10 @@
+/* 신승주 */
+
 .search {
   width: 100%;
   height: var(--box-height);
   display: flex;
-  background-color: var(--blue);
+  background-color: var(--color-blue);
   justify-content: center;
   align-items: center;
 }
