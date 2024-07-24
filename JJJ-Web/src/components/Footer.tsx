@@ -1,3 +1,4 @@
+// 변지윤
 import styles from  '../styles/components/Footer.module.css';
 
 export default function Footer() {
