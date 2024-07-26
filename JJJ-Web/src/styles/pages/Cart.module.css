@@ -1,41 +1,42 @@
 /* 변지윤 */
-.cart__container{
-  /* width: var(--max-width); */
-  width: 1200px;
-  /* margin: 0 240px; */
+.cart__container {
+  width: var(--max-width);
+  /* margin: var(--page-side-margin); */
 }
 
-.cart__title{
+.cart__title {
   text-align: center;
   padding: 10px;
 }
 
-.cart__select{
+.cart__select {
   display: flex;
   justify-content: space-between;
   height: 64px;
 }
 
-.select__total{
+.select__total {
   display: flex;
+  align-items: center;
   border: 1px solid black;
 }
 
-.select__total__title{
+.select__total__title {
   width: 75px;
 }
 
-.select__delete{
+.select__delete {
   display: flex;
+  align-items: center;
 }
 
-.select__delete__title{
+.select__delete__title {
   width: 75px;
   border: 1px solid black;
 
 }
 
-.cart__list__container{
+.cart__list__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,37 +44,43 @@
   background-color: #f4f4f4;
 }
 
-.list__container__inner{
+.list__container__inner {
   display: flex;
   width: 964px;
   height: 197px;
   background-color: var(--color-white);
   border: 1px solid black;
+  margin: 15px 0;
 }
 
-.list__desc{
+.list__desc {
   width: 490px;
+  border: 1px solid black;
 }
 
-.desc__container{
+.desc__container {
   display: flex;
-
 }
 
-.list__quantity{
+.list__quantity { 
   width: 178px;
+  border: 1px solid black;
+  text-align: center;
 }
 
-.list__price{
+.list__price {
   width: 133px;
+  border: 1px solid black;
+  text-align: center;
 }
 
-.list__delivery{
+.list__delivery {
   width: 133px;
-
+  border: 1px solid black;
+  text-align: center;
 }
 
-.fixed__container{
+.fixed__container {
   display: flex;
   position: fixed;
   bottom: 0;
@@ -81,14 +88,17 @@
   padding-top: 14px;
   padding-bottom: 14px;
   background-color: var(--color-blue);
+  width: 100%;
 }
 
-.fixed__price{
+.fixed__price {
   width: 255px;
+  border: 1px solid black;
   /* height: 48px; */
 }
 
-.fixed__order{
+.fixed__order {
   width: 230px;
+  border: 1px solid black;
   /* height: 48px; */
 }
