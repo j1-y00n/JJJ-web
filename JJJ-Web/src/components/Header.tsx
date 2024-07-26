@@ -8,7 +8,7 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 export default function Header() {
   return (
     <div id="home">
-      <div id="header">
+      <div className={styles.header}>
         <div className={styles.top_header}>
           <div className={styles.box_head_content}>
             <div className={styles.main_icon}>제이스 JJJ</div>
@@ -35,7 +35,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div id="second_header">
+      <div className={styles.second_header}>
         {/* li 태그 안에 button 속성 */}
         <div className={styles.middle_header}>
           
@@ -98,7 +98,7 @@ export default function Header() {
       </div>
 
       <div className={styles.navi_body}>
-        <img className={styles.navi_image} src='' alt="네비 이미지" />
+        <img className={styles.navi_image} src={cars} alt="네비 이미지" />
       </div>
     </div>
   );
