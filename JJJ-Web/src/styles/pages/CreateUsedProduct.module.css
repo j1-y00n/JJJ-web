@@ -1,1 +1,64 @@
 /* 변지윤 */
+.createUsedProduct__container {
+
+}
+
+.createUsedProduct__title {
+
+}
+
+.createUsedProduct__inner {
+
+}
+
+.create__desc__container {
+
+}
+
+.desc__title {
+
+}
+
+.desc__inner {
+
+}
+
+.image__container {
+
+}
+
+.name__container {
+
+}
+
+.condition__container {
+  
+}
+
+
+
+.create__price__container {
+
+}
+
+
+.create__add__container {
+
+}
+
+.fixed__container {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  height: 76px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  background-color: var(--color-blue);
+  width: 100%;
+}
+
+.fixed__create {
+  width: 255px;
+  border: 1px solid black;
+  /* height: 48px; */
+}
