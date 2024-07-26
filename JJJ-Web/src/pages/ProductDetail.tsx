@@ -1,6 +1,6 @@
 // 신승주
 import React, { useState } from 'react';
-import styles from '../styles/pages/ProductDetail.module.css';
+import styles from '../styles/pages/ProductList.module.css';
 import MuiImageTabs from '../muiComponents/productDetail/MuiImageTabs';
 
 import StarRateIcon from '@mui/icons-material/StarRate';
@@ -17,7 +17,7 @@ import Header from '../components/Header';
 export default function ProductDetail() {
   const [count, setCount] = useState(1);
   return (
-    <>
+    <div className={styles.productList__container}>
       <Header />
       <Container>
         {/* 이미지와, 상품정보 */}
@@ -156,6 +156,6 @@ export default function ProductDetail() {
         {/* 탭 : 상품 설명, 상품 리뷰, Q & A*/}
       </Container>
       <Footer />
-    </>
+    </div>
   );
 }

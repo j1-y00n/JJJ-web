@@ -1,5 +1,5 @@
 // 신승주
-import styles from '../styles/components/Search.module.css';
+import styles from '../styles/components/SearchBar.module.css';
 
 export default function SearchBar() {
   return (

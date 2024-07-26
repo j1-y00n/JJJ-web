@@ -1,0 +1,8 @@
+/* 신승주 */
+
+.productList__container {
+  background-color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
