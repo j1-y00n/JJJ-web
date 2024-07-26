@@ -1,53 +1,75 @@
 /* 신승주 */
-.ordered__list__container {
-  width: var(--max-width);
-  background-color: yellow;
-  display: flex;
-}
-
-.navbar {
-  width: 300px;
-  background-color: var(--color-orange);
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-}
 
 .ordered__list {
   width: 100%;
+  padding: 20px;
+  padding-top: 0;
 }
 
 .search {
-  width: 100%;
-  height: 100px;
+  display: flex;
   margin-bottom: 20px;
 }
 
-.order__wrapper {
-  width: 100%;
-  padding: 20px;
-}
+/* .order__wrapper {} */
 
 .order__number {
   width: 200px;
   padding: 20px;
+  border: 1px solid var(--color-blue);
+  border-bottom: none;
   background-color: var(--color-blue);
   color: var(--color-white);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.order__number__wrapper {
+  width: 100%;
+  padding: 20px;
+  padding-bottom: 0;
+  background-color: var(--color-blue-light);
+  border: 1px solid var(--color-blue);
+  border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+  margin-bottom: 20px;
 }
 
 .order__detail__wrapper {
   display: flex;
+  border: 1px solid var(--color-white);
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  height: 250px;
+  gap: 20px;
+  overflow: hidden;
 }
 
 .detail__left {
-  flex: 1;
+  flex: 1.5;
 }
 .detail__left img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+.detail__middle,
+.detail__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px;
+}
+
 .detail__middle {
   flex: 2;
 }
-.detail__left {
+
+.detail__middle p {
+  padding: 20px 0;
+  margin-left: 40px;
+}
+
+.detail__right {
   flex: 1;
 }
