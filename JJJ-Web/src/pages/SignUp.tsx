@@ -199,8 +199,8 @@ export default function State05() {
           </div>
 
           <div className={styles.button_container}>
-            <button>취소</button>
-            <button type="submit">회원가입</button>
+            <button id={styles.button_detail}>취소</button>
+            <button id={styles.button_detail}type="submit">회원가입</button>
           </div>
         </div>
       </div>
