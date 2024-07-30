@@ -13,7 +13,7 @@ export function useInput(initialValue: string) {
 
   return {
     value,
-    onChange: handleInputChange,
+    handleInputChange,
     reset,
   };
 }

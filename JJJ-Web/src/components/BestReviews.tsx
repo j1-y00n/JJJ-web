@@ -2,10 +2,10 @@
 import styles from '../styles/components/BestReviews.module.css';
 import { Product } from './Product';
 import { navigateProduct } from '../utils/navigateProduct';
-import { useProductStore } from '../stores/Product.store';
+import { ProductStore } from '../stores/Product.store';
 
 export default function BestReviews() {
-  const { products } = useProductStore();
+  const { products } = ProductStore();
 
   const BestReviewProducts = products
     .sort((a, b) => b.productRatingCount - a.productRatingCount)
