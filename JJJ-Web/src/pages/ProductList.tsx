@@ -7,9 +7,9 @@ import { NavLink, useParams } from 'react-router-dom';
 import Filter from '../components/Filter';
 import { Product } from '../components/Product';
 import { CategoryType } from '../types/Product.type';
-import { useFilterStore } from '../stores/useFilter.store';
-import { navigateProduct } from '../hooks/navigateProduct';
-import { useProductStore } from '../stores/useProduct.store';
+import { useFilterStore } from '../stores/Filter.store';
+import { navigateProduct } from '../utils/navigateProduct';
+import { useProductStore } from '../stores/Product.store';
 
 export default function ProductList() {
   const { products } = useProductStore();
@@ -59,7 +59,7 @@ export default function ProductList() {
               price={product.productPrice}
               rating={product.productRating}
               ratingCount={product.productRatingCount}
-              onClick={() => handleProductClick(product.productId)}
+              onClick={() => handleProductClick(product.productId, categoryId)}
             />
           ))
         ) : (

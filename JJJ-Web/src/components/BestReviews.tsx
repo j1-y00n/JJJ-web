@@ -1,8 +1,8 @@
 // 신승주
 import styles from '../styles/components/BestReviews.module.css';
 import { Product } from './Product';
-import { navigateProduct } from '../hooks/navigateProduct';
-import { useProductStore } from '../stores/useProduct.store';
+import { navigateProduct } from '../utils/navigateProduct';
+import { useProductStore } from '../stores/Product.store';
 
 export default function BestReviews() {
   const { products } = useProductStore();

@@ -24,7 +24,7 @@ export default function TempNaviBar() {
     'category/society',
     'category/usedProduct',
     'createUsedProduct',
-    'productDetail', // 임시 라우트
+    'category/gift/product/1', // 임시 제품 상세 페이지
   ];
 
   const pages: IPages = {
@@ -43,7 +43,7 @@ export default function TempNaviBar() {
     'category/society': '사회발달',
     'category/usedProduct': '중고상품',
     createUsedProduct: '중고상품등록',
-    productDetail: '제품상세페이지', // 임시 라우트
+    'category/gift/product/1': '제품상세페이지', // 임시 제품 상세 페이지
   };
   return (
     <ul

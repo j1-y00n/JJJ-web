@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { theme } from '../styles/theme';
-import { useFilterStore } from '../stores/useFilter.store';
+import { useFilterStore } from '../stores/Filter.store';
 import { CategoryAgeType } from '../types/TempMockdata';
 
 export default function Filter() {
