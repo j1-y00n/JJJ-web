@@ -1,10 +1,23 @@
 /* 변지윤 */
 .createUsedProduct__container {
-
+  width: var(--max-width);
+  margin: var(--page-side-margin);
 }
 
-.createUsedProduct__title {
+.createUsedProduct__header {
+  font-size: 26px;
+  margin-bottom: 50px;
+  text-align: center;
+}
 
+.container__title {
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-black);
+}
+
+.inner__title {
+  width: 200px;
+  height: 48px;
 }
 
 .createUsedProduct__inner {
@@ -15,27 +28,30 @@
 
 }
 
-.desc__title {
-
-}
 
 .desc__inner {
 
 }
 
 .image__container {
-
+  display: flex;
 }
 
 .name__container {
-
+  display: flex;
 }
 
 .condition__container {
-  
+  display: flex;
 }
 
+.detail__container {
+  display: flex;
+}
 
+.detail__content {
+  width: 800px;
+}
 
 .create__price__container {
 
@@ -46,19 +62,32 @@
 
 }
 
+.num__container {
+  display: flex;
+}
+
+.transaction__container {
+  display: flex;
+}
+
+
 .fixed__container {
   display: flex;
+  align-items: center;
   position: fixed;
   bottom: 0;
   height: 76px;
+  background-color: var(--color-black);
+  width: 100%;
   padding-top: 14px;
   padding-bottom: 14px;
-  background-color: var(--color-blue);
-  width: 100%;
+  z-index: 10;
 }
-
+  
 .fixed__create {
   width: 255px;
   border: 1px solid black;
-  /* height: 48px; */
+  border-radius: var(--border-radius);
+  background-color: var(--color-blue-light);
+  height: 48px;
 }

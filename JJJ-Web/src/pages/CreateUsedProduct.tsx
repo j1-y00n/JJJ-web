@@ -1,111 +1,169 @@
-// 변지윤 
+// 변지윤
 // 중고 제품 등록
-import React from 'react'
+import React from 'react';
 import styles from '../styles/pages/CreateUsedProduct.module.css';
-import { InputAdornment, TextField } from '@mui/material';
-import { theme } from '../styles/theme';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Footer from '../components/Footer';
+import styled from 'styled-components';
 
+// styled-components로 스타일 변경한 footer
+const FooterWithMargin = styled(Footer)`
+  padding-bottom: 76px;
+  background-color: red;
+`;
 
 export default function CreateUsedProduct() {
-  
+  // 상품상태 radio button
+  const [condition, setCondition] = React.useState('새상품(미사용)');
+
+  const handleConditionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCondition((event.target as HTMLInputElement).value);
+  };
+
+  // 직거래 radio button
+  const [transaction, setTransaction] = React.useState('가능');
+
+  const handleTransactionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTransaction((event.target as HTMLInputElement).value);
+  };
+
   return (
     <>
-      <div className={styles.createUsedProduct__container}>
-        <div className={styles.createUsedProduct__title}>중고 상품 등록</div>
-        <div className={styles.createUsedProduct__inner}>
+      <form action=''>
+        <div className={styles.createUsedProduct__container}>
+          <div className={styles.createUsedProduct__header}>중고 상품 등록</div>
+          <div className={styles.createUsedProduct__inner}>
+            {/* 상품정보 */}
+            <div className={styles.create__desc__container}>
+              <div className={styles.container__title}>상품정보</div>
+              <div className={styles.desc__inner}>
+                <div className={styles.image__container}>
+                  <div className={styles.inner__title}>상품 이미지</div>
+                  <input type='file' />
+                </div>
+                <div className={styles.name__container}>
+                  <div className={styles.inner__title}>상품명</div>
+                  <input type='text'></input>
+                </div>
+                <div className={styles.condition__container}>
+                  <div className={styles.inner__title}>상품 상태</div>
 
-          {/* 상품정보 */}
-          <div className={styles.create__desc__container}>
-            <div className={styles.desc__title}>상품정보</div>
-            <div className={styles.desc__inner}>
-              <div className={styles.image__container}>
-                <div>상품 이미지</div>
-                <button>이미지 등록</button>
-              </div>
-              <div className={styles.name__container}>
-                <div>상품명</div>
-                <input type='text'></input>
-              </div>
-              <div className={styles.condition__container}>
-                <div>상품 상태</div>
-                <div>
-                  새상품
+                  <FormControl>
+                    <RadioGroup
+                      aria-labelledby='demo-controlled-radio-buttons-group'
+                      name='controlled-radio-buttons-group'
+                      value={condition}
+                      onChange={handleConditionChange}
+                    >
+                      <FormControlLabel
+                        value='새상품(미사용)'
+                        control={<Radio color='primary' />}
+                        label='새상품(미사용)'
+                      />
+                      <FormControlLabel
+                        value='사용감 없음'
+                        control={<Radio color='primary' />}
+                        label='사용감 없음'
+                      />
+                      <FormControlLabel
+                        value='사용감 적음'
+                        control={<Radio color='primary' />}
+                        label='사용감 적음'
+                      />
+                      <FormControlLabel
+                        value='사용감 많음'
+                        control={<Radio color='primary' />}
+                        label='사용감 많음'
+                      />
+                      <FormControlLabel
+                        value='고장/파손 상품'
+                        control={<Radio color='primary' />}
+                        label='고장/파손 상품'
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+                <div className={styles.detail__container}>
+                  <div className={styles.inner__title}>설명</div>
+                  <textarea
+                    name='detailContent'
+                    rows={6}
+                    className={styles.detail__content}
+                  ></textarea>
                 </div>
               </div>
-              <div>
-                <div>설명</div>
-                <input type="text" name="" id="" />
-              </div>
             </div>
-          </div>
 
-          {/* 가격 */}
-          <div className={styles.create__price__container}>
-            <div>가격</div>
-            <div>
-              <div>가격</div>
-              <div>
-                {/* <TextField
-                    id="outlined-number"
-                    type="number"
-                    defaultValue="0"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  /> */}
-
-                <TextField
-                  id="outlined-end-adornment"
-                  sx={{width: '25ch', color: 'black'}}
-                  InputProps={{
-                    endAdornment: <InputAdornment position="end" sx={{color: 'text.primary', fontSize: '20px'}}>원</InputAdornment>,
-                  }}
-                />
-                
-              </div>
-            </div>
-          </div>
-          
-          {/* 추가정보 */}
-          <div className={styles.create__add__container}>
-            <div>추가정보</div>
-            <div>
-              <div>
-                <div>수량</div>
+            {/* 가격 */}
+            <div className={styles.create__price__container}>
+              <div className={styles.container__title}>가격</div>
+              <div className={styles.num__container}>
+                <div className={styles.inner__title}>가격</div>
                 <div>
-                {/* <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { width: '300px' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                > */}
-                  <TextField
-                    id="outlined-number"
-                    type="number"
-                    defaultValue="1"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                  />
-                {/* </Box> */}
+                  <input type='number' value='0' />
                 </div>
               </div>
+            </div>
+
+            {/* 추가정보 */}
+            <div className={styles.create__add__container}>
+              <div className={styles.container__title}>추가정보</div>
               <div>
-                <div>직거래</div>
-                <input type='radio'></input>
+                <div className={styles.num__container}>
+                  <div className={styles.inner__title}>수량</div>
+                  <div>
+                    <input type='number' value='1' />
+                  </div>
+                </div>
+                <div className={styles.transaction__container}>
+                  <div className={styles.inner__title}>직거래</div>
+
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby='demo-controlled-radio-buttons-group'
+                      name='controlled-radio-buttons-group'
+                      value={transaction}
+                      onChange={handleTransactionChange}
+                    >
+                      <FormControlLabel
+                        value='가능'
+                        control={<Radio color='primary' />}
+                        label='가능'
+                      />
+                      <FormControlLabel
+                        value='불가'
+                        control={<Radio color='primary' />}
+                        label='불가'
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
               </div>
             </div>
           </div>
-
         </div>
-      </div>
 
-      {/* Fixed */}
-      <div className={styles.fixed__container}>
-        <div className={styles.fixed__create}>등록하기</div>
-      </div>
+        {/* Fixed */}
+        <div className={styles.fixed__container}>
+          <button type='submit' className={styles.fixed__create}>
+            등록하기
+          </button>
+        </div>
+      </form>
+
+      {/* <div style={{marginBottom: '78px'}}>
+        <Footer />
+      </div> */}
+
+      <FooterWithMargin />
     </>
-  )
+  );
 }

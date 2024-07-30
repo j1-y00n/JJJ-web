@@ -99,8 +99,8 @@ export interface UsedProducts {
 //     id: 1,
 //     title: '모래놀이',
 //     price: 23000,
-//     category: ['gift', 'intelligence'],
-//     age: ['0-6'],
+    // category: ['gift', 'intelligence'],
+    // age: ['0-6'],
 //     img: [
 //       'https://cdn.pixabay.com/photo/2015/10/25/14/43/bucket-1005891_640.jpg',
 //       'https://cdn.pixabay.com/photo/2015/07/22/14/37/sieve-855681_640.jpg',
