@@ -74,13 +74,14 @@
 .fixed__container {
   display: flex;
   align-items: center;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   height: 76px;
   background-color: var(--color-black);
   width: 100%;
   padding-top: 14px;
   padding-bottom: 14px;
+  z-index: 10;
 }
   
 .fixed__create {

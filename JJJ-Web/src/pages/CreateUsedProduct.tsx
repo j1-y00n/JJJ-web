@@ -6,7 +6,14 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import Footer from '../components/Footer';
+import styled from 'styled-components';
 
+// styled-components로 스타일 변경한 footer
+const FooterWithMargin = styled(Footer)`
+  padding-bottom: 76px;
+  background-color: red;
+`;
 
 
 export default function CreateUsedProduct() {
@@ -54,11 +61,11 @@ export default function CreateUsedProduct() {
                       value={condition}
                       onChange={handleConditionChange}
                     >
-                      <FormControlLabel value="새상품(미사용)" control={<Radio />} label="새상품(미사용)" />
-                      <FormControlLabel value="사용감 없음" control={<Radio />} label="사용감 없음" />
-                      <FormControlLabel value="사용감 적음" control={<Radio />} label="사용감 적음" />
-                      <FormControlLabel value="사용감 많음" control={<Radio />} label="사용감 많음" />
-                      <FormControlLabel value="고장/파손 상품" control={<Radio />} label="고장/파손 상품" />
+                      <FormControlLabel value="새상품(미사용)" control={<Radio color='primary' />} label="새상품(미사용)" />
+                      <FormControlLabel value="사용감 없음" control={<Radio color='primary' />} label="사용감 없음" />
+                      <FormControlLabel value="사용감 적음" control={<Radio color='primary' />} label="사용감 적음" />
+                      <FormControlLabel value="사용감 많음" control={<Radio color='primary' />} label="사용감 많음" />
+                      <FormControlLabel value="고장/파손 상품" control={<Radio color='primary' />} label="고장/파손 상품" />
                     </RadioGroup>
                   </FormControl>
 
@@ -121,6 +128,12 @@ export default function CreateUsedProduct() {
         </div>
       
       </form>
+
+      {/* <div style={{marginBottom: '78px'}}>
+        <Footer />
+      </div> */}
+
+      <FooterWithMargin />
     </>
   )
 }
