@@ -3,14 +3,20 @@ import { theme } from '../styles/theme';
 import { useFilterStore } from '../stores/Filter.store';
 import { CategoryAgeType } from '../types/TempMockdata';
 
+interface AgeOption {
+  value: CategoryAgeType;
+  label: string;
+}
+
 export default function Filter() {
-  const ages: CategoryAgeType[] = [
-    '모두 보기',
-    '0-6',
-    '7-12',
-    '12-18',
-    '19-24',
-    '2-3',
+  const ages: AgeOption[] = [
+    { value: '모두 보기', label: '모두 보기' },
+    { value: '0-6', label: '0-6개월' },
+    { value: '7-12', label: '7-12개월' },
+    { value: '12-18', label: '12-18개월' },
+    { value: '19-24', label: '19-24개월' },
+    { value: '2-3', label: '2-3세' },
+    { value: 'over3', label: '3세 이상' },
   ];
 
   const sorting: string[] = [
@@ -34,7 +40,7 @@ export default function Filter() {
   return (
     <Box
       sx={{
-        width: '1200px',
+        width: 'var(--max-width)',
         marginLeft: '10px',
         borderTop: `1px solid ${theme.palette.secondary.main}`,
         borderBottom: `1px solid ${theme.palette.secondary.main}`,
@@ -46,25 +52,26 @@ export default function Filter() {
       >
         {ages.map((item) => (
           <Button
-            key={item}
+            key={item.value}
             sx={{
               padding: '10px 20px',
               marginRight: '20px',
               backgroundColor:
-                activeAge === item ? 'secondary.main' : 'primary.main',
-              color: activeAge === item ? 'primary.main' : 'text.secondary',
+                activeAge === item.value ? 'secondary.main' : 'primary.main',
+              color:
+                activeAge === item.value ? 'primary.main' : 'text.secondary',
               '&:hover': {
                 backgroundColor: 'secondary.main',
                 color: 'primary.main',
               },
               outline:
-                activeAge === item
+                activeAge === item.value
                   ? `2px solid ${theme.palette.primary.main}`
                   : 'none',
             }}
-            onClick={() => handleAgeClick(item)}
+            onClick={() => handleAgeClick(item.value)}
           >
-            {item}
+            {item.label}
           </Button>
         ))}
       </Box>

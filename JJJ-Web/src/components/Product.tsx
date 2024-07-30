@@ -1,5 +1,4 @@
 // 신승주
-import exampleImg from '../assets/images/cars.jpg';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { NavLink } from 'react-router-dom';
 import styles from '../styles/components/Product.module.css';

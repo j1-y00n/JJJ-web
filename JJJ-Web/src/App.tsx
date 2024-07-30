@@ -23,7 +23,7 @@ function App() {
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/myPage/*' element={<MyPage />} />
         <Route path='/cart' element={<Cart />} />
-        <Route path='/search' element={<Search />} />
+        <Route path='/search/:query?' element={<Search />} />
         <Route path='/payment' element={<Payment />} />
         <Route path='/company' element={<Company />} />
         <Route path='/category/:categoryId' element={<ProductList />} />

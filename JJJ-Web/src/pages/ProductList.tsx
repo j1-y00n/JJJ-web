@@ -9,10 +9,11 @@ import { Product } from '../components/Product';
 import { CategoryType } from '../types/Product.type';
 import { useFilterStore } from '../stores/Filter.store';
 import { navigateProduct } from '../utils/navigateProduct';
-import { useProductStore } from '../stores/Product.store';
+import { ProductStore } from '../stores/Product.store';
+import { filterAndSortProducts } from '../utils/filterAndSortProducts';
 
 export default function ProductList() {
-  const { products } = useProductStore();
+  const { products } = ProductStore();
   const { activeAge, activeSorting } = useFilterStore();
   const { categoryId } = useParams<{ categoryId: CategoryType }>();
   const { handleProductClick } = navigateProduct();
@@ -21,28 +22,10 @@ export default function ProductList() {
     ? products.filter((product) => product.productCategory.includes(categoryId))
     : products;
 
-  const ageFilteredProducts =
-    activeAge === '모두 보기'
-      ? categoryFilteredProducts
-      : categoryFilteredProducts.filter((product) =>
-          product.productCategoryAge.includes(activeAge)
-        );
-
-  const sortedProducts = [...ageFilteredProducts].sort((a, b) => {
-    switch (activeSorting) {
-      case '최신순':
-        return b.productId - a.productId;
-      case '가격높은순':
-        return b.productPrice - a.productPrice;
-      case '가격낮은순':
-        return a.productPrice - b.productPrice;
-      case '별점순':
-        return b.productRating - a.productRating;
-      case '리뷰많은순':
-        return b.productRatingCount - a.productRatingCount;
-      default:
-        return 0;
-    }
+  const sortedProducts = filterAndSortProducts({
+    products: categoryFilteredProducts,
+    activeAge,
+    activeSorting,
   });
 
   return (
@@ -63,7 +46,9 @@ export default function ProductList() {
             />
           ))
         ) : (
-          <h3 className={styles.no__product}>No products available</h3>
+          <div className={styles.no__product}>
+            <h3>이용 가능한 상품이 없습니다</h3>
+          </div>
         )}
       </section>
       <Footer />

@@ -6,13 +6,16 @@ import { useInput } from '../hooks/useInput';
 import { useNavigate } from 'react-router-dom';
 import { useKeyDown } from '../hooks/useKeydown';
 export default function SearchBar() {
-  const { value, onChange, reset } = useInput('');
+  const { value, handleInputChange, reset } = useInput('');
   const navigate = useNavigate();
-  const handleSearch = () => {
-    navigate(`/search?query=${encodeURIComponent(value)}`);
-    // reset();
-  };
 
+  const handleSearch = () => {
+    if (!value) {
+      return;
+    }
+    navigate(`/search?query=${value}`);
+    reset();
+  };
   const handleKeyDown = useKeyDown(handleSearch);
 
   return (
@@ -24,7 +27,7 @@ export default function SearchBar() {
           type='text'
           placeholder='검색어를 입력해주세요.'
           value={value}
-          onChange={onChange}
+          onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />
         <IconButton
