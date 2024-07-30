@@ -1,24 +1,36 @@
 import { Box, Button } from '@mui/material';
-import React from 'react';
 import { theme } from '../styles/theme';
+import { useFilterStore } from '../stores/useFilter.store';
+import { CategoryAgeType } from '../types/TempMockdata';
 
 export default function Filter() {
-  const ages: string[] = [
+  const ages: CategoryAgeType[] = [
     '모두 보기',
-    '0-6개월',
-    '7-12개월',
-    '12-18개월',
-    '19-24개월',
-    '2-3세',
+    '0-6',
+    '7-12',
+    '12-18',
+    '19-24',
+    '2-3',
   ];
 
-  const filtering: string[] = [
+  const sorting: string[] = [
+    '최신순',
     '가격높은순',
     '가격낮은순',
-    '판매량순',
-    '최신순',
-    '리뷰순',
+    '별점순',
+    '리뷰많은순',
   ];
+
+  const { activeAge, activeSorting, setActiveAge, setActiveSorting } =
+    useFilterStore();
+
+  const handleAgeClick = (age: CategoryAgeType) => {
+    setActiveAge(age === activeAge ? '모두 보기' : age);
+  };
+  const handleFilterClick = (filter: string) => {
+    setActiveSorting(activeSorting === filter ? null : filter);
+  };
+
   return (
     <Box
       sx={{
@@ -34,15 +46,23 @@ export default function Filter() {
       >
         {ages.map((item) => (
           <Button
+            key={item}
             sx={{
-              marginRight: '10px',
-              backgroundColor: 'primary.main',
-              color: 'text.secondary',
+              padding: '10px 20px',
+              marginRight: '20px',
+              backgroundColor:
+                activeAge === item ? 'secondary.main' : 'primary.main',
+              color: activeAge === item ? 'primary.main' : 'text.secondary',
               '&:hover': {
                 backgroundColor: 'secondary.main',
                 color: 'primary.main',
               },
+              outline:
+                activeAge === item
+                  ? `2px solid ${theme.palette.primary.main}`
+                  : 'none',
             }}
+            onClick={() => handleAgeClick(item)}
           >
             {item}
           </Button>
@@ -57,17 +77,25 @@ export default function Filter() {
         }}
         className='filters__box'
       >
-        {filtering.map((item) => (
+        {sorting.map((item) => (
           <Button
+            key={item}
             sx={{
-              marginRight: '10px',
-              backgroundColor: 'primary.main',
-              color: 'text.secondary',
+              padding: '10px 20px',
+              marginRight: '20px',
+              backgroundColor:
+                activeSorting === item ? 'secondary.main' : 'primary.main',
+              color: activeSorting === item ? 'primary.main' : 'text.secondary',
               '&:hover': {
                 backgroundColor: 'secondary.main',
                 color: 'primary.main',
               },
+              outline:
+                activeSorting === item
+                  ? `2px solid ${theme.palette.primary.main}`
+                  : 'none',
             }}
+            onClick={() => handleFilterClick(item)}
           >
             {item}
           </Button>
