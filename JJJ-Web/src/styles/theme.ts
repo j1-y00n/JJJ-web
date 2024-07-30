@@ -50,9 +50,8 @@ export const theme = createTheme({
               color: '#637a9f',
             },
           },
-        }
+        },
       },
     },
   },
-
 });
