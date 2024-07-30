@@ -7,30 +7,11 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 
 export default function Header() {
   return (
-    <div id="home">
+    <div id={styles.home}>
       <div className={styles.header}>
         <div className={styles.top_header}>
           <div className={styles.box_head_content}>
             <div className={styles.main_icon}>제이스 JJJ</div>
-          </div>
-
-          <div className={styles.box_mytools}>
-            <ul className={styles.list_login}>
-              <li>
-                <a href="" className={styles.login}>
-                  로그인
-                </a>
-              </li>
-            </ul>
-
-            <ul className={styles.list_signup}>
-              <li>
-                
-                <a href="" className={styles.signup}>
-                  회원가입
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -38,7 +19,6 @@ export default function Header() {
       <div className={styles.second_header}>
         {/* li 태그 안에 button 속성 */}
         <div className={styles.middle_header}>
-          
           <div className={styles.text_container}>
             <ul className={styles.page_title_list}>
               <li>
@@ -75,30 +55,45 @@ export default function Header() {
           </div>
 
           <div className={styles.icon_container}>
-            <ul className={styles.user_area}>
-              <li>
-                <a href="" className={styles.search_icon}>
-                  <SearchIcon />
-                </a>
-              </li>
-              <li>
-                <a href="" className={styles.my_page}>
-                  <PermIdentityOutlinedIcon />
-                </a>
-              </li>
-              <li>
-                <a href="" className={styles.shopping_icon}>
-                  <ShoppingBagOutlinedIcon />
-                </a>
-              </li>
-            </ul>
+            <div className={styles.box_mytools}>
+              <ul className={styles.list_login}>
+                <li>
+                  <a href="" className={styles.login}>
+                    로그인
+                  </a>
+                </li>
+              </ul>
+
+              <ul className={styles.list_signup}>
+                <li>
+                  <a href="" className={styles.signup}>
+                    회원가입
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div className={styles.box_icons}>
+              <ul className={styles.icon_area}>
+                <li>
+                  <a href="" className={styles.search_icon}>
+                    <SearchIcon sx={{fontSize:'30px'}} />
+                  </a>
+                </li>
+                <li>
+                  <a href="" className={styles.my_page}>
+                    <PermIdentityOutlinedIcon sx={{fontSize:'30px'}} />
+                  </a>
+                </li>
+                <li>
+                  <a href="" className={styles.shopping_icon}>
+                    <ShoppingBagOutlinedIcon sx={{fontSize:'30px'}}/>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-
         </div>
-      </div>
-
-      <div className={styles.navi_body}>
-        <img className={styles.navi_image} src={cars} alt="네비 이미지" />
       </div>
     </div>
   );

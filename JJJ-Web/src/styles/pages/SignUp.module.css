@@ -53,6 +53,20 @@
   margin-top: 30px;
 }
 
+.button_container button {
+  margin: 10px;
+  width: 100px;
+  height: 50px;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  background-color: var(--color-blue-light);
+  font-size: 16px;
+  cursor: pointer;
+<<<<<<< HEAD
+} */
+=======
+}
+
 /* button {
   margin: 10px;
   width: 100px;
@@ -62,4 +76,6 @@
   background-color: var(--color-blue-light);
   font-size: 16px;
   cursor: pointer;
-} */
+}
+ */
+>>>>>>> develop
