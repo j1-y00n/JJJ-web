@@ -39,4 +39,20 @@ export const theme = createTheme({
     //   fontWeight: 400,
     // },
   },
+  // MUI Radio button 색상 커스터마이징
+  components: {
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          '&.MuiRadio-colorPrimary': {
+            color: 'grey',
+            '&.Mui-checked': {
+              color: '#637a9f',
+            },
+          },
+        }
+      },
+    },
+  },
+
 });
