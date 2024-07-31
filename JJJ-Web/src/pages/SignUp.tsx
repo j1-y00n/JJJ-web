@@ -2,6 +2,15 @@
 
 import React, { useState } from "react";
 import styles from "../styles/pages/SignUp.module.css";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import { symbolName } from "typescript";
+import DaumPostcode, { DaumPostcodeEmbed } from "react-daum-postcode";
 
 interface SignUpForm {
   id: string;
@@ -9,16 +18,24 @@ interface SignUpForm {
   passwordCheck: string;
   email: string;
   phone: string;
+  gender: string;
 }
 
-export default function State05() {
+export default function SignUp() {
   const [formData, setFormData] = useState({
     id: "",
     password: "",
     passwordCheck: "",
     email: "",
     phone: "",
+    gender: "",
   });
+
+  const [genderValue, setGenderValue] = useState("male");
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGenderValue((event.target as HTMLInputElement).value);
+  };
 
   const [errors, setErrors] = useState<SignUpForm>({
     id: "",
@@ -26,9 +43,10 @@ export default function State05() {
     passwordCheck: "",
     email: "",
     phone: "",
+    gender: "",
   });
 
-  const { id, password, passwordCheck, email, phone } = formData;
+  const { id, password, passwordCheck, email, phone, gender } = formData;
 
   const validatePassword = (password: string): boolean => {
     return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/.test(password);
@@ -55,6 +73,7 @@ export default function State05() {
       passwordCheck: "",
       email: "",
       phone: "",
+      gender: "",
     };
 
     let isValid = true;
@@ -70,9 +89,10 @@ export default function State05() {
       isValid = false;
     }
 
-    if (!checkingPassword) {
+    if (!checkingPassword(passwordCheck)) {
       tempErrors.passwordCheck = "비밀번호를 재입력해주세요";
       alert("비밀번호 확인을 완료해주세요");
+      isValid = false;
     }
 
     if (!email || !validateEmail(email)) {
@@ -99,6 +119,7 @@ export default function State05() {
         passwordCheck: "",
         email: "",
         phone: "",
+        gender: "",
       });
     }
   };
@@ -111,6 +132,24 @@ export default function State05() {
       [name]: value,
     });
   };
+
+  const Postcode = () => {
+    const handleAddressComplete = (data: { address: any; addressType: string; bname: string; buildingName: string; }) => {
+      let fullAddress = data.address;
+      let extraAddress = '';
+  
+      if (data.addressType === 'R') {
+        if (data.bname !== '') {
+          extraAddress += data.bname;
+        }
+        if (data.buildingName !== '') {
+          extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+        }
+        fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+      }
+    }
+  }
+  
 
   return (
     <div id={styles.login_page}>
@@ -143,7 +182,7 @@ export default function State05() {
                 {errors.password ? (
                   <p style={{ color: "red" }}>{errors.password}</p>
                 ) : (
-                  ""
+                  " "
                 )}
               </div>
 
@@ -171,6 +210,7 @@ export default function State05() {
                 <input
                   type="text"
                   name="email"
+                  placeholder="example@gmail.com"
                   value={email}
                   onChange={handleInputChange}
                 />
@@ -186,6 +226,7 @@ export default function State05() {
                 <input
                   type="text"
                   name="phone"
+                  placeholder="010-1234-5678"
                   value={phone}
                   onChange={handleInputChange}
                 />
@@ -195,12 +236,56 @@ export default function State05() {
                   ""
                 )}
               </div>
-            </form>
-          </div>
 
-          <div className={styles.button_container}>
-            <button id={styles.button_detail}>취소</button>
-            <button id={styles.button_detail}type="submit">회원가입</button>
+              <div className={styles.choose_gender}>
+                <FormControl sx={{ display: "flex", flexDirection: "row" }}>
+                  <FormLabel
+                    sx={{ color: "black", margin: "20px 12px"}}
+                  >
+                    성별
+                  </FormLabel>
+                  <RadioGroup
+                    id="ABC"
+                    name="gender"
+                    value={genderValue}
+                    onChange={handleGenderChange}
+                    sx={{
+                      width: "50%",
+                      display: "flex",
+                      flexDirection: "row",
+                      marginLeft: "50px"
+                    }}
+                  >
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                      sx={{ width: "100px" }}
+                    />
+
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
+                      sx={{ width: "100px" }}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+
+              <div>
+                <DaumPostcodeEmbed onComplete={Postcode}/>
+              </div>
+
+              <div className={styles.address}></div>
+              
+              <div className={styles.button_container}>
+                <button id={styles.button_detail}>취소</button>
+                <button id={styles.button_detail} type="submit">
+                  회원가입
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
