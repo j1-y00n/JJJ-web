@@ -9,30 +9,30 @@ import Footer from '../components/Footer';
 import styles from '../styles/pages/Home.module.css';
 
 
-import SlidersampleA from '../assets/images/balloon.jpg';
-import SlidersampleB from '../assets/images/boardgame.jpg';
-import SlidersampleC from '../assets/images/book.jpg';
-import SlidersampleD from '../assets/images/cars.jpg';
-import SlidersampleE from '../assets/images/exam02.jpg';
+// import SlidersampleA from '../assets/images/balloon.jpg';
+// import SlidersampleB from '../assets/images/boardgame.jpg';
+// import SlidersampleC from '../assets/images/book.jpg';
+// import SlidersampleD from '../assets/images/cars.jpg';
+// import SlidersampleE from '../assets/images/exam02.jpg';
 
 
 
 export default function Home() {
 
-  const images = [
-    SlidersampleA,
-    SlidersampleB,
-    SlidersampleC,
-    SlidersampleD,
-    SlidersampleE,
-  ];
+  // const images = [
+  //   SlidersampleA,
+  //   SlidersampleB,
+  //   SlidersampleC,
+  //   SlidersampleD,
+  //   SlidersampleE,
+  // ];
 
   return (
     <div className={styles.home__container}>
       {/* Header, Slider - 용재님 */}
       {/* BestItems, Footer - 지윤님 */}
       <Header />
-      <Slider images={images} />
+      <Slider />
       <SearchBar />
       <BestItems />
       <BestReviews />

@@ -33,7 +33,13 @@
 }
 
 .login_form {
-  width: 500px;
+  width: 100%;
+  margin-left: auto;
+}
+
+.login_form form {
+  width: 75%;
+  margin-left: auto;
 }
 
 .login_form input {
@@ -44,11 +50,11 @@
 
 .login_form label {
   font-weight: bold;
-  margin-right: 35px;
+  /* margin-right: 35px; */
 }
 
 .button_container {
-  width: 100%;
+  width: 70%;
   text-align: right;
   margin-top: 30px;
 }
@@ -64,14 +70,3 @@
   cursor: pointer;
 }
 
-/* button {
-  margin: 10px;
-  width: 100px;
-  height: 50px;
-  font-weight: bold;
-  border-radius: var(--border-radius);
-  background-color: var(--color-blue-light);
-  font-size: 16px;
-  cursor: pointer;
-}
- */
