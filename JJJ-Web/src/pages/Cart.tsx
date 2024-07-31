@@ -3,6 +3,7 @@
 import React from 'react'
 import styles from '../styles/pages/Cart.module.css';
 import Footer from '../components/Footer';
+import exampleImg from '../assets/images/cars.jpg';
 
 export default function Cart() {
   return (
@@ -26,11 +27,14 @@ export default function Cart() {
           <div className={styles.cart__list__container}>
             <div className={styles.list__container__inner}>
               <div className={styles.list__desc}>
-                <button>X</button>
+                <button className={styles.desc__delete__btn}>X</button>
                 <div className={styles.desc__container}>
                   <input type="checkbox" />
-                  <div>상품 이미지</div>
-                  <div>상품명/금액</div>
+                  <img src={exampleImg} alt="상품이미지" className={styles.desc__image} />
+                  <div>
+                    <div>상품명</div>
+                    <div>금액</div>
+                  </div>
                 </div>
               </div>
               <div className={styles.list__quantity}>
@@ -51,92 +55,10 @@ export default function Cart() {
               </div>
             </div>
 
-            <div className={styles.list__container__inner}>
-              <div className={styles.list__desc}>
-                <button>X</button>
-                <div className={styles.desc__container}>
-                  <input type="checkbox" />
-                  <div>상품 이미지</div>
-                  <div>상품명/금액</div>
-                </div>
-              </div>
-              <div className={styles.list__quantity}>
-                <div>상품 주문 수량</div>
-                <div>
-                  <button>-</button>
-                  <input type="number" />
-                  <button>+</button>
-                </div>
-              </div>
-              <div className={styles.list__price}>
-                <div>상품금액</div>
-                <div>0000원</div>
-              </div>
-              <div className={styles.list__delivery}>
-                <div>배송비</div>
-                <div>무료</div>
-              </div>
-            </div>
-
-            <div className={styles.list__container__inner}>
-              <div className={styles.list__desc}>
-                <button>X</button>
-                <div className={styles.desc__container}>
-                  <input type="checkbox" />
-                  <div>상품 이미지</div>
-                  <div>상품명/금액</div>
-                </div>
-              </div>
-              <div className={styles.list__quantity}>
-                <div>상품 주문 수량</div>
-                <div>
-                  <button>-</button>
-                  <input type="number" />
-                  <button>+</button>
-                </div>
-              </div>
-              <div className={styles.list__price}>
-                <div>상품금액</div>
-                <div>0000원</div>
-              </div>
-              <div className={styles.list__delivery}>
-                <div>배송비</div>
-                <div>무료</div>
-              </div>
-            </div>
-
-            <div className={styles.list__container__inner}>
-              <div className={styles.list__desc}>
-                <button>X</button>
-                <div className={styles.desc__container}>
-                  <input type="checkbox" />
-                  <div>상품 이미지</div>
-                  <div>상품명/금액</div>
-                </div>
-              </div>
-              <div className={styles.list__quantity}>
-                <div>상품 주문 수량</div>
-                <div>
-                  <button>-</button>
-                  <input type="number" />
-                  <button>+</button>
-                </div>
-              </div>
-              <div className={styles.list__price}>
-                <div>상품금액</div>
-                <div>0000원</div>
-              </div>
-              <div className={styles.list__delivery}>
-                <div>배송비</div>
-                <div>무료</div>
-              </div>
-            </div>
 
           </div>
         </div>
       </div>
-
-      <Footer />
 
       {/* FIXED */}
       <div className={styles.fixed__container}>
@@ -144,6 +66,10 @@ export default function Cart() {
           <div className={styles.fixed__price}>총 0건 주문금액 00000원</div>
           <div className={styles.fixed__order}>주문하기</div>
         </div>
+      </div>
+
+      <div style={{marginBottom: '50px'}}>
+        <Footer />
       </div>
     </>
   )
