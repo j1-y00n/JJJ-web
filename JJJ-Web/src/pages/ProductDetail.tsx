@@ -14,7 +14,15 @@ import AddIcon from '@mui/icons-material/Add';
 import MuiTabBar from '../muiComponents/productDetail/MuiTabBar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { useParams } from 'react-router-dom';
+import { ProductStore } from '../stores/Product.store';
+
 export default function ProductDetail() {
+  const { products } = ProductStore();
+  const { productId } = useParams();
+  const selectedProduct = products.find(
+    (product) => Number(product.productId) === Number(productId)
+  );
   const [count, setCount] = useState(1);
   return (
     <div className={styles.productList__container}>
@@ -31,19 +39,16 @@ export default function ProductDetail() {
             sx={{ width: '50%' }}
           >
             <Box className='detail__top' sx={{ fontSize: 30 }}>
-              <Box>
-                상품명 Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Illum labore ipsa libero amet ipsam impedit, porro illo!
-                Architecto, reiciendis! Ad dolores veritatis ducimus excepturi
-                atque architecto, error itaque! Velit, nulla!
-              </Box>
+              <Box>{selectedProduct?.productTitle}</Box>
               <Box sx={{ color: 'error.main' }} my={5}>
-                30000원
+                {selectedProduct?.productPrice}원
               </Box>
               <Box mb={5} display={'flex'} alignItems={'center'}>
                 <StarRateIcon sx={{ color: 'warning.main' }} />
-                <Box mr={2}>4.8</Box>
-                <Box sx={{ color: 'primary.main' }}>(12)</Box>
+                <Box mr={2}>{selectedProduct?.productRating}</Box>
+                <Box sx={{ color: 'primary.main' }}>
+                  ({selectedProduct?.productRatingCount})
+                </Box>
               </Box>
             </Box>
             <Box
