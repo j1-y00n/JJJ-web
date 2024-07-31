@@ -7,13 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Footer from '../components/Footer';
-import styled from 'styled-components';
 
-// styled-components로 스타일 변경한 footer
-const FooterWithMargin = styled(Footer)`
-  padding-bottom: 76px;
-  background-color: red;
-`;
 
 export default function CreateUsedProduct() {
   // 상품상태 radio button
@@ -153,17 +147,18 @@ export default function CreateUsedProduct() {
 
         {/* Fixed */}
         <div className={styles.fixed__container}>
-          <button type='submit' className={styles.fixed__create}>
-            등록하기
-          </button>
+          <div className={styles.fixed__inner}>
+            <button type='submit' className={styles.fixed__create}>
+              등록하기
+            </button>
+          </div>
         </div>
       </form>
 
-      {/* <div style={{marginBottom: '78px'}}>
+      <div style={{marginBottom: '50px'}}>
         <Footer />
-      </div> */}
+      </div>
 
-      <FooterWithMargin />
     </>
   );
 }
