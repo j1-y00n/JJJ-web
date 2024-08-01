@@ -53,5 +53,19 @@ export const theme = createTheme({
         },
       },
     },
+
+  // MUI checkbox 색상 커스터마이징
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          '&.MuiCheckbox-colorPrimary': {
+            color: 'grey', // 체크박스 기본 색상
+            '&.Mui-checked': {
+              color: '#637a9f', // 체크박스 선택된 색상
+            }
+          },
+        },
+      },
+    },
   },
 });

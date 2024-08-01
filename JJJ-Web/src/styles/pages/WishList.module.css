@@ -1,1 +1,17 @@
 /* 변지윤 */
+.wish__container {
+  width: 100%;
+  padding: 0 20px 20px;
+  
+}
+
+.wish__container .wish__desc {
+  width: 910px;
+  border: none;
+  padding: 12px 0;
+}
+
+.wish__desc .wish__img {
+  width: 120px;
+  height: 120px;
+}

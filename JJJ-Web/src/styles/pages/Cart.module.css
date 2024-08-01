@@ -9,6 +9,21 @@
   width: var(--max-width);
 }
 
+.btn {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(234, 234, 234);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn__delete {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
 .cart__title {
   text-align: center;
   padding: 10px;
@@ -33,6 +48,7 @@
   width: 100px;
   display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
 .select__delete {
@@ -50,14 +66,15 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 14px;
+
 }
 
 .cart__list__container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: var(--color-blue-light); */
-  background-color: #f8f8f8;
+  background-color: var(--color-blue-light);
 }
 
 .list__container__inner {
@@ -69,20 +86,14 @@
   border: 1px solid black;
   border-radius: var(--border-radius);
   margin: 15px 0;
-  padding: 47px 2px;
+  /* padding: 47px 2px; */
 }
 
 .list__desc {
-  width: 490px;
-  border: 1px solid black;
+  width: 500px;
+  border-right: 1px solid lightgray;
   position: relative;
-}
-
-.desc__delete__btn {
-  position: absolute;
-  top: 0;
-  right: 20px;
-
+  padding: 48px 20px;
 }
 
 .desc__container {
@@ -93,25 +104,39 @@
 .desc__image {
   width: 100px;
   height: 100px;
-  border: 1px solid black;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  object-fit: cover;
 }
 
 .list__quantity { 
-  width: 178px;
-  border: 1px solid black;
+  width: 185px;
+  border-right: 1px solid lightgray;
   text-align: center;
+  padding: 48px 0;
 }
 
 .list__price {
-  width: 133px;
-  border: 1px solid black;
+  width: 140px;
+  border-right: 1px solid lightgray;
   text-align: center;
+  padding: 48px 0;
 }
 
 .list__delivery {
-  width: 133px;
-  border: 1px solid black;
+  width: 140px;
   text-align: center;
+  padding: 48px 0;
+}
+
+.title__font {
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.context__font {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .fixed__container {
@@ -141,9 +166,8 @@
   justify-content: center;
   width: 255px;
   color: var(--color-white);
-  /* border: 1px solid black; */
-  /* border-radius: var(--border-radius); */
-  /* background-color: var(--color-blue-light); */
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .fixed__order {
@@ -155,4 +179,6 @@
   background-color: var(--color-blue-light);
   border-radius: var(--border-radius);
   cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
 }
