@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { symbolName } from "typescript";
 import DaumPostcode, { DaumPostcodeEmbed } from "react-daum-postcode";
+import { NavLink } from "react-router-dom";
 
 interface SignUpForm {
   id: string;
@@ -133,23 +134,7 @@ export default function SignUp() {
     });
   };
 
-  const Postcode = () => {
-    const handleAddressComplete = (data: { address: any; addressType: string; bname: string; buildingName: string; }) => {
-      let fullAddress = data.address;
-      let extraAddress = '';
-  
-      if (data.addressType === 'R') {
-        if (data.bname !== '') {
-          extraAddress += data.bname;
-        }
-        if (data.buildingName !== '') {
-          extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-        }
-        fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-      }
-    }
-  }
-  
+
 
   return (
     <div id={styles.login_page}>
@@ -239,9 +224,7 @@ export default function SignUp() {
 
               <div className={styles.choose_gender}>
                 <FormControl sx={{ display: "flex", flexDirection: "row" }}>
-                  <FormLabel
-                    sx={{ color: "black", margin: "20px 12px"}}
-                  >
+                  <FormLabel sx={{ color: "black", margin: "20px 12px" }}>
                     성별
                   </FormLabel>
                   <RadioGroup
@@ -253,7 +236,7 @@ export default function SignUp() {
                       width: "50%",
                       display: "flex",
                       flexDirection: "row",
-                      marginLeft: "50px"
+                      marginLeft: "50px",
                     }}
                   >
                     <FormControlLabel
@@ -273,14 +256,16 @@ export default function SignUp() {
                 </FormControl>
               </div>
 
-              <div>
-                <DaumPostcodeEmbed onComplete={Postcode}/>
-              </div>
+               {/*  */}
 
-              <div className={styles.address}></div>
-              
+
+
+
+
               <div className={styles.button_container}>
-                <button id={styles.button_detail}>취소</button>
+                <NavLink to="/">
+                  <button id={styles.button_detail}>취소</button>
+                </NavLink>
                 <button id={styles.button_detail} type="submit">
                   회원가입
                 </button>

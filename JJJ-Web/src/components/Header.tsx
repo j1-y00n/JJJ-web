@@ -4,6 +4,7 @@ import cars from "../assets/images/cars.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -47,9 +48,11 @@ export default function Header() {
                 </a>
               </li>
               <li>
-                <a href="" className="used_product">
-                  중고상품
-                </a>
+                <NavLink to="/MyUsedProduct">
+                  <a href="" className="used_product">
+                    중고상품
+                  </a>
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -58,17 +61,21 @@ export default function Header() {
             <div className={styles.box_mytools}>
               <ul className={styles.list_login}>
                 <li>
-                  <a href="" className={styles.login}>
-                    로그인
-                  </a>
+                  <NavLink to="/SignIn">
+                    <a href="" className={styles.login}>
+                      로그인
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
 
               <ul className={styles.list_signup}>
                 <li>
-                  <a href="" className={styles.signup}>
-                    회원가입
-                  </a>
+                  <NavLink to="/SignUp">
+                    <a href="" className={styles.signup}>
+                      회원가입
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -76,19 +83,25 @@ export default function Header() {
             <div className={styles.box_icons}>
               <ul className={styles.icon_area}>
                 <li>
-                  <a href="" className={styles.search_icon}>
-                    <SearchIcon sx={{fontSize:'30px'}} />
-                  </a>
+                  <NavLink to="/Search">
+                    <a href="" className={styles.search_icon}>
+                      <SearchIcon sx={{ fontSize: "30px" }} />
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="" className={styles.my_page}>
-                    <PermIdentityOutlinedIcon sx={{fontSize:'30px'}} />
-                  </a>
+                  <NavLink to="/Mypage">
+                    <a href="" className={styles.my_page}>
+                      <PermIdentityOutlinedIcon sx={{ fontSize: "30px" }} />
+                    </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a href="" className={styles.shopping_icon}>
-                    <ShoppingBagOutlinedIcon sx={{fontSize:'30px'}}/>
-                  </a>
+                  <NavLink to="/Cart">
+                    <a href="" className={styles.shopping_icon}>
+                      <ShoppingBagOutlinedIcon sx={{ fontSize: "30px" }} />
+                    </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
