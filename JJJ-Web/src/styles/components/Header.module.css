@@ -16,18 +16,25 @@
   background-color: var(--color-blue);
 }
 
-
-.top_header, .middle_header {
-  background-color: var(--color-blue);
-  display: flex;
-  justify-content: space-between;
+.top_header {
   height: 80px;
-  padding: 5px;
   margin: var(--page-side-margin);
 }
 
+.middle_header {
+  background-color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 80px;
+  margin: var(--page-side-margin);
+}
+
+
 .box_head_content {
-  width: 100%;
+  min-width: 400px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,8 +80,7 @@
 .text_container {
   display: flex;
   align-items: center;
-  width: 60%;
-  padding: 5px;
+  flex: 1;
   font-size: 1.3rem;
 }
 
