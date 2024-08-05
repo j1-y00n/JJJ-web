@@ -18,7 +18,7 @@
   border-bottom: 1px solid var(--color-black);
   height: 100px;
   margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .inner__title {
@@ -41,22 +41,44 @@
 
 .image__container {
   display: flex;
+  padding: 30px 0;
 }
 
 .name__container {
   display: flex;
+  padding: 30px 0;
+
+}
+
+.title__input {
+  width: 800px;
+  border: 1px solid grey;
+  border-radius: var(--border-radius);
+}
+
+.title__input:focus {
+  outline-color: var(--color-blue);
 }
 
 .condition__container {
   display: flex;
+  padding: 30px 0;
+
 }
 
 .detail__container {
   display: flex;
+  padding: 30px 0;
+
 }
 
-.detail__content {
+.detail__input {
   width: 800px;
+  border-radius: var(--border-radius);
+}
+
+.detail__input:focus {
+  outline-color: var(--color-blue);
 }
 
 .create__price__container {
@@ -70,10 +92,14 @@
 
 .num__container {
   display: flex;
+  padding: 30px 0;
+
 }
 
 .transaction__container {
   display: flex;
+  padding: 30px 0;
+
 }
 
 
