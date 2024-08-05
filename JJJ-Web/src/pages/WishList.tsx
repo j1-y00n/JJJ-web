@@ -10,6 +10,8 @@ export default function WishList() {
     <div className={styles.wish__container}>
       <CustomSelect />
       <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} />
+      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} />
+      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} />
     </div>
 
   )
