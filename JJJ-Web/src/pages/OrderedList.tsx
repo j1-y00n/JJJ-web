@@ -12,8 +12,9 @@ import {
 } from '@mui/material';
 import Footer from '../components/Footer';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useInputFile } from '../hooks/useInputfile';
+import { useInput } from '../hooks/useInput';
 
 export default function OrderedList() {
   return (
@@ -61,16 +62,21 @@ const Orders = () => {
 
 const Order = () => {
   const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.currentTarget.files) {
-      const file = event.currentTarget.files[0];
 
-      console.log(file);
-    }
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const handleOpenReview = () => {
+    handleClose();
+    setReviewOpen(true);
   };
+  const handleCloseReview = () => setReviewOpen(false);
+
+  const { value, handleInputChange } = useInput('상세 내용');
+
+  const [valueStars, setValueStars] = React.useState<number | null>(5);
   return (
     <div className={styles.order__detail__wrapper}>
       <div className={styles.detail__left}>
@@ -89,52 +95,82 @@ const Order = () => {
         >
           장바구니
         </Button>
-        <Button onClick={handleOpen} variant='contained'>
-          리뷰작성
-        </Button>{' '}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby='modal-modal-title'
-          aria-describedby='modal-modal-description'
-        >
-          <Box className={styles.modal__inner}>
-            <Typography id='modal-modal-title' variant='h6' component='h2'>
-              <div className={styles.modal__wrapper}>
-                <img src={balloonImg} alt='balloonImg' />
-                <div className={styles.modal__product__details}>
-                  <p>상품명 : 풍선</p>
-                  <div className={styles.modal__rating}>
-                    <p>평가 : </p>
-                    <Stack spacing={1} ml={1}>
-                      <Rating
-                        name='half-rating'
-                        defaultValue={2.5}
-                        precision={0.5}
-                      />
-                    </Stack>
+        <React.Fragment>
+          <Button onClick={handleOpen} variant='contained'>
+            리뷰작성
+          </Button>{' '}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
+          >
+            <Box
+              component='form'
+              className={styles.modal__inner}
+              sx={{
+                '& .MuiTextField-root': { my: 2, width: '100%' },
+              }}
+              noValidate
+              autoComplete='off'
+            >
+              <Typography id='modal-modal-title' variant='h6' component='h2'>
+                <div className={styles.modal__wrapper}>
+                  <img src={balloonImg} alt='balloonImg' />
+                  <div className={styles.modal__product__details}>
+                    <p>상품명 : 풍선</p>
+                    <div className={styles.modal__rating}>
+                      <p>평가 : </p>
+                      <Stack spacing={1} ml={1}>
+                        <Rating
+                          name='half-rating'
+                          precision={0.5}
+                          value={valueStars}
+                          onChange={(event, newValue) => {
+                            setValueStars(newValue);
+                          }}
+                        />
+                      </Stack>
+                    </div>
                   </div>
                 </div>
+              </Typography>
+              <UploadInput />
+              <div className={styles.textField__box}>
+                <TextField
+                  id='outlined-multiline-static'
+                  label='리뷰 작성'
+                  multiline
+                  rows={10}
+                  value={value}
+                  onChange={handleInputChange}
+                  focused
+                />
               </div>
-            </Typography>
-            <UploadInput />
-            <Typography id='modal-modal-description' sx={{ my: 3 }}>
-              상세리뷰 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Suscipit atque quas voluptatum fugiat, quisquam eius soluta libero
-              eveniet quidem, possimus quasi saepe id assumenda illum magnam
-              placeat aliquam deserunt totam. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Suscipit atque quas voluptatum
-              fugiat, quisquam eius soluta libero eveniet quidem, possimus quasi
-              saepe id assumenda illum magnam placeat aliquam deserunt
-              totam.Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            </Typography>
-            <button
-              className={`${styles.review__submit} ${styles.label__button}`}
+              <button
+                onClick={handleOpenReview}
+                className={`${styles.review__submit} ${styles.label__button}`}
+              >
+                리뷰 등록
+              </button>
+            </Box>
+          </Modal>{' '}
+          <Modal
+            open={reviewOpen}
+            onClose={handleCloseReview}
+            aria-labelledby='child-modal-title'
+            aria-describedby='child-modal-description'
+          >
+            <Box
+              className={`${styles.modal__inner} ${styles.review__create__btn}`}
             >
-              리뷰 등록
-            </button>
-          </Box>
-        </Modal>
+              <p id='child-modal-title' className={styles.review__create__desc}>
+                리뷰가 등록 되었습니다
+              </p>
+              <Button onClick={handleCloseReview}>리뷰 닫기</Button>
+            </Box>
+          </Modal>
+        </React.Fragment>
       </div>
     </div>
   );
@@ -147,7 +183,7 @@ const UploadInput = () => {
     <div className={styles.upload__input}>
       <div>
         <label role='button' htmlFor='file' className={styles.label__button}>
-          이미지 등록
+          이미지 등록 : 최대 5개
         </label>
         <input
           id='file'
@@ -172,3 +208,7 @@ const UploadInput = () => {
     </div>
   );
 };
+
+// 여유가 되면 구현해보고 싶은 로직
+// 이미지를 업로드하면 덮어씌우게 하기
+// 이미지에 X 버튼 눌러서 삭제하는 기능
