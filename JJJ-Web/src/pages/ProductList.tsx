@@ -17,7 +17,6 @@ export default function ProductList() {
   const { activeAge, activeSorting } = useFilterStore();
   const { categoryId } = useParams<{ categoryId: CategoryType }>();
   const { handleProductClick } = navigateProduct();
-
   const categoryFilteredProducts = categoryId
     ? products.filter((product) => product.productCategory.includes(categoryId))
     : products;
