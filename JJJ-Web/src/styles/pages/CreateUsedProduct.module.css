@@ -130,4 +130,5 @@
   border-radius: var(--border-radius);
   background-color: var(--color-blue-light);
   height: 48px;
+  cursor: pointer;
 }

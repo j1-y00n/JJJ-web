@@ -9,9 +9,10 @@ export default function WishList() {
   return (
     <div className={styles.wish__container}>
       <CustomSelect />
-      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} />
-      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} />
-      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} />
+      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} titleClassName={styles.wish__title} contextClassName={styles.wish__context} />
+      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} titleClassName={styles.wish__title} contextClassName={styles.wish__context} />
+      <CustomProduct descClassName={styles.wish__desc} imgClassName={styles.wish__img} titleClassName={styles.wish__title} contextClassName={styles.wish__context} />
+
     </div>
 
   )

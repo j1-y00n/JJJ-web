@@ -26,9 +26,11 @@ export const CustomSelect = () => {
 interface CustomProductProps {
   descClassName?: string;
   imgClassName?: string;
+  titleClassName?: string;
+  contextClassName?: string;
 }
 
-export const CustomProduct = ({ descClassName, imgClassName }: CustomProductProps) => {
+export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName }: CustomProductProps) => {
   return (
     <div className={`${styles.list__desc} ${descClassName ? descClassName : ''}`}>
       <CustomButton content='X' className={styles.btn__delete} />
@@ -36,8 +38,8 @@ export const CustomProduct = ({ descClassName, imgClassName }: CustomProductProp
         <Checkbox {...label} color='primary' />
         <img src={exampleImg} alt="상품이미지" className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} />
         <div>
-          <div className={styles.title__font}>0000장난감</div>
-          <div className={styles.context__font}>0000 원</div>
+          <div className={`${styles.title__font} ${titleClassName ? titleClassName : ''}`}>0000장난감</div>
+          <div className={`${styles.context__font} ${contextClassName ? contextClassName : ''}`}>0000 원</div>
         </div>
       </div>
     </div>
@@ -76,6 +78,60 @@ export default function Cart() {
           <CustomSelect />
 
           {/* 상품리스트 */}
+          <div className={styles.cart__list__container}>
+            <div className={styles.list__container__inner}>
+
+              <CustomProduct />
+
+              <div className={styles.list__quantity}>
+                <div className={styles.title__font}>상품 주문 수량</div>
+                <div>
+                  <CustomButton content='-' />
+                  <input type="number" style={{width: '50px', marginRight: '10px', marginLeft: '10px'}} />
+                  <CustomButton content='+' />
+                </div>
+              </div>
+
+              <div className={styles.list__price}>
+                <div className={styles.title__font}>상품금액</div>
+                <div className={styles.context__font}>0000 원</div>
+              </div>
+
+              <div className={styles.list__delivery}>
+                <div className={styles.title__font}>배송비</div>
+                <div className={styles.context__font}>무료</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div className={styles.cart__list__container}>
+            <div className={styles.list__container__inner}>
+
+              <CustomProduct />
+
+              <div className={styles.list__quantity}>
+                <div className={styles.title__font}>상품 주문 수량</div>
+                <div>
+                  <CustomButton content='-' />
+                  <input type="number" style={{width: '50px', marginRight: '10px', marginLeft: '10px'}} />
+                  <CustomButton content='+' />
+                </div>
+              </div>
+
+              <div className={styles.list__price}>
+                <div className={styles.title__font}>상품금액</div>
+                <div className={styles.context__font}>0000 원</div>
+              </div>
+
+              <div className={styles.list__delivery}>
+                <div className={styles.title__font}>배송비</div>
+                <div className={styles.context__font}>무료</div>
+              </div>
+
+            </div>
+          </div>
+
           <div className={styles.cart__list__container}>
             <div className={styles.list__container__inner}>
 

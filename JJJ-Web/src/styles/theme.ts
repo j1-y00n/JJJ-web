@@ -67,5 +67,22 @@ export const theme = createTheme({
         },
       },
     },
+
+    // MUI Tab 색상 커스터마이징
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          '&.MuiTab-textColorPrimary': {
+            color: 'grey', // 기본 탭 라벨 색상
+            fontSize: '16px',
+            '&.Mui-selected': {
+              color: '#637a9f', // 선택된 탭 라벨 색상
+              fontWeight: 'bold',
+              fontSize: '16px',
+            },
+          },
+        },
+      },
+    },
   },
 });
