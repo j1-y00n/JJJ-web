@@ -1,7 +1,10 @@
 // 변지윤
 // 내 중고상품 목록
-import { Box, Tab, Tabs } from '@mui/material';
 import React from 'react'
+import styles from '../styles/pages/MyUsedProduct.module.css'
+import { Box, Tab, Tabs } from '@mui/material';
+import exampleImg from '../assets/images/cars.jpg';
+import { wrap } from 'module';
 
 
 interface TabPanelProps {
@@ -21,7 +24,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ pt: 3, display: 'flex', flexWrap: 'wrap' }}>{children}</Box>}
     </div>
   );
 }
@@ -42,15 +45,147 @@ export default function MyUsedProduct() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', paddingLeft: '20px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor="primary">
           <Tab label="판매중" {...a11yProps(0)} />
           <Tab label="판매완료" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        판매중 내용
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+        <div className={styles.myused__container}>
+          <div>
+            <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+          </div>
+          <div className={styles.myused__desc}>
+            <div className={styles.myused__desc__title}>0000장난감</div>
+            <div>00000원</div>
+            <div>1개</div>
+          </div>
+          <div>
+            <button className={styles.myused__button}>게시글 삭제</button>
+          </div>
+        </div>
+
+
+
+
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         판매완료 내용
