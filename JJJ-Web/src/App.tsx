@@ -12,6 +12,8 @@ import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
 import CreateUsedProduct from './pages/CreateUsedProduct';
 import TempNaviBar from './components/TempNaviBar';
+// 임시 중고상품 목록 페이지
+import UsedProductList from './pages/UsedProductList';
 
 function App() {
   return (
@@ -33,6 +35,9 @@ function App() {
         />
         {/* 중고 상품 등록 페이지 */}
         <Route path='/createUsedProduct' element={<CreateUsedProduct />} />
+
+        {/* 임시 중고상품 목록 페이지 */}
+        <Route path='/UsedProductList' element={<UsedProductList />} />
       </Routes>
     </div>
   );

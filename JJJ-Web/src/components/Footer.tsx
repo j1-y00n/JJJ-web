@@ -1,4 +1,5 @@
 // 변지윤
+import { Link } from 'react-router-dom';
 import styles from  '../styles/components/Footer.module.css';
 
 export default function Footer() {
@@ -6,8 +7,10 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.footer__inner}>
         <div className={styles.footer__map}>
-          <p>제이스 장난감 백화점</p>
-          <p>(찾아오시는 길)</p>
+          <Link to='/company'>
+            <p>제이스 장난감 백화점</p>
+            <p>(찾아오시는 길)</p>
+          </Link>
         </div>
         <div className={styles.footer__detail}>
           <p>전화번호 : 000-0000-0000</p>

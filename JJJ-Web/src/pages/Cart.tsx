@@ -104,60 +104,6 @@ export default function Cart() {
 
             </div>
           </div>
-
-          <div className={styles.cart__list__container}>
-            <div className={styles.list__container__inner}>
-
-              <CustomProduct />
-
-              <div className={styles.list__quantity}>
-                <div className={styles.title__font}>상품 주문 수량</div>
-                <div>
-                  <CustomButton content='-' />
-                  <input type="number" style={{width: '50px', marginRight: '10px', marginLeft: '10px'}} />
-                  <CustomButton content='+' />
-                </div>
-              </div>
-
-              <div className={styles.list__price}>
-                <div className={styles.title__font}>상품금액</div>
-                <div className={styles.context__font}>0000 원</div>
-              </div>
-
-              <div className={styles.list__delivery}>
-                <div className={styles.title__font}>배송비</div>
-                <div className={styles.context__font}>무료</div>
-              </div>
-
-            </div>
-          </div>
-
-          <div className={styles.cart__list__container}>
-            <div className={styles.list__container__inner}>
-
-              <CustomProduct />
-
-              <div className={styles.list__quantity}>
-                <div className={styles.title__font}>상품 주문 수량</div>
-                <div>
-                  <CustomButton content='-' />
-                  <input type="number" style={{width: '50px', marginRight: '10px', marginLeft: '10px'}} />
-                  <CustomButton content='+' />
-                </div>
-              </div>
-
-              <div className={styles.list__price}>
-                <div className={styles.title__font}>상품금액</div>
-                <div className={styles.context__font}>0000 원</div>
-              </div>
-
-              <div className={styles.list__delivery}>
-                <div className={styles.title__font}>배송비</div>
-                <div className={styles.context__font}>무료</div>
-              </div>
-
-            </div>
-          </div>
           
         </div>
       </div>
