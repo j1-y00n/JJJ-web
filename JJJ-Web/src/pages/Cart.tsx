@@ -26,9 +26,11 @@ export const CustomSelect = () => {
 interface CustomProductProps {
   descClassName?: string;
   imgClassName?: string;
+  titleClassName?: string;
+  contextClassName?: string;
 }
 
-export const CustomProduct = ({ descClassName, imgClassName }: CustomProductProps) => {
+export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName }: CustomProductProps) => {
   return (
     <div className={`${styles.list__desc} ${descClassName ? descClassName : ''}`}>
       <CustomButton content='X' className={styles.btn__delete} />
@@ -36,8 +38,8 @@ export const CustomProduct = ({ descClassName, imgClassName }: CustomProductProp
         <Checkbox {...label} color='primary' />
         <img src={exampleImg} alt="상품이미지" className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} />
         <div>
-          <div className={styles.title__font}>0000장난감</div>
-          <div className={styles.context__font}>0000 원</div>
+          <div className={`${styles.title__font} ${titleClassName ? titleClassName : ''}`}>0000장난감</div>
+          <div className={`${styles.context__font} ${contextClassName ? contextClassName : ''}`}>0000 원</div>
         </div>
       </div>
     </div>

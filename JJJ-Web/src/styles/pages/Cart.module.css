@@ -15,7 +15,12 @@
   background-color: rgb(234, 234, 234);
   border: none;
   cursor: pointer;
-  font-size: 16px;
+}
+
+.btn:hover {
+  /* border: 1px solid var(--color-blue); */
+  background-color: var(--color-blue);
+  color: var(--color-white);
 }
 
 .btn__delete {
@@ -27,7 +32,7 @@
 .cart__title {
   text-align: center;
   padding: 10px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -60,21 +65,20 @@
 .select__delete__title {
   height: 34px;
   width: 100px;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-radius: var(--border-radius);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 14px;
-
 }
 
 .cart__list__container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--color-blue-light);
+  background-color: var(--color-grey);
 }
 
 .list__container__inner {
@@ -83,10 +87,10 @@
   width: 964px;
   height: 197px;
   background-color: var(--color-white);
-  border: 1px solid black;
   border-radius: var(--border-radius);
   margin: 15px 0;
   /* padding: 47px 2px; */
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, .05);
 }
 
 .list__desc {
@@ -104,7 +108,7 @@
 .desc__image {
   width: 100px;
   height: 100px;
-  border: 1px solid lightgray;
+  border: 1px solid var(--color-grey);
   border-radius: 4px;
   object-fit: cover;
 }
@@ -130,12 +134,10 @@
 }
 
 .title__font {
-  font-size: 15px;
   margin-bottom: 10px;
 }
 
 .context__font {
-  font-size: 15px;
   font-weight: bold;
 }
 
@@ -164,9 +166,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 255px;
+  width: 265px;
   color: var(--color-white);
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -179,6 +181,6 @@
   background-color: var(--color-blue-light);
   border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }

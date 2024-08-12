@@ -15,3 +15,11 @@
   width: 120px;
   height: 120px;
 }
+
+.wish__container .wish__title {
+  font-weight: bold;
+}
+
+.wish__container .wish__context {
+  font-weight: normal;
+}

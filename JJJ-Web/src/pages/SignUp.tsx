@@ -1,6 +1,6 @@
 // 박용재
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/pages/SignUp.module.css";
 import {
   FormControl,
@@ -12,11 +12,13 @@ import {
 import { symbolName } from "typescript";
 import DaumPostcode, { DaumPostcodeEmbed } from "react-daum-postcode";
 import { NavLink } from "react-router-dom";
+import Postcode from "../components/PostCode";
 
 interface SignUpForm {
   id: string;
   password: string;
   passwordCheck: string;
+  name: string;
   email: string;
   phone: string;
   gender: string;
@@ -27,6 +29,7 @@ export default function SignUp() {
     id: "",
     password: "",
     passwordCheck: "",
+    name: "",
     email: "",
     phone: "",
     gender: "",
@@ -42,12 +45,17 @@ export default function SignUp() {
     id: "",
     password: "",
     passwordCheck: "",
+    name: "",
     email: "",
     phone: "",
     gender: "",
   });
 
-  const { id, password, passwordCheck, email, phone, gender } = formData;
+  const { id, password, passwordCheck, name, email, phone, gender } = formData;
+
+  const validateId = (id: string): boolean => {
+    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4}$/.test(id);
+  };
 
   const validatePassword = (password: string): boolean => {
     return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/.test(password);
@@ -72,6 +80,7 @@ export default function SignUp() {
       id: "",
       password: "",
       passwordCheck: "",
+      name: "",
       email: "",
       phone: "",
       gender: "",
@@ -79,32 +88,33 @@ export default function SignUp() {
 
     let isValid = true;
 
-    if (!id) {
-      tempErrors.id = "아이디를 입력해주세요";
+    if (!id || !validateId(id)) {
+      tempErrors.id = "영어와 숫자를 포함하여 4글자 이상 작성하세요";
+      // alert('아이디 확인을 완료해주세요');
       isValid = false;
     }
 
     if (!password || !validatePassword(password)) {
       tempErrors.password = "영어와 숫자를 포함하여 8 ~ 12글자로 작성하세요";
-      alert("비밀번호 입력을 완료해주세요");
+      // alert("비밀번호 입력을 완료해주세요");
       isValid = false;
     }
 
     if (!checkingPassword(passwordCheck)) {
       tempErrors.passwordCheck = "비밀번호를 재입력해주세요";
-      alert("비밀번호 확인을 완료해주세요");
+      // alert("비밀번호 확인을 완료해주세요");
       isValid = false;
     }
 
     if (!email || !validateEmail(email)) {
       tempErrors.email = "유효한 이메일을 입력하거나 빈 칸을 채워주세요";
-      alert("이메일 입력을 완료해주세요");
+      // alert("이메일 입력을 완료해주세요");
       isValid = false;
     }
 
     if (!phone || !validatePhone(phone)) {
       tempErrors.phone = "유효한 핸드폰 번호를 입력하거나 빈 칸을 채워주세요";
-      alert("휴대폰 번호 입력을 완료해주세요");
+      // alert("휴대폰 번호 입력을 완료해주세요");
       isValid = false;
     }
 
@@ -118,6 +128,7 @@ export default function SignUp() {
         id: "",
         password: "",
         passwordCheck: "",
+        name: "",
         email: "",
         phone: "",
         gender: "",
@@ -134,7 +145,31 @@ export default function SignUp() {
     });
   };
 
-
+  // const BirthYearSelector = () => {
+  //   const [isYearOptionExisted, setIsYearOptionExisted] = useState(false);
+  //   const [years, setYears] = useState([]);
+  
+  //   useEffect(() => {
+  //     if (!isYearOptionExisted) {
+  //       const generatedYears = [];
+  //       for (let i = 1940; i <= 2022; i++) {
+  //         generatedYears.push(i);
+  //       }
+  //       setYears(generatedYears);
+  //       setIsYearOptionExisted(true);
+  //     }
+  //   }, [isYearOptionExisted]);
+  
+  //   return (
+  //     <select id="birth-year" onFocus={() => setIsYearOptionExisted(false)}>
+  //       {years.map((year) => (
+  //         <option key={year} value={year}>
+  //           {year}
+  //         </option>
+  //       ))}
+  //     </select>
+  //   );
+  // };
 
   return (
     <div id={styles.login_page}>
@@ -149,9 +184,19 @@ export default function SignUp() {
                 <input
                   type="text"
                   name="id"
+                  placeholder="4글자 이상 영문과 숫자 조합"
                   value={id}
                   onChange={handleInputChange}
                 />
+                <button
+                  style={{
+                    fontSize: "12px",
+                    borderRadius: "10px",
+                    padding: "5px",
+                  }}
+                >
+                  중복 확인
+                </button>
                 {errors.id ? <p style={{ color: "red" }}>{errors.id}</p> : ""}
               </div>
 
@@ -188,6 +233,17 @@ export default function SignUp() {
                 ) : (
                   ""
                 )}
+              </div>
+
+              <div className="inputName" style={{ marginLeft: "14px" }}>
+                <label>이름 </label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="이름"
+                  value={name}
+                  onChange={handleInputChange}
+                />
               </div>
 
               <div className="inputEmail">
@@ -256,11 +312,29 @@ export default function SignUp() {
                 </FormControl>
               </div>
 
-               {/*  */}
+              <div className="inputAddress" style={{ display: "flex" }}>
+                <label style={{ marginTop: "20px" }}>주소 </label>
+                <Postcode />
+              </div>
 
-
-
-
+              <div className={styles.birthday_container}>
+                <label style={{ marginTop: "20px" }}>생년월일</label>
+                <select className="yearBox" id="birth_year">
+                  <option disabled selected>
+                    출생 연도
+                  </option>
+                </select>
+                <select className="monthBox" id="birth_month">
+                  <option disabled selected>
+                    월
+                  </option>
+                </select>
+                <select className="dayBox" id="birth_day">
+                  <option disabled selected>
+                    일
+                  </option>
+                </select>
+              </div>
 
               <div className={styles.button_container}>
                 <NavLink to="/">
