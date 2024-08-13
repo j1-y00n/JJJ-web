@@ -6,17 +6,18 @@
   --color-red: #f00;
   --color-orange: #ec952e;
   --color-grey-bg: #f8f9fa;
-  --color-grey-light: #E5E5E5;
-  --color-grey: #C0C0C0;
+  --color-grey-light: #e5e5e5;
+  --color-grey: #c0c0c0;
   --box-height: 80px;
   --page-side-margin: 0 240px;
   --border-radius: 10px;
   --max-width: 1200px;
 
-    /* Font sizes */
-    --font-size-large: 24px;
-    --font-size-medium: 16px;
-    --font-size-small: 14px;
+  /* Font sizes */
+  --font-size-large: 32px;
+  --font-size-medium: 24px;
+  --font-size-regular: 16px;
+  --font-size-small: 14px;
 }
 
 body * {
