@@ -1,0 +1,71 @@
+/* 신승주 */
+
+.container {
+  background-color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.products__container {
+  width: var(--max-width);
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item__container {
+  display: flex;
+  width: 48%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item__thumb__img {
+  width: 50%;
+  height: 246px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+}
+
+.item__imgs {
+  height: 246px;
+}
+
+.item__descriptions {
+  width: 58%;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.item__title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.item__infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.item__price {
+  color: var(--color-red);
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.item__status,
+.item__description,
+.item__count,
+.item__method {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
