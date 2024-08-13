@@ -105,5 +105,29 @@ export const theme = createTheme({
         },
       },
     },
+
+    // MUI Icon Button 색상 커스터마이징
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          '&.MuiIconButton-root': {
+            color: 'var(--color-black)',
+            backgroundColor: 'var(--color-grey-light)',
+            borderRadius: '0',
+            '&:hover': {
+              color: 'var(--color-white)',
+              backgroundColor: 'var(--color-grey)',
+            },
+            '&:active': {
+              color: 'var(--color-white)',
+              backgroundColor: 'var(--color-grey)',
+            },
+          },
+          '&.MuiIconButton-colorInfo': {
+            borderRadius: '50%',
+          },
+        },
+      },
+    },
   },
 });

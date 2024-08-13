@@ -84,17 +84,7 @@ export default function ProductDetail() {
                 alignItems={'center'}
                 sx={{ width: '50%' }}
               >
-                <IconButton
-                  onClick={decreaseCounter}
-                  sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'text.secondary',
-                    '&:hover': {
-                      backgroundColor: 'secondary.main',
-                      color: 'primary.main',
-                    },
-                  }}
-                >
+                <IconButton onClick={decreaseCounter}>
                   <RemoveIcon sx={{ fontSize: '40px' }} />
                 </IconButton>
                 <TextField
@@ -113,17 +103,7 @@ export default function ProductDetail() {
                     },
                   }}
                 />
-                <IconButton
-                  onClick={increaseCounter}
-                  sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'text.secondary',
-                    '&:hover': {
-                      backgroundColor: 'secondary.main',
-                      color: 'primary.main',
-                    },
-                  }}
-                >
+                <IconButton color='info' onClick={increaseCounter}>
                   <AddIcon sx={{ fontSize: '40px' }} />
                 </IconButton>
               </Box>
@@ -141,23 +121,13 @@ export default function ProductDetail() {
                 >
                   <ShoppingCartIcon sx={{ fontSize: '50px' }} />
                 </IconButton>
-                <IconButton
-                  sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'text.secondary',
-                    '&:hover': {
-                      backgroundColor: 'secondary.main',
-                      color: 'primary.main',
-                    },
-                  }}
-                >
+                <IconButton color='info'>
                   <FavoriteBorderIcon sx={{ fontSize: '50px' }} />
                 </IconButton>
               </Box>
             </Box>
             <Button
               className='detail__bottom'
-              variant='contained'
               sx={{
                 padding: '10px 0',
                 fontSize: '22px',

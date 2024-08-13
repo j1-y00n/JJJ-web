@@ -5,7 +5,9 @@
   --color-black: #000;
   --color-red: #f00;
   --color-orange: #ec952e;
-  --color-grey: #f8f9fa;
+  --color-grey-bg: #f8f9fa;
+  --color-grey-light: #E5E5E5;
+  --color-grey: #C0C0C0;
   --box-height: 80px;
   --page-side-margin: 0 240px;
   --border-radius: 10px;
