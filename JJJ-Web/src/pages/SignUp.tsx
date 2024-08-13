@@ -1,6 +1,6 @@
 // 박용재
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/pages/SignUp.module.css";
 import {
   FormControl,
@@ -9,13 +9,12 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { symbolName } from "typescript";
-import DaumPostcode, { DaumPostcodeEmbed } from "react-daum-postcode";
+
 import { NavLink } from "react-router-dom";
 import Postcode from "../components/PostCode";
 
 interface SignUpForm {
-  id: string;
+  userId: string;
   password: string;
   passwordCheck: string;
   name: string;
@@ -26,7 +25,7 @@ interface SignUpForm {
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
-    id: "",
+    userId: "",
     password: "",
     passwordCheck: "",
     name: "",
@@ -35,14 +34,18 @@ export default function SignUp() {
     gender: "",
   });
 
-  const [genderValue, setGenderValue] = useState("male");
+  const nextId = useRef(0);
 
-  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setGenderValue((event.target as HTMLInputElement).value);
-  };
+  const [value, setValue] = useState("male");
+
+  // const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValue((e.target as HTMLInputElement).value);
+  // };
+
+
 
   const [errors, setErrors] = useState<SignUpForm>({
-    id: "",
+    userId: "",
     password: "",
     passwordCheck: "",
     name: "",
@@ -51,10 +54,10 @@ export default function SignUp() {
     gender: "",
   });
 
-  const { id, password, passwordCheck, name, email, phone, gender } = formData;
+  const { userId, password, passwordCheck, name, email, phone, gender } = formData;
 
-  const validateId = (id: string): boolean => {
-    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4}$/.test(id);
+  const validateId = (userId: string): boolean => {
+    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4,}$/.test(userId);
   };
 
   const validatePassword = (password: string): boolean => {
@@ -77,7 +80,7 @@ export default function SignUp() {
     e.preventDefault();
 
     let tempErrors = {
-      id: "",
+      userId: "",
       password: "",
       passwordCheck: "",
       name: "",
@@ -88,8 +91,8 @@ export default function SignUp() {
 
     let isValid = true;
 
-    if (!id || !validateId(id)) {
-      tempErrors.id = "영어와 숫자를 포함하여 4글자 이상 작성하세요";
+    if (!userId || !validateId(userId)) {
+      tempErrors.userId = "영어와 숫자를 포함하여 4글자 이상 작성하세요";
       // alert('아이디 확인을 완료해주세요');
       isValid = false;
     }
@@ -122,10 +125,10 @@ export default function SignUp() {
 
     if (isValid) {
       console.log("회원 가입 데이터: ", formData);
-      alert(`회원 가입을 축하합니다!! ${id}님!! `);
+      alert(`회원 가입을 축하합니다!! ${name}님!! `);
 
       setFormData({
-        id: "",
+        userId: "",
         password: "",
         passwordCheck: "",
         name: "",
@@ -145,31 +148,40 @@ export default function SignUp() {
     });
   };
 
-  // const BirthYearSelector = () => {
-  //   const [isYearOptionExisted, setIsYearOptionExisted] = useState(false);
-  //   const [years, setYears] = useState([]);
-  
-  //   useEffect(() => {
-  //     if (!isYearOptionExisted) {
-  //       const generatedYears = [];
-  //       for (let i = 1940; i <= 2022; i++) {
-  //         generatedYears.push(i);
-  //       }
-  //       setYears(generatedYears);
-  //       setIsYearOptionExisted(true);
-  //     }
-  //   }, [isYearOptionExisted]);
-  
-  //   return (
-  //     <select id="birth-year" onFocus={() => setIsYearOptionExisted(false)}>
-  //       {years.map((year) => (
-  //         <option key={year} value={year}>
-  //           {year}
-  //         </option>
-  //       ))}
-  //     </select>
-  //   );
-  // };
+  const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((e.target as HTMLInputElement).value);
+  }
+
+  const today = new Date();
+  const [birthform, setBirthform] = useState({
+    year: today.getFullYear(),
+    month: "1",
+    day: "1",
+  });
+
+  let years = [];
+  for (let y = today.getFullYear(); y >= 1930; y -= 1) {
+    years.push(y);
+  }
+
+  let months = [];
+  for (let m = 1; m <= 12; m += 1) {
+    if (m < 10) {
+      months.push("0" + m.toString());
+    } else {
+      months.push(m.toString());
+    }
+  }
+
+  let days = [];
+  let date = new Date(birthform.year, Number(birthform.month), 0).getDate();
+  for (let d = 1; d <= date; d += 1) {
+    if (d < 10) {
+      days.push("0" + d.toString());
+    } else {
+      days.push(d.toString());
+    }
+  }
 
   return (
     <div id={styles.login_page}>
@@ -183,9 +195,9 @@ export default function SignUp() {
                 <label>아이디 </label>
                 <input
                   type="text"
-                  name="id"
+                  name="userId"
                   placeholder="4글자 이상 영문과 숫자 조합"
-                  value={id}
+                  value={userId}
                   onChange={handleInputChange}
                 />
                 <button
@@ -193,19 +205,21 @@ export default function SignUp() {
                     fontSize: "12px",
                     borderRadius: "10px",
                     padding: "5px",
+                    cursor: "pointer"
                   }}
                 >
                   중복 확인
                 </button>
-                {errors.id ? <p style={{ color: "red" }}>{errors.id}</p> : ""}
+
+                {errors.userId ? <p style={{ color: "red" }}>{errors.userId}</p> : ""}
               </div>
 
-              <div className="inputPassword" style={{ marginLeft: "-14px" }}>
+              <div className="inputPassword" style={{marginLeft: "-73px"}}>
                 <label>비밀번호 </label>
                 <input
                   type="text"
                   name="password"
-                  placeholder="8 ~ 10자의 영문과 숫자 조합"
+                  placeholder="8 ~ 12자의 영문과 숫자 조합"
                   value={password}
                   onChange={handleInputChange}
                 />
@@ -217,8 +231,7 @@ export default function SignUp() {
               </div>
 
               <div
-                className="checkedInputPassword"
-                style={{ marginLeft: "-42px" }}
+                className="checkedInputPassword" style={{marginLeft: "-100px"}}
               >
                 <label>비밀번호 확인</label>
                 <input
@@ -235,7 +248,7 @@ export default function SignUp() {
                 )}
               </div>
 
-              <div className="inputName" style={{ marginLeft: "14px" }}>
+              <div className="inputName" style={{marginLeft: "-45px"}}>
                 <label>이름 </label>
                 <input
                   type="text"
@@ -246,7 +259,7 @@ export default function SignUp() {
                 />
               </div>
 
-              <div className="inputEmail">
+              <div className="inputEmail" style={{marginLeft: "-60px"}}>
                 <label>이메일 </label>
                 <input
                   type="text"
@@ -262,7 +275,7 @@ export default function SignUp() {
                 )}
               </div>
 
-              <div className="inputPhone">
+              <div className="inputPhone" style={{marginLeft: "-60px"}}>
                 <label>휴대폰 </label>
                 <input
                   type="text"
@@ -278,18 +291,15 @@ export default function SignUp() {
                 )}
               </div>
 
-              <div className={styles.choose_gender}>
-                <FormControl sx={{ display: "flex", flexDirection: "row" }}>
-                  <FormLabel sx={{ color: "black", margin: "20px 12px" }}>
-                    성별
-                  </FormLabel>
+              <div className={styles.choose_gender} style={{display: "flex"}}>
+              <label style={{margin: "20px 0 0 -100px"}}>성별 </label>
+                <FormControl>        
                   <RadioGroup
-                    id="ABC"
                     name="gender"
-                    value={genderValue}
+                    value={value}
                     onChange={handleGenderChange}
                     sx={{
-                      width: "50%",
+                      width: "100%",
                       display: "flex",
                       flexDirection: "row",
                       marginLeft: "50px",
@@ -314,33 +324,58 @@ export default function SignUp() {
 
               <div className="inputAddress" style={{ display: "flex" }}>
                 <label style={{ marginTop: "20px" }}>주소 </label>
-                <Postcode />
+                <Postcode/>
               </div>
 
-              <div className={styles.birthday_container}>
-                <label style={{ marginTop: "20px" }}>생년월일</label>
-                <select className="yearBox" id="birth_year">
-                  <option disabled selected>
-                    출생 연도
-                  </option>
+              <div className={styles.birthday_container} style={{marginLeft: "-115px"}}>
+                <label style={{marginTop: "20px"}}>생년월일 </label>
+              <select
+                  value={birthform.year}
+                  onChange={(e) =>
+                    setBirthform({ ...birthform, year: Number(e.target.value)})
+                  }
+                >
+                  {years.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
-                <select className="monthBox" id="birth_month">
-                  <option disabled selected>
-                    월
-                  </option>
+
+                <select
+                  value={birthform.month}
+                  onChange={(e) =>
+                    setBirthform({ ...birthform, month: e.target.value})
+                  }
+                >
+                  {months.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
-                <select className="dayBox" id="birth_day">
-                  <option disabled selected>
-                    일
-                  </option>
+
+                <select
+                  value={birthform.day}
+                  onChange={(e) =>
+                    setBirthform({ ...birthform, day: e.target.value })
+                  }
+                >
+                  {days.map((item) => (
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
+
+              
               </div>
 
-              <div className={styles.button_container}>
+              <div className={styles.button_container} >
                 <NavLink to="/">
                   <button id={styles.button_detail}>취소</button>
                 </NavLink>
-                <button id={styles.button_detail} type="submit">
+                <button id={styles.button_detail}>
                   회원가입
                 </button>
               </div>

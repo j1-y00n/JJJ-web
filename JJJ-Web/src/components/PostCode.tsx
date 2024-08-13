@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import styles from "../styles/components/PostCode.module.css";
 
 import Modal from "react-modal";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Postcode: React.FC = () => {
   const [zipCode, setZipCode] = useState<string>("");
@@ -35,29 +36,34 @@ const Postcode: React.FC = () => {
     }
   };
 
-  const modalStyles = {
+  const modalStyles: ReactModal.Styles = {
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
     },
 
     content: {
-      left: "0",
       width: "500px",
       height: "600px",
       margin: "auto",
       overflow: "hidden",
-      padding: "3px",
+      padding: "20px",
+      position: "absolute",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+      backgroundColor: "white",
+      justifyContent: "center",
     },
   };
 
+
   return (
     <>
-      <div className={styles.address_container}>
+      <div className={styles.address_container} style={{ marginLeft: "10px" }}>
         <div className={styles.postcode_box}>
           <input value={zipCode} placeholder="우편번호" readOnly />
           <button
             onClick={searchtoggle}
-            style={{ fontSize: "12px", borderRadius: "10px", padding: "5px" }}
+            style={{ fontSize: "12px", borderRadius: "10px", padding: "5px", cursor: "pointer" }}
           >
             주소 검색
           </button>
@@ -71,17 +77,32 @@ const Postcode: React.FC = () => {
             readOnly
           />
         </div>
-        <Modal isOpen={isOpen} style={modalStyles}>
+
+        <Modal isOpen={isOpen} style={modalStyles} ariaHideApp={false} onRequestClose={() => setIsOpen(false)}>
+          <div id="closeBtn" style={{display: "flex", justifyContent: "end", marginBottom: "10px"}} >
+            <CloseIcon sx={{ cursor: "pointer"}} onClick={() => setIsOpen(false)}/>
+          </div>
           <DaumPostcodeEmbed
             onComplete={finalInput}
-            style={{ height: "100%" }}
+            style={{ height: "95%" }}
           />
         </Modal>
 
-        <input type="text" onChange={addressChangeHandler} value={detailAddress} placeholder="상세주소" />
+        <input
+          type="text"
+          onChange={addressChangeHandler}
+          value={detailAddress}
+          placeholder="상세주소"
+        />
 
-        <button onClick={addressClickHandler} style={{ fontSize: "12px", borderRadius: "10px", padding: "5px" }}>입력완료</button>
+        {/* <button
+          onClick={addressClickHandler}
+          style={{ fontSize: "12px", borderRadius: "10px", padding: "5px" }}
+        >
+          입력완료
+        </button> */}
 
+        <button>테스트 12123 12</button>
       </div>
     </>
   );
