@@ -4,7 +4,8 @@
 }
 
 #login_page {
-  background-color: #f2f2f2;
+  background-color: #f8f9fa;
+  /* background-color: #f1f3f5; */
 }
 
 #login_container {
@@ -24,37 +25,37 @@
 
 .login_section {
   border: 1px solid black;
-  width: 100%;
+  /* width: 100%; */
   padding: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .login_form {
   width: 100%;
+  display: flex;
   align-items: center;
 }
 
 .login_form form {
-  /* width: 75%;
-  margin-left: auto; */
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+
 .login_form input {
   width: 300px;
   margin: 10px;
   padding: 10px;
+
 }
 
 .login_form label {
   font-weight: bold;
-  /* margin-right: 35px; */
+  margin-right: 50px;
 }
 
 .button_container {

@@ -13,7 +13,7 @@
 .header, .second_header {
   width: 100%;
   height: var(--box-height);
-  background-color: var(--color-blue);
+  /* background-color: var(--color-blue); */
 }
 
 .top_header {
@@ -22,7 +22,7 @@
 }
 
 .middle_header {
-  background-color: var(--color-blue);
+  /* background-color: var(--color-blue); */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -40,7 +40,6 @@
   justify-content: center;
   font-size: 3rem;
   font-weight: bold;
-
 }
 
 .box_mytools {
