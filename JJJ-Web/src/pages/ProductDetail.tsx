@@ -16,6 +16,8 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
+import { useCounter } from '../hooks/useCounter';
+import { useInput } from '../hooks/useInput';
 
 export default function ProductDetail() {
   const { products } = ProductStore();
@@ -23,7 +25,17 @@ export default function ProductDetail() {
   const selectedProduct = products.find(
     (product) => Number(product.productId) === Number(productId)
   );
-  const [count, setCount] = useState(1);
+  const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/\D/g, '');
+
+    if (numericValue === '' || Number(numericValue) < 1) {
+      setCounter(1);
+    } else {
+      setCounter(Number(numericValue));
+    }
+  };
   return (
     <div className={styles.productList__container}>
       <Header />
@@ -73,6 +85,7 @@ export default function ProductDetail() {
                 sx={{ width: '50%' }}
               >
                 <IconButton
+                  onClick={decreaseCounter}
                   sx={{
                     backgroundColor: 'primary.main',
                     color: 'text.secondary',
@@ -85,10 +98,12 @@ export default function ProductDetail() {
                   <RemoveIcon sx={{ fontSize: '40px' }} />
                 </IconButton>
                 <TextField
-                  required
-                  id='outlined-required'
+                  id='outlined'
                   label='수량'
-                  defaultValue={count}
+                  type='text'
+                  focused
+                  value={count}
+                  onChange={handleChange}
                   sx={{
                     width: '80px',
                     margin: '0 5px',
@@ -99,6 +114,7 @@ export default function ProductDetail() {
                   }}
                 />
                 <IconButton
+                  onClick={increaseCounter}
                   sx={{
                     backgroundColor: 'primary.main',
                     color: 'text.secondary',
