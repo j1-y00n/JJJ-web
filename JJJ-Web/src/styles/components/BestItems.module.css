@@ -9,7 +9,7 @@
   color: white;
   height: 64px;
   width: 220px;
-  font-size: 40px;
+  font-size: var(--font-size-large);
   font-weight: bold;
   text-align: center;
   line-height: 64px;

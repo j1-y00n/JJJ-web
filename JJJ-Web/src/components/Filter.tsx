@@ -54,16 +54,7 @@ export default function Filter() {
           <Button
             key={item.value}
             sx={{
-              padding: '10px 20px',
               marginRight: '20px',
-              backgroundColor:
-                activeAge === item.value ? 'secondary.main' : 'primary.main',
-              color:
-                activeAge === item.value ? 'primary.main' : 'text.secondary',
-              '&:hover': {
-                backgroundColor: 'secondary.main',
-                color: 'primary.main',
-              },
             }}
             onClick={() => handleAgeClick(item.value)}
           >
@@ -84,15 +75,7 @@ export default function Filter() {
           <Button
             key={item}
             sx={{
-              padding: '10px 20px',
               marginRight: '20px',
-              backgroundColor:
-                activeSorting === item ? 'secondary.main' : 'primary.main',
-              color: activeSorting === item ? 'primary.main' : 'text.secondary',
-              '&:hover': {
-                backgroundColor: 'secondary.main',
-                color: 'primary.main',
-              },
             }}
             onClick={() => handleFilterClick(item)}
           >

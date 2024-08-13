@@ -105,14 +105,17 @@ export const theme = createTheme({
           '&.MuiButton-textInfo': {
             color: 'var(--color-black)',
             backgroundColor: 'var(--color-grey-light)',
-            padding: '10px 20px',
+            border: '1px solid var(--color-grey)',
+            padding: '5px',
             '&:hover': {
-              color: 'var(--color-white)',
+              color: 'var(--color-black)',
               backgroundColor: 'var(--color-grey)',
+              border: '1px solid var(--color-black)',
             },
             '&:active': {
-              color: 'var(--color-white)',
+              color: 'var(--color-black)',
               backgroundColor: 'var(--color-grey)',
+              border: '1px solid var(--color-black)',
             },
           },
         },
