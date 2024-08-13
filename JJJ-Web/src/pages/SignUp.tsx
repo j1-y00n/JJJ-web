@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 import Postcode from "../components/PostCode";
 
 interface SignUpForm {
+  id: number;
   userId: string;
   password: string;
   passwordCheck: string;
@@ -25,6 +26,7 @@ interface SignUpForm {
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
+    id: 1,
     userId: "",
     password: "",
     passwordCheck: "",
@@ -34,9 +36,9 @@ export default function SignUp() {
     gender: "",
   });
 
-  const nextId = useRef(0);
+  const nextId = useRef(2);
 
-  const [value, setValue] = useState("male");
+  const [gendervalue, setGenderValue] = useState("male");
 
   // const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setValue((e.target as HTMLInputElement).value);
@@ -45,6 +47,7 @@ export default function SignUp() {
 
 
   const [errors, setErrors] = useState<SignUpForm>({
+    id: 1,
     userId: "",
     password: "",
     passwordCheck: "",
@@ -80,6 +83,7 @@ export default function SignUp() {
     e.preventDefault();
 
     let tempErrors = {
+      id: 1,
       userId: "",
       password: "",
       passwordCheck: "",
@@ -128,6 +132,7 @@ export default function SignUp() {
       alert(`회원 가입을 축하합니다!! ${name}님!! `);
 
       setFormData({
+        id: nextId.current,
         userId: "",
         password: "",
         passwordCheck: "",
@@ -136,6 +141,8 @@ export default function SignUp() {
         phone: "",
         gender: "",
       });
+
+      nextId.current += 1;
     }
   };
 
@@ -149,7 +156,7 @@ export default function SignUp() {
   };
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((e.target as HTMLInputElement).value);
+    setGenderValue((e.target as HTMLInputElement).value);
   }
 
   const today = new Date();
@@ -296,7 +303,7 @@ export default function SignUp() {
                 <FormControl>        
                   <RadioGroup
                     name="gender"
-                    value={value}
+                    value={gendervalue}
                     onChange={handleGenderChange}
                     sx={{
                       width: "100%",

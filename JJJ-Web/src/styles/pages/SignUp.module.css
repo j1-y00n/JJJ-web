@@ -3,11 +3,6 @@
   padding: 0;
 }
 
-#login_page {
-  background-color: #f8f9fa;
-  /* background-color: #f1f3f5; */
-}
-
 #login_container {
   height: 2000px;
   margin: var(--page-side-margin);
@@ -24,7 +19,9 @@
 }
 
 .login_section {
-  border: 1px solid black;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-grey-bg);
+  border-radius: 20px;
   /* width: 100%; */
   padding: 20px;
   display: flex;
@@ -50,7 +47,6 @@
   width: 300px;
   margin: 10px;
   padding: 10px;
-
 }
 
 .login_form label {
@@ -71,7 +67,7 @@
   font-weight: bold;
   border-radius: var(--border-radius);
   background-color: var(--color-blue-light);
-  font-size: 16px;
+  font-size: var(--font-size-medium);
   cursor: pointer;
 }
 
