@@ -84,7 +84,7 @@ export default function ProductDetail() {
                 alignItems={'center'}
                 sx={{ width: '50%' }}
               >
-                <IconButton onClick={decreaseCounter}>
+                <IconButton color='info' onClick={decreaseCounter}>
                   <RemoveIcon sx={{ fontSize: '40px' }} />
                 </IconButton>
                 <TextField
@@ -109,14 +109,9 @@ export default function ProductDetail() {
               </Box>
               <Box>
                 <IconButton
+                  color='info'
                   sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'text.secondary',
                     marginRight: '20px',
-                    '&:hover': {
-                      backgroundColor: 'secondary.main',
-                      color: 'primary.main',
-                    },
                   }}
                 >
                   <ShoppingCartIcon sx={{ fontSize: '50px' }} />

@@ -64,10 +64,6 @@ export default function Filter() {
                 backgroundColor: 'secondary.main',
                 color: 'primary.main',
               },
-              outline:
-                activeAge === item.value
-                  ? `2px solid ${theme.palette.primary.main}`
-                  : 'none',
             }}
             onClick={() => handleAgeClick(item.value)}
           >
@@ -97,10 +93,6 @@ export default function Filter() {
                 backgroundColor: 'secondary.main',
                 color: 'primary.main',
               },
-              outline:
-                activeSorting === item
-                  ? `2px solid ${theme.palette.primary.main}`
-                  : 'none',
             }}
             onClick={() => handleFilterClick(item)}
           >
