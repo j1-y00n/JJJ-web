@@ -102,6 +102,19 @@ export const theme = createTheme({
               backgroundColor: 'var(--color-blue)',
             },
           },
+          '&.MuiButton-textInfo': {
+            color: 'var(--color-black)',
+            backgroundColor: 'var(--color-grey-light)',
+            padding: '10px 20px',
+            '&:hover': {
+              color: 'var(--color-white)',
+              backgroundColor: 'var(--color-grey)',
+            },
+            '&:active': {
+              color: 'var(--color-white)',
+              backgroundColor: 'var(--color-grey)',
+            },
+          },
         },
       },
     },
