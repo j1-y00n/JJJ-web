@@ -22,10 +22,9 @@ export default function TempNaviBar() {
     'category/fiveSenses',
     'category/emotion',
     'category/society',
-    'category/usedProduct',
+    'usedProductList',
     'createUsedProduct',
     'category/gift/product/1', // 임시 제품 상세 페이지
-    'usedProductList', // 임시 중고상품 페이지
   ];
 
   const pages: IPages = {
@@ -42,10 +41,9 @@ export default function TempNaviBar() {
     'category/fiveSenses': '오감발달',
     'category/emotion': '정서발달',
     'category/society': '사회발달',
-    'category/usedProduct': '중고상품',
+    usedProductList: '중고상품',
     createUsedProduct: '중고상품등록',
     'category/gift/product/1': '제품상세페이지', // 임시 제품 상세 페이지
-    usedProductList: '중고상품목록' // 임시 중고상품 페이지
   };
   return (
     <ul

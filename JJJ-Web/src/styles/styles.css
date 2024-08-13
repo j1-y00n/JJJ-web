@@ -10,6 +10,11 @@
   --page-side-margin: 0 240px;
   --border-radius: 10px;
   --max-width: 1200px;
+
+    /* Font sizes */
+    --font-size-large: 24px;
+    --font-size-medium: 16px;
+    --font-size-small: 14px;
 }
 
 body * {

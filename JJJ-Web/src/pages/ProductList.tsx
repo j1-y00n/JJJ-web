@@ -51,14 +51,6 @@ export default function ProductList() {
         )}
       </section>
       <Footer />
-      <NavLink to='/createUsedProduct'>
-        <Button
-          variant='contained'
-          sx={{ position: 'fixed', bottom: '30px', right: '150px' }}
-        >
-          중고 상품 등록 +
-        </Button>
-      </NavLink>
     </div>
   );
 }
