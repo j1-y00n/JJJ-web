@@ -2,7 +2,7 @@
 // 내 중고상품 목록
 import React from 'react'
 import styles from '../styles/pages/MyUsedProduct.module.css'
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Button, Tab, Tabs } from '@mui/material';
 import exampleImg from '../assets/images/cars.jpg';
 import { wrap } from 'module';
 
@@ -18,9 +18,9 @@ function CustomTabPanel(props: TabPanelProps) {
 
   return (
     <div
+      id={`simple-tabpanel-${index}`}
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
@@ -48,7 +48,9 @@ const CustomMyUsedItem = () => {
       <div>1개</div>
     </div>
     <div>
-      <button className={styles.myused__button}>게시글 삭제</button>
+      <Button className={styles.myused__button}>
+        게시글 삭제
+      </Button>
     </div>
   </div>
   )
@@ -65,7 +67,7 @@ export default function MyUsedProduct() {
   return (
     <Box sx={{ width: '100%', paddingLeft: '20px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor="primary">
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs" textColor="primary">
           <Tab label="판매중" {...a11yProps(0)} />
           <Tab label="판매완료" {...a11yProps(1)} />
         </Tabs>
