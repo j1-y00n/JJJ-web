@@ -1,6 +1,5 @@
 // 신승주
 import StarRateIcon from '@mui/icons-material/StarRate';
-import { NavLink } from 'react-router-dom';
 import styles from '../styles/components/Product.module.css';
 
 interface ProductProps {

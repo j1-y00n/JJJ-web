@@ -43,11 +43,11 @@ export default function Filter() {
         {age.map((item) => (
           <Button
             key={item.value}
+            className={item.value === activeAge ? 'active' : ''}
             onClick={() => handleAgeClick(item.value)}
             sx={{
               marginRight: '20px',
             }}
-            className={item.value === activeAge ? 'active' : ''}
           >
             {item.label}
           </Button>
@@ -57,11 +57,11 @@ export default function Filter() {
         {sorting.map((item) => (
           <Button
             key={item}
+            className={item === activeSorting ? 'active' : ''}
             onClick={() => handleFilterClick(item)}
             sx={{
               marginRight: '20px',
             }}
-            className={item === activeSorting ? 'active' : ''}
           >
             {item}
           </Button>
