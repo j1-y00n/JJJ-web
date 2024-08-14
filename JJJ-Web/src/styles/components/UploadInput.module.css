@@ -20,6 +20,9 @@
   transition: all 0.3s ease;
   white-space: nowrap;
   user-select: none;
+  width: 250px;
+  display: flex;
+  align-items: center;
 }
 
 .label__button:hover {

@@ -79,6 +79,7 @@ const Order = () => {
   const { value, handleInputChange } = useInput('상세 내용');
 
   const [valueStars, setValueStars] = useState<number | null>(5);
+
   return (
     <div className={styles.order__container}>
       <div className={styles.order__img}>
@@ -150,7 +151,7 @@ const Order = () => {
               </Box>
               <Button onClick={handleOpenReview}>리뷰 등록</Button>
             </Box>
-          </Modal>{' '}
+          </Modal>
           <Modal
             open={reviewOpen}
             onClose={handleCloseReview}

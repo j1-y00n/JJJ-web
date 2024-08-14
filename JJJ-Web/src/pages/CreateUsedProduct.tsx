@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Footer from '../components/Footer';
 import { useInput } from '../hooks/useInput';
 import { InputAdornment, OutlinedInput, Typography } from '@mui/material';
-
+import UploadInput from '../components/UploadInput';
 
 export default function CreateUsedProduct() {
   // 상품상태 radio button
@@ -31,16 +31,10 @@ export default function CreateUsedProduct() {
   };
 
   // 상품명
-  const { 
-    value: title, 
-    handleInputChange: titleInputChange,
-  } = useInput('');
+  const { value: title, handleInputChange: titleInputChange } = useInput('');
 
   // 설명
-  const {
-    value: detail,
-    handleInputChange: detailInputChange,
-  } = useInput('');
+  const { value: detail, handleInputChange: detailInputChange } = useInput('');
 
   return (
     <>
@@ -54,11 +48,16 @@ export default function CreateUsedProduct() {
               <div className={styles.desc__inner}>
                 <div className={styles.image__container}>
                   <div className={styles.inner__title}>상품 이미지</div>
-                  <input type='file' />
+                  <UploadInput />
                 </div>
                 <div className={styles.name__container}>
                   <div className={styles.inner__title}>상품명</div>
-                  <input type='text' value={title} onChange={titleInputChange} className={styles.title__input} />
+                  <input
+                    type='text'
+                    value={title}
+                    onChange={titleInputChange}
+                    className={styles.title__input}
+                  />
                 </div>
                 <div className={styles.condition__container}>
                   <div className={styles.inner__title}>상품 상태</div>
@@ -97,7 +96,6 @@ export default function CreateUsedProduct() {
                       />
                     </RadioGroup>
                   </FormControl>
-
                 </div>
                 <div className={styles.detail__container}>
                   <div className={styles.inner__title}>설명</div>
@@ -118,13 +116,15 @@ export default function CreateUsedProduct() {
               <div className={styles.num__container}>
                 <div className={styles.inner__title}>가격</div>
                 <div>
-                  <FormControl sx={{ width: '300px' }} variant="outlined">
+                  <FormControl sx={{ width: '300px' }} variant='outlined'>
                     <OutlinedInput
-                      id="outlined-adornment-weight"
-                      endAdornment={<InputAdornment position="end">
-                        <Typography sx={{ color: 'grey' }}>원</Typography>
-                      </InputAdornment>}
-                      aria-describedby="outlined-weight-helper-text"
+                      id='outlined-adornment-weight'
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <Typography sx={{ color: 'grey' }}>원</Typography>
+                        </InputAdornment>
+                      }
+                      aria-describedby='outlined-weight-helper-text'
                       sx={{ height: '48px' }}
                     />
                   </FormControl>
@@ -139,17 +139,19 @@ export default function CreateUsedProduct() {
                 <div className={styles.num__container}>
                   <div className={styles.inner__title}>수량</div>
                   <div>
-                  <FormControl sx={{ width: '300px' }} variant="outlined">
-                    <OutlinedInput
-                      id="outlined-adornment-weight"
-                      endAdornment={<InputAdornment position="end">
-                        <Typography sx={{ color: 'grey' }}>개</Typography>
-                      </InputAdornment>}
-                      aria-describedby="outlined-weight-helper-text"
-                      sx={{ height: '48px' }}
-                    />
-                  </FormControl>
-                </div>
+                    <FormControl sx={{ width: '300px' }} variant='outlined'>
+                      <OutlinedInput
+                        id='outlined-adornment-weight'
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <Typography sx={{ color: 'grey' }}>개</Typography>
+                          </InputAdornment>
+                        }
+                        aria-describedby='outlined-weight-helper-text'
+                        sx={{ height: '48px' }}
+                      />
+                    </FormControl>
+                  </div>
                 </div>
                 <div className={styles.transaction__container}>
                   <div className={styles.inner__title}>직거래</div>
@@ -174,7 +176,6 @@ export default function CreateUsedProduct() {
                       />
                     </RadioGroup>
                   </FormControl>
-                  
                 </div>
               </div>
             </div>
@@ -191,10 +192,9 @@ export default function CreateUsedProduct() {
         </div>
       </form>
 
-      <div style={{marginBottom: '50px', marginTop: '100px'}}>
+      <div style={{ marginBottom: '50px', marginTop: '100px' }}>
         <Footer />
       </div>
-
     </>
   );
 }

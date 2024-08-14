@@ -28,14 +28,22 @@ export default function ProductDetail() {
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const numericValue = value.replace(/\D/g, '');
+    const numericValue = value.replace(/\D/g, ''); // 숫자 이외의 값 제거
 
-    if (numericValue === '' || Number(numericValue) < 1) {
-      setCounter(1);
+    if (numericValue === '') {
+      setCounter(0); // 빈 문자열일 경우 0으로 설정
     } else {
       setCounter(Number(numericValue));
     }
   };
+
+  // 포커스 잃을 때 유효성 검사
+  const handleBlur = () => {
+    if (count < 1) {
+      setCounter(1); // 숫자가 1보다 작으면 1로 고정
+    }
+  };
+
   return (
     <div className={styles.productList__container}>
       <Header />
@@ -89,15 +97,14 @@ export default function ProductDetail() {
                 </IconButton>
                 <TextField
                   id='outlined'
-                  label='수량'
                   type='text'
-                  focused
+                  label='수량'
                   value={count}
+                  onBlur={handleBlur}
                   onChange={handleChange}
                   sx={{
                     width: '80px',
                     margin: '0 5px',
-                    color: 'primary.main',
                     '& .MuiInputBase-input': {
                       textAlign: 'center', // Center text inside the field
                     },

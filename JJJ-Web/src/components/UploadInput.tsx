@@ -1,5 +1,6 @@
 import { useInputFile } from '../hooks/useInputfile';
 import styles from '../styles/components/UploadInput.module.css';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 export default function UploadInput() {
   const { imageSrcs, fileNames, isLoaded, handleChangeFile } = useInputFile();
@@ -8,14 +9,15 @@ export default function UploadInput() {
     <div className={styles.upload__container}>
       <div>
         <label role='button' htmlFor='file' className={styles.label__button}>
+          <AddAPhotoIcon />
           이미지 등록 : 최대 5개
         </label>
         <input
           id='file'
+          className={styles.sr__only}
           type='file'
           multiple
           onChange={handleChangeFile}
-          className={styles.sr__only}
         />
       </div>
       {isLoaded && (
@@ -23,9 +25,9 @@ export default function UploadInput() {
           {imageSrcs.slice(0, 5).map((src, index) => (
             <img
               key={index}
+              className={styles.output__image}
               src={src}
               alt={`미리보기 ${index + 1}`}
-              className={styles.output__image}
             />
           ))}
         </div>
