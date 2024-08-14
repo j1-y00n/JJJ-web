@@ -10,49 +10,51 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import Footer from '../components/Footer';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import { useInputFile } from '../hooks/useInputfile';
 import { useInput } from '../hooks/useInput';
+import UploadInput from '../components/UploadInput';
 
 export default function OrderedList() {
+  const { value, handleInputChange, reset } = useInput('');
   return (
-    <>
-      <div className={styles.ordered__list}>
-        <Box
-          className={styles.search}
-          component='form'
+    <div className={styles.ordered__list}>
+      <Box
+        component='form'
+        noValidate
+        autoComplete='off'
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '500px',
+          marginBottom: '20px',
+        }}
+      >
+        <TextField
+          id='outlined-multiline-static'
+          label='상품명'
+          type='text'
+          placeholder='상품명을 검색해주세요.'
+          value={value}
+          onChange={handleInputChange}
           sx={{
-            width: '500px',
-            maxWidth: '100%',
+            fontSize: 'var(--font-size-regular)',
           }}
-          noValidate
-          autoComplete='off'
-        >
-          <TextField
-            fullWidth
-            id='fullWidth'
-            label='상품명'
-            variant='outlined'
-          />
-          <Button variant='contained' sx={{ marginLeft: '10px' }}>
-            검색
-          </Button>
-        </Box>
-        <Orders />
-        <Orders />
-        <Orders />
-      </div>
-    </>
+        />
+        <Button sx={{ marginLeft: '10px' }}>검색</Button>
+      </Box>
+      <Orders />
+      <Orders />
+      <Orders />
+    </div>
   );
 }
 
 const Orders = () => {
   return (
-    <div className={styles.order__wrapper}>
+    <div>
       <div className={styles.order__number}>주문번호 : 1111111</div>
-      <div className={styles.order__number__wrapper}>
+      <div className={styles.orders}>
         <Order />
         <Order />
       </div>
@@ -76,29 +78,23 @@ const Order = () => {
 
   const { value, handleInputChange } = useInput('상세 내용');
 
-  const [valueStars, setValueStars] = React.useState<number | null>(5);
+  const [valueStars, setValueStars] = useState<number | null>(5);
   return (
-    <div className={styles.order__detail__wrapper}>
-      <div className={styles.detail__left}>
+    <div className={styles.order__container}>
+      <div className={styles.order__img}>
         <img src={balloonImg} alt='balloonImg' />
       </div>
-      <div className={styles.detail__middle}>
+      <div className={styles.order__details}>
         <p>상품명 : 풍선</p>
         <p>상품가격 : 2000원</p>
         <p>수량 : 5개</p>
       </div>
-      <div className={styles.detail__right}>
-        <Button
-          onClick={() => navigate('/cart')}
-          variant='contained'
-          sx={{ marginBottom: '20px' }}
-        >
+      <div className={styles.order__buttons}>
+        <Button onClick={() => navigate('/cart')} sx={{ marginBottom: '20px' }}>
           장바구니
         </Button>
         <React.Fragment>
-          <Button onClick={handleOpen} variant='contained'>
-            리뷰작성
-          </Button>{' '}
+          <Button onClick={handleOpen}>리뷰작성</Button>
           <Modal
             open={open}
             onClose={handleClose}
@@ -107,17 +103,14 @@ const Order = () => {
           >
             <Box
               component='form'
-              className={styles.modal__inner}
-              sx={{
-                '& .MuiTextField-root': { my: 2, width: '100%' },
-              }}
               noValidate
               autoComplete='off'
+              className={styles.modal__inner}
             >
               <Typography id='modal-modal-title' variant='h6' component='h2'>
-                <div className={styles.modal__wrapper}>
+                <div className={styles.modal__details}>
                   <img src={balloonImg} alt='balloonImg' />
-                  <div className={styles.modal__product__details}>
+                  <div className={styles.modal__details__container}>
                     <p>상품명 : 풍선</p>
                     <div className={styles.modal__rating}>
                       <p>평가 : </p>
@@ -136,7 +129,15 @@ const Order = () => {
                 </div>
               </Typography>
               <UploadInput />
-              <div className={styles.textField__box}>
+              <Box
+                component='form'
+                noValidate
+                autoComplete='off'
+                sx={{
+                  marginTop: '20px', // 수정 계획
+                  width: '100%',
+                }}
+              >
                 <TextField
                   id='outlined-multiline-static'
                   label='리뷰 작성'
@@ -144,15 +145,10 @@ const Order = () => {
                   rows={10}
                   value={value}
                   onChange={handleInputChange}
-                  focused
+                  sx={{ my: 2, width: '100%' }}
                 />
-              </div>
-              <button
-                onClick={handleOpenReview}
-                className={`${styles.review__submit} ${styles.label__button}`}
-              >
-                리뷰 등록
-              </button>
+              </Box>
+              <Button onClick={handleOpenReview}>리뷰 등록</Button>
             </Box>
           </Modal>{' '}
           <Modal
@@ -162,11 +158,9 @@ const Order = () => {
             aria-describedby='child-modal-description'
           >
             <Box
-              className={`${styles.modal__inner} ${styles.review__create__btn}`}
+              className={`${styles.modal__inner} ${styles.modal__inner__nest}`}
             >
-              <p id='child-modal-title' className={styles.review__create__desc}>
-                리뷰가 등록 되었습니다
-              </p>
+              <p id='child-modal-title'>리뷰가 등록 되었습니다</p>
               <Button onClick={handleCloseReview}>리뷰 닫기</Button>
             </Box>
           </Modal>
@@ -176,39 +170,4 @@ const Order = () => {
   );
 };
 
-const UploadInput = () => {
-  const { imageSrcs, fileNames, isLoaded, handleChangeFile } = useInputFile();
-
-  return (
-    <div className={styles.upload__input}>
-      <div>
-        <label role='button' htmlFor='file' className={styles.label__button}>
-          이미지 등록 : 최대 5개
-        </label>
-        <input
-          id='file'
-          type='file'
-          multiple
-          onChange={handleChangeFile}
-          className={styles.sr__only}
-        />
-      </div>
-      {isLoaded && (
-        <div className={styles.preview__container}>
-          {imageSrcs.slice(0, 5).map((src, index) => (
-            <img
-              key={index}
-              src={src}
-              alt={`미리보기 ${index + 1}`}
-              className={styles.output__image}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// 여유가 되면 구현해보고 싶은 로직
-// 이미지를 업로드하면 덮어씌우게 하기
-// 이미지에 X 버튼 눌러서 삭제하는 기능
+// 검색 로직 구현 안 했음 - 여유 되면 구현

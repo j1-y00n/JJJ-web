@@ -2,14 +2,14 @@ import { Box, Button } from '@mui/material';
 import { theme } from '../styles/theme';
 import { useFilterStore } from '../stores/Filter.store';
 import { CategoryAgeType } from '../types/TempMockdata';
-
+import styles from '../styles/components/Filter.module.css';
 interface AgeOption {
   value: CategoryAgeType;
   label: string;
 }
 
 export default function Filter() {
-  const ages: AgeOption[] = [
+  const age: AgeOption[] = [
     { value: '모두 보기', label: '모두 보기' },
     { value: '0-6', label: '0-6개월' },
     { value: '7-12', label: '7-12개월' },
@@ -38,51 +38,35 @@ export default function Filter() {
   };
 
   return (
-    <Box
-      sx={{
-        width: 'var(--max-width)',
-        marginLeft: '10px',
-        borderTop: `1px solid ${theme.palette.secondary.main}`,
-        borderBottom: `1px solid ${theme.palette.secondary.main}`,
-      }}
-    >
-      <Box
-        className='ages__box'
-        sx={{ display: 'flex', alignItems: 'center', height: '80px' }}
-      >
-        {ages.map((item) => (
+    <div className={styles.filter__container}>
+      <div className={styles.age__container}>
+        {age.map((item) => (
           <Button
             key={item.value}
+            onClick={() => handleAgeClick(item.value)}
             sx={{
               marginRight: '20px',
             }}
-            onClick={() => handleAgeClick(item.value)}
+            className={item.value === activeAge ? 'active' : ''}
           >
             {item.label}
           </Button>
         ))}
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: '80px',
-          borderTop: `1px solid ${theme.palette.secondary.main}`,
-        }}
-        className='filters__box'
-      >
+      </div>
+      <div className={styles.sorting__container}>
         {sorting.map((item) => (
           <Button
             key={item}
+            onClick={() => handleFilterClick(item)}
             sx={{
               marginRight: '20px',
             }}
-            onClick={() => handleFilterClick(item)}
+            className={item === activeSorting ? 'active' : ''}
           >
             {item}
           </Button>
         ))}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

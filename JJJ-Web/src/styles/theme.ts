@@ -6,23 +6,6 @@ export const theme = createTheme({
     primary: {
       main: '#637a9f', // --color-blue
     },
-    secondary: {
-      main: '#c9d7dd', // --color-blue-light
-    },
-    error: {
-      main: '#f00', // --color-red
-    },
-    warning: {
-      main: '#ec952e', // --color-orange
-    },
-    background: {
-      default: '#fff', // --color-white
-      paper: '#000', // --color-black
-    },
-    text: {
-      primary: '#000', // --color-black
-      secondary: '#fff', // --color-white
-    },
   },
   shape: {
     borderRadius: 10, // --border-radius
@@ -89,33 +72,46 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          whiteSpace: 'nowrap',
+          color: 'var(--color-black)',
+          padding: '10px 20px',
+          '&:hover': {
+            color: 'var(--color-white)',
+          },
+          '&.active': {
+            color: 'var(--color-white)',
+          },
           '&.MuiButton-text': {
-            color: 'var(--color-black)',
             backgroundColor: 'var(--color-blue-light)',
-            padding: '10px 20px',
             '&:hover': {
-              color: 'var(--color-white)',
               backgroundColor: 'var(--color-blue)',
             },
-            '&:active': {
-              color: 'var(--color-white)',
+            '&.active': {
               backgroundColor: 'var(--color-blue)',
             },
           },
+          '&.MuiButton-colorSecondary': {
+            backgroundColor: 'var(--color-grey-light)',
+            '&:hover': {
+              backgroundColor: 'var(--color-grey)',
+            },
+            '&.active': {
+              backgroundColor: 'var(--color-grey)',
+            },
+          },
           '&.MuiButton-textInfo': {
-            color: 'var(--color-black)',
             backgroundColor: 'var(--color-grey-light)',
             border: '1px solid var(--color-grey)',
             padding: '5px',
             '&:hover': {
-              color: 'var(--color-black)',
               backgroundColor: 'var(--color-grey)',
               border: '1px solid var(--color-black)',
+              color: 'var(--color-black)',
             },
-            '&:active': {
-              color: 'var(--color-black)',
+            '&.active': {
               backgroundColor: 'var(--color-grey)',
               border: '1px solid var(--color-black)',
+              color: 'var(--color-black)',
             },
           },
         },
@@ -126,21 +122,49 @@ export const theme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          '&.MuiIconButton-root': {
-            color: 'var(--color-black)',
-            backgroundColor: 'var(--color-grey-light)',
-            borderRadius: '0',
-            '&:hover': {
-              color: 'var(--color-white)',
-              backgroundColor: 'var(--color-grey)',
-            },
-            '&:active': {
-              color: 'var(--color-white)',
-              backgroundColor: 'var(--color-grey)',
-            },
+          whiteSpace: 'nowrap',
+          color: 'var(--color-black)',
+          backgroundColor: 'var(--color-grey-light)',
+          borderRadius: '0',
+          '&:hover': {
+            color: 'var(--color-white)',
+            backgroundColor: 'var(--color-grey)',
+          },
+          '&.active': {
+            color: 'var(--color-white)',
+            backgroundColor: 'var(--color-grey)',
           },
           '&.MuiIconButton-colorInfo': {
             borderRadius: '50%',
+          },
+          '&.MuiIconButton-colorSecondary': {
+            backgroundColor: 'var(--color-white)',
+            borderRadius: '50%',
+            '&:hover': {
+              color: 'var(--color-white)',
+              backgroundColor: 'var(--color-blue)',
+              borderRadius: '50%',
+            },
+          },
+        },
+      },
+    },
+
+    // MUI TextField 색상 커스터마이징
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'var(--color-blue)',
+            },
+            '&:hover fieldset': {
+              borderColor: 'var(--color-blue)',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'var(--color-blue)',
+            },
           },
         },
       },

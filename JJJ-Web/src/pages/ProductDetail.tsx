@@ -121,19 +121,7 @@ export default function ProductDetail() {
                 </IconButton>
               </Box>
             </Box>
-            <Button
-              className='detail__bottom'
-              sx={{
-                padding: '10px 0',
-                fontSize: '22px',
-                '&:hover': {
-                  backgroundColor: 'secondary.main',
-                  color: 'primary.main',
-                },
-              }}
-            >
-              구매하기
-            </Button>
+            <Button className='detail__bottom'>구매하기</Button>
           </Box>
         </Box>
 

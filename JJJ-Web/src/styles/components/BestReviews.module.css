@@ -7,7 +7,7 @@
 
 .best__reviews__title {
   background-color: var(--color-blue);
-  color: white;
+  color: var(--color-white);
   height: 64px;
   width: 220px;
   font-size: var(--font-size-large);
