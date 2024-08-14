@@ -1,6 +1,6 @@
 // 변지윤
 // 중고 제품 등록
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/pages/CreateUsedProduct.module.css';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -13,7 +13,7 @@ import { InputAdornment, OutlinedInput, Typography } from '@mui/material';
 
 export default function CreateUsedProduct() {
   // 상품상태 radio button
-  const [condition, setCondition] = React.useState('새상품(미사용)');
+  const [condition, setCondition] = useState('새상품(미사용)');
 
   const handleConditionChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -22,7 +22,7 @@ export default function CreateUsedProduct() {
   };
 
   // 직거래 radio button
-  const [transaction, setTransaction] = React.useState('가능');
+  const [transaction, setTransaction] = useState('가능');
 
   const handleTransactionChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -43,10 +43,9 @@ export default function CreateUsedProduct() {
   } = useInput('');
 
   return (
-    <>
-      <form action=''>
-        <div className={styles.createUsedProduct__container}>
-          <div className={styles.createUsedProduct__header}>중고 상품 등록</div>
+    <div className='flex__container'>
+      <form>
+        <div className={styles.createUsedProduct__header}>중고 상품 등록</div>
           <div className={styles.createUsedProduct__inner}>
             {/* 상품정보 */}
             <div className={styles.create__desc__container}>
@@ -179,22 +178,21 @@ export default function CreateUsedProduct() {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Fixed */}
-        <div className={styles.fixed__container}>
-          <div className={styles.fixed__inner}>
-            <button type='submit' className={styles.fixed__create}>
-              등록하기
-            </button>
-          </div>
-        </div>
       </form>
 
-      <div style={{marginBottom: '50px', marginTop: '100px'}}>
+      <div style={{marginBottom: '50px', marginTop: '100px', width: '100%'}}>
         <Footer />
       </div>
 
-    </>
+      {/* Fixed */}
+      <div className={styles.fixed__container}>
+        <div className={styles.fixed__inner}>
+          <button className={styles.fixed__create}>
+            등록하기
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

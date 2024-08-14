@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { useCounter } from '../hooks/useCounter';
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 // Select component
@@ -20,7 +21,9 @@ export const CustomSelect = () => {
         <div className={styles.select__total__title}>전체선택</div>
       </div>
       <div className={styles.select__delete}>
-        <div className={styles.select__delete__title}>X 선택삭제</div>
+        <Button color='info'>
+          <ClearIcon sx={{ fontSize: '14px' }} /> 선택삭제
+        </Button>
       </div>
     </div>
   );
@@ -37,7 +40,9 @@ interface CustomProductProps {
 export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName }: CustomProductProps) => {
   return (
     <div className={`${styles.list__desc} ${descClassName ? descClassName : ''}`}>
-      <CustomButton content='X' className={styles.btn__delete} />
+      <IconButton className={styles.btn__delete}>
+        <ClearIcon sx={{ fontSize: '16px' }} />
+      </IconButton>
       <div className={styles.desc__container}>
         <Checkbox {...label} color='primary' />
         <img src={exampleImg} alt="상품이미지" className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} />
@@ -47,23 +52,6 @@ export const CustomProduct = ({ descClassName, imgClassName, titleClassName, con
         </div>
       </div>
     </div>
-  );
-};
-
-// Button component
-interface CustomButtonProps {
-  content: string;
-  className?: string;
-  onclick?: () => void;
-};
-
-const CustomButton = ({ content, className, onclick }: CustomButtonProps) => {
-  return (
-    <button 
-      className={`${styles.btn} ${className}`}
-    >
-      {content}
-    </button>
   );
 };
 
@@ -85,8 +73,8 @@ export default function Cart() {
   };
 
   return (
-    <>
-      <div className={styles.cart}>
+    <div className='flex__container'>
+
         <div className={styles.cart__container}>
           <div className={styles.cart__title}>장바구니</div>
 
@@ -102,17 +90,12 @@ export default function Cart() {
               <div className={styles.list__quantity}>
                 <div className={styles.title__font}>상품 주문 수량</div>
                 <div>
-                  {/* <CustomButton content='-' />
-                  <input type="number" style={{width: '50px', marginRight: '10px', marginLeft: '10px'}} />
-                  <CustomButton content='+' /> */}
-
-                  <IconButton onClick={decreaseCounter}>
-                    <RemoveIcon sx={{ fontSize: '10px' }} />
+                  <IconButton className={styles.btn__quantity} onClick={decreaseCounter}>
+                    <RemoveIcon sx={{ fontSize: '18px' }} />
                   </IconButton>
                   <TextField
                     id='outlined'
                     type='text'
-                    focused
                     value={count}
                     onChange={handleChange}
                     InputProps={{
@@ -127,8 +110,8 @@ export default function Cart() {
                       },
                     }}
                   />
-                  <IconButton onClick={increaseCounter}>
-                    <AddIcon sx={{ fontSize: '10px' }} />
+                  <IconButton className={styles.btn__quantity} onClick={increaseCounter}>
+                    <AddIcon sx={{ fontSize: '18px' }} />
                   </IconButton>
 
                 </div>
@@ -148,6 +131,9 @@ export default function Cart() {
           </div>
           
         </div>
+
+      <div style={{marginBottom: '50px', width: '100%'}}>
+        <Footer />
       </div>
 
       {/* FIXED */}
@@ -157,10 +143,6 @@ export default function Cart() {
           <Button className={styles.fixed__order}>주문하기</Button>
         </div>
       </div>
-
-      <div style={{marginBottom: '50px'}}>
-        <Footer />
-      </div>
-    </>
+    </div>
   );
 };
