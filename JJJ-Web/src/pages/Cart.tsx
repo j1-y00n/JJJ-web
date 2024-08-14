@@ -4,7 +4,11 @@ import React, { ReactNode } from 'react'
 import styles from '../styles/pages/Cart.module.css';
 import Footer from '../components/Footer';
 import exampleImg from '../assets/images/cars.jpg';
-import { Checkbox } from '@mui/material';
+import { Checkbox, IconButton, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import { useCounter } from '../hooks/useCounter';
 
 
 // Select component
@@ -68,6 +72,18 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 export default function Cart() {
+  const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/\D/g, '');
+
+    if (numericValue === '' || Number(numericValue) < 1) {
+      setCounter(1);
+    } else {
+      setCounter(Number(numericValue));
+    }
+  };
+
   return (
     <>
       <div className={styles.cart}>
@@ -86,9 +102,35 @@ export default function Cart() {
               <div className={styles.list__quantity}>
                 <div className={styles.title__font}>상품 주문 수량</div>
                 <div>
-                  <CustomButton content='-' />
+                  {/* <CustomButton content='-' />
                   <input type="number" style={{width: '50px', marginRight: '10px', marginLeft: '10px'}} />
-                  <CustomButton content='+' />
+                  <CustomButton content='+' /> */}
+
+                  <IconButton onClick={decreaseCounter}>
+                    <RemoveIcon sx={{ fontSize: '10px' }} />
+                  </IconButton>
+                  <TextField
+                    id='outlined'
+                    type='text'
+                    focused
+                    value={count}
+                    onChange={handleChange}
+                    InputProps={{
+                      sx: {
+                        padding: '0 !important', // Apply !important to padding
+                        width: '50px',
+                        height: '28px',
+                        margin: '0 5px',
+                        '& .MuiInputBase-input': {
+                          textAlign: 'center',
+                        },
+                      },
+                    }}
+                  />
+                  <IconButton onClick={increaseCounter}>
+                    <AddIcon sx={{ fontSize: '10px' }} />
+                  </IconButton>
+
                 </div>
               </div>
 
@@ -112,7 +154,7 @@ export default function Cart() {
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
           <div className={styles.fixed__price}>총 0건 주문금액 00000원</div>
-          <div className={styles.fixed__order}>주문하기</div>
+          <Button className={styles.fixed__order}>주문하기</Button>
         </div>
       </div>
 
