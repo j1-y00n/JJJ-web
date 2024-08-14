@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import styles from '../styles/pages/UsedProductList.module.css';
@@ -8,7 +8,8 @@ import {
 } from '../types/TempMockUsedProduct';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function UsedProductList() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<UsedProductProp[]>([]);
@@ -26,7 +27,7 @@ export default function UsedProductList() {
           <UsedProduct
             key={index}
             {...product}
-            onClick={() => alert(`${product.usedTitle} clicked!`)}
+            onClick={() => console.log(`${product.usedTitle} clicked!`)}
           />
         ))}
       </div>
@@ -70,18 +71,20 @@ function UsedProduct({
             {usedPrice.toLocaleString()}원
           </div>
           <div className={styles.item__status}>{usedStatus}</div>
+          <div className={styles.item__count}>수량: {usedCount}</div>
+          <div className={styles.item__method}>직거래: {usedMethod}</div>
           <div className={styles.item__description}>
             설명: {usedDescription}
           </div>
-          <div className={styles.item__count}>수량: {usedCount}</div>
-          <div className={styles.item__method}>{usedMethod}</div>
-          <div>
-            <Button>-</Button>
-            <Button>+</Button>
-            <Button>장바구니</Button>
-            <Button>찜</Button>
+          <div className={styles.btn__box}>
+            <IconButton color='info'>
+              <ShoppingCartIcon sx={{ fontSize: '30px' }} />
+            </IconButton>
+            <IconButton color='info'>
+              <FavoriteBorderIcon sx={{ fontSize: '30px' }} />
+            </IconButton>
+            <Button color='secondary'>구매하기</Button>
           </div>
-          <Button>구매하기</Button>
         </div>
       </div>
       {/* <div className={styles.item__imgs}>

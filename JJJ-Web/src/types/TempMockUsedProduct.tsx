@@ -38,7 +38,7 @@ const conditions = [
   '고장/파손 제품',
 ];
 
-const transactionMethods = ['직거래 가능', '직거래 불가능'];
+const transactionMethods = ['가능', '불가능'];
 
 const descriptions = [
   '이것은 고품질 아이템입니다.',
@@ -49,7 +49,7 @@ const descriptions = [
   '거의 사용하지 않았고 잘 관리되었습니다.',
   '꼭 가져야 할 아이템입니다!',
   '수집가에게 완벽한 제품입니다.',
-  '빠르게 판매하기 위해 가격이 책정되었습니다.',
+  '빠르게 판매하기 위해 가격이 책정되었습니다. asdkoadjsdjflksf빠르게 판매하기 위해 가격이 책정되었습니sf기 위해 가격이 책정되었습니다',
 ];
 
 // 랜덤 숫자 뽑기

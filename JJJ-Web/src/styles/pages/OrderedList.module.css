@@ -6,13 +6,6 @@
   padding-top: 0;
 }
 
-.search {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-/* .order__wrapper {} */
-
 .order__number {
   width: 200px;
   padding: 20px;
@@ -24,7 +17,7 @@
   border-top-right-radius: var(--border-radius);
 }
 
-.order__number__wrapper {
+.orders {
   width: 100%;
   padding: 20px;
   padding-bottom: 0;
@@ -35,46 +28,45 @@
   margin-bottom: 20px;
 }
 
-.order__detail__wrapper {
+.order__container {
   display: flex;
   border: 1px solid var(--color-white);
   border-radius: var(--border-radius);
+  background-color: var(--color-white);
   margin-bottom: 20px;
   height: 250px;
   gap: 20px;
   overflow: hidden;
 }
 
-.detail__left {
+.order__img {
   flex: 1.5;
 }
-.detail__left img {
+.order__img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.detail__middle,
-.detail__right {
+
+.order__details,
+.order__buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 10px;
 }
 
-.detail__middle {
+.order__details {
   flex: 2;
 }
 
-.detail__middle p {
+.order__details p {
   padding: 20px 0;
   margin-left: 40px;
 }
 
-.detail__right {
+.order__buttons {
   flex: 1;
-}
-
-.review__submit {
 }
 
 /* 모달 */
@@ -90,42 +82,32 @@
   border: 2px solid var(--color-blue-light);
   border-radius: var(--border-radius);
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-  padding: 4rem;
+  padding: 32px 64px 0;
   display: flex;
   flex-direction: column;
 }
 
-.modal__inner.review__create__btn {
-  width: 400px;
-  height: auto;
-  text-align: center;
-}
-
-.review__create__desc {
-  margin-bottom: 10px;
-}
-
-.modal__wrapper {
+.modal__details {
   width: 100%;
   display: flex;
   margin-bottom: 24px;
 }
 
-.modal__wrapper img {
+.modal__details img {
   width: 50%;
   border-radius: var(--border-radius);
 }
 
-.modal__wrapper p {
-  margin-left: 30px;
-  font-size: 24px;
-}
-
-.modal__product__details {
+.modal__details__container {
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+
+.modal__details__container p {
+  margin-left: 30px;
+  font-size: var(--font-size-medium);
 }
 
 .modal__rating {
@@ -133,6 +115,18 @@
   align-items: center;
 }
 
+/* 리뷰 등록 후 나오는 nest 모달 */
+.modal__inner.modal__inner__nest {
+  width: 400px;
+  height: auto;
+  text-align: center;
+}
+
+.modal__inner__nest p {
+  margin-bottom: 10px;
+}
+
+/* 이미지 등록 - UploadInput 컴포넌트*/
 .modal__upload {
   width: 150px;
   height: 30px;
@@ -155,54 +149,6 @@
   display: none;
 }
 
-.textField__box {
-  margin-top: 20px;
-  width: 100%;
-}
-
-/* UploadInput 컴포넌트*/
-.upload__input__container {
-  display: flex;
-}
-
-.upload__input {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.sr__only {
-  display: none;
-}
-
-.label__button {
-  width: 50px;
-  border: none;
-  background-color: var(--color-blue);
-  border-radius: var(--border-radius);
-  color: var(--color-white);
-  padding: 10px 20px;
-  transition: all 0.3s ease;
-}
-
-.label__button:hover {
-  background-color: var(--color-blue-light);
-  color: var(--color-blue);
-  cursor: pointer;
-}
-
 .review__submit {
   width: 100%;
-}
-
-.preview__container {
-  width: 100%;
-  display: flex;
-  margin-top: 24px;
-  height: 100px;
-}
-
-.output__image {
-  width: 20%;
-  margin-right: 1px;
 }

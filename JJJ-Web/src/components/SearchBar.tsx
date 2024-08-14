@@ -31,22 +31,16 @@ export default function SearchBar() {
           onKeyDown={handleKeyDown}
         />
         <IconButton
+          color='secondary'
           onClick={handleSearch}
-          aria-label='delete'
-          size='medium'
-          className={styles.search__btn}
           sx={{
-            '&:hover': {
-              backgroundColor: 'secondary.main',
-              color: 'text.secondary',
-            },
             position: 'absolute',
             top: '50%',
             transform: 'translateY(-50%)',
             right: '10px',
           }}
         >
-          <SearchIcon sx={{ fontSize: '30px' }} />
+          <SearchIcon sx={{ fontSize: 'var(--font-size-large)' }} />
         </IconButton>
       </div>
     </section>

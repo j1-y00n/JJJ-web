@@ -22,33 +22,31 @@ export function Product({
 }: ProductProps) {
   return (
     <div className={styles.item__container} onClick={onClick}>
-      <NavLink to='/productDetail' className={styles.item}>
-        <img src={imgSrc} alt={title} className={styles.item__img} />
-        <div className={styles.item__descriptions}>
-          <div className={styles.item__title}>{title}</div>
-          <div className={styles.item__infos}>
-            <div className={styles.item__price}>{price.toLocaleString()}원</div>
-            <div className={styles.rating__star__container}>
-              <div className={styles.stars}>
-                {[...Array(5)].map((_, index) => (
-                  <StarRateIcon
-                    key={index}
-                    fontSize='small'
-                    sx={{
-                      margin: '0 -1.4px',
-                      color:
-                        index < rating
-                          ? 'var(--color-orange)'
-                          : 'var(--color-blue-light)',
-                    }}
-                  />
-                ))}
-              </div>
-              <div className={styles.rating__count}>({ratingCount})</div>
+      <img src={imgSrc} alt={title} className={styles.item__img} />
+      <div className={styles.item__descriptions}>
+        <div className={styles.item__title}>{title}</div>
+        <div className={styles.item__infos}>
+          <div className={styles.item__price}>{price.toLocaleString()}원</div>
+          <div className={styles.rating__star__container}>
+            <div className={styles.stars}>
+              {[...Array(5)].map((_, index) => (
+                <StarRateIcon
+                  key={index}
+                  fontSize='small'
+                  sx={{
+                    margin: '0 -1.4px',
+                    color:
+                      index < rating
+                        ? 'var(--color-orange)'
+                        : 'var(--color-blue-light)',
+                  }}
+                />
+              ))}
             </div>
+            <div className={styles.rating__count}>({ratingCount})</div>
           </div>
         </div>
-      </NavLink>
+      </div>
     </div>
   );
 }

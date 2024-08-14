@@ -1,0 +1,19 @@
+.filter__container {
+  width: var(--max-width);
+  margin-left: 10px;
+  border-top: 1px solid var(--color-blue-light);
+  border-bottom: 1px solid var(--color-blue-light);
+}
+
+.age__container {
+  display: flex;
+  align-items: center;
+  height: var(--box-height);
+}
+
+.sorting__container {
+  display: flex;
+  align-items: center;
+  height: var(--box-height);
+  border-top: 1px solid var(--color-blue-light);
+}

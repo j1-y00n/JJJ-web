@@ -45,7 +45,6 @@
 
 .item__title {
   font-weight: bold;
-  font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
@@ -58,7 +57,6 @@
 .item__price {
   color: var(--color-red);
   font-weight: bold;
-  font-size: 1.1rem;
   margin-bottom: 5px;
 }
 
@@ -67,5 +65,9 @@
 .item__count,
 .item__method {
   margin-bottom: 5px;
-  font-size: 0.9rem;
+}
+
+.btn__box {
+  display: flex;
+  justify-content: space-between;
 }

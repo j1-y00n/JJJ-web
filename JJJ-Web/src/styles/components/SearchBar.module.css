@@ -10,8 +10,7 @@
 }
 
 .search label {
-  font-size: 1rem;
-  margin-right: 2rem;
+  margin-right: 32px;
 }
 
 .input__wrapper {
@@ -20,7 +19,7 @@
 
 .search input {
   width: 600px;
-  font-size: 2rem;
+  font-size: var(--font-size-large);
   height: 60px;
   border: none;
   outline: none;
@@ -30,8 +29,4 @@
 
 .search input::placeholder {
   text-align: center;
-}
-
-.search__btn:hover {
-  background-color: var(--color-blue);
 }
