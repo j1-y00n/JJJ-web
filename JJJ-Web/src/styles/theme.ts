@@ -154,10 +154,9 @@ export const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          width: '100%',
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
-              borderColor: 'var(--color-blue)',
+              borderColor: 'var(--color-grey)',
             },
             '&:hover fieldset': {
               borderColor: 'var(--color-blue)',

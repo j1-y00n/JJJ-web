@@ -49,11 +49,11 @@ const MyPageLinks = () => {
       {links.map((link) => (
         <Button
           key={link}
+          className={activeState === link ? 'active' : ''}
           onClick={() => {
             navigate(link === '/' ? '' : link);
             handleStateChange(link);
           }}
-          className={activeState === link ? 'active' : ''}
           sx={{
             border: '1px solid var(--color-black)',
             margin: '10px',
