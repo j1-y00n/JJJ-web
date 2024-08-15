@@ -146,16 +146,14 @@ export default function CreateUsedProduct() {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* 추가정보 */}
-          <div className={styles.create__add__container}>
-            <div className={styles.container__title}>추가정보</div>
-            <div>
+            {/* 가격 */}
+            <div className={styles.create__price__container}>
+              <div className={styles.container__title}>가격</div>
               <div className={styles.num__container}>
-                <div className={styles.inner__title}>수량</div>
+                <div className={styles.inner__title}>가격</div>
                 <div>
-                  <FormControl sx={{ width: '300px' }} variant='outlined'>
+                  <FormControl sx={{ width: '300px' }} variant="outlined">
                     <OutlinedInput
                       id="outlined-adornment-weight"
                       endAdornment={<InputAdornment position="end">
@@ -190,13 +188,31 @@ export default function CreateUsedProduct() {
                       onChange={handleQuantityChange}
                       onBlur={handleQuantityBlur}
                     />
-                    <FormControlLabel
-                      value='불가'
-                      control={<Radio color='primary' />}
-                      label='불가'
-                    />
-                  </RadioGroup>
-                </FormControl>
+                  </FormControl>
+                </div>
+                </div>
+                <div className={styles.transaction__container}>
+                  <div className={styles.inner__title}>직거래</div>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby='demo-controlled-radio-buttons-group'
+                      name='controlled-radio-buttons-group'
+                      value={transaction}
+                      onChange={handleTransactionChange}
+                    >
+                      <FormControlLabel
+                        value='가능'
+                        control={<Radio color='primary' />}
+                        label='가능'
+                      />
+                      <FormControlLabel
+                        value='불가'
+                        control={<Radio color='primary' />}
+                        label='불가'
+                      />
+                    </RadioGroup>
+                  </FormControl>
               </div>
             </div>
           </div>
