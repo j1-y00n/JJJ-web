@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 export const useInputFile = () => {
-  const [imageSrcs, setImageSrcs] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -9,14 +9,14 @@ export const useInputFile = () => {
     if (event.currentTarget.files) {
       const files = Array.from(event.currentTarget.files);
 
-      const newImageSrcs: string[] = [];
+      const newImages: string[] = [];
       files.forEach((file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-          newImageSrcs.push(reader.result as string);
-          if (newImageSrcs.length === files.length) {
-            setImageSrcs((prev) => [...prev, ...newImageSrcs]);
+          newImages.push(reader.result as string);
+          if (newImages.length === files.length) {
+            setImages((prev) => [...prev, ...newImages]);
             setFileNames((prev) => [
               ...prev,
               ...files.map((file) => file.name),
@@ -28,7 +28,7 @@ export const useInputFile = () => {
     }
   };
 
-  return { imageSrcs, fileNames, isLoaded, handleChangeFile };
+  return { images, fileNames, isLoaded, handleChangeFile };
 };
 
 // 블로그 참고하였음
