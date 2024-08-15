@@ -54,6 +54,8 @@
   width: 800px;
   border: 1px solid grey;
   border-radius: var(--border-radius);
+  font-size: var(--font-size-regular);
+  padding: 0 12px;
 }
 
 .title__input:focus {
@@ -75,6 +77,8 @@
 .detail__input {
   width: 800px;
   border-radius: var(--border-radius);
+  font-size: var(--font-size-regular);
+  padding: 12px 12px;
 }
 
 .detail__input:focus {
