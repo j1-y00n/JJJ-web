@@ -82,7 +82,7 @@
   border: 2px solid var(--color-blue-light);
   border-radius: var(--border-radius);
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-  padding: 32px 64px 0;
+  padding: 26px 64px 0;
   display: flex;
   flex-direction: column;
 }
@@ -90,7 +90,7 @@
 .modal__details {
   width: 100%;
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .modal__details img {
@@ -151,4 +151,47 @@
 
 .review__submit {
   width: 100%;
+}
+
+/* UploadInput */
+.upload__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sr__only {
+  display: none;
+}
+
+.label__button {
+  background-color: var(--color-blue-light);
+  color: var(--color-black);
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: var(--font-size-regular);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  user-select: none;
+  width: 250px;
+  display: flex;
+  align-items: center;
+}
+
+.label__button:hover {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+}
+
+.preview__container {
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+  height: 100px;
+}
+
+.output__image {
+  width: 20%;
+  margin-right: 1px;
 }
