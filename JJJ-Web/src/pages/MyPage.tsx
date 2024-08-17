@@ -42,7 +42,7 @@ const pages: IPages = {
 
 const MyPageLinks = () => {
   const links: string[] = ['/', 'editUser', 'wishList', 'myUsedProduct'];
-  const [activeState, handleStateChange] = useActiveState(links[0]);
+  const { activeState, handleStateChange } = useActiveState(links[0]);
   const navigate = useNavigate();
   return (
     <ul className={styles.navbar}>

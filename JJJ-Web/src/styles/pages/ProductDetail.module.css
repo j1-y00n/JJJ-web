@@ -1,11 +1,67 @@
 /* 신승주 */
 
-/* .product__container {
-  width: 100%;
+.productDetail {
+  width: var(--max-width);
 }
 
-.product__right {
+.detail__container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.product__details {
-} */
+.detail__right {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  width: 50%;
+}
+
+.product__info {
+  font-size: var(--font-size-medium);
+}
+
+.product__price {
+  color: var(--color-red);
+  margin: 24px 0;
+}
+
+.product__rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.product__rating h3 {
+  margin-right: 8px;
+}
+
+.product__rating p {
+  color: var(--color-blue);
+}
+
+.detailMiddle {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  border-top: 1px solid var(--divider-color);
+  border-bottom: 1px solid var(--divider-color);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+}
+
+.detailBottom {
+  margin-top: 20px;
+}
+
+/* Mui Icon Button */
