@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { colors, createTheme } from '@mui/material';
 // : MUI 스타일 테마 설정
 
 export const theme = createTheme({
@@ -134,16 +134,39 @@ export const theme = createTheme({
             color: 'var(--color-white)',
             backgroundColor: 'var(--color-grey)',
           },
-          '&.MuiIconButton-colorInfo': {
+          '&.round': {
             borderRadius: '50%',
+          },
+          '&.nest__icons': {
+            position: 'relative',
+            '& .MuiSvgIcon-root': {
+              '&.font__large': {
+                fontSize: '36px',
+              },
+              '&.default': {
+                position: 'absolute',
+                visibility: 'visible',
+              },
+              '&.show': {
+                visibility: 'hidden',
+              },
+              '&.active': {
+                visibility: 'visible',
+                color: 'var(--color-black)',
+              },
+            },
+            '&:hover .default': {
+              visibility: 'hidden',
+            },
+            '&:hover .show': {
+              visibility: 'visible',
+            },
           },
           '&.MuiIconButton-colorSecondary': {
             backgroundColor: 'var(--color-white)',
-            borderRadius: '50%',
             '&:hover': {
               color: 'var(--color-white)',
               backgroundColor: 'var(--color-blue)',
-              borderRadius: '50%',
             },
           },
         },

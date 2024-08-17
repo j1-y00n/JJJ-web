@@ -1,10 +1,10 @@
 // 신승주
 import React, { useState } from 'react';
-import styles from '../styles/pages/ProductList.module.css';
 import MuiImageTabs from '../muiComponents/productDetail/MuiImageTabs';
-
+import styles from '../styles/pages/ProductDetail.module.css';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -17,7 +17,7 @@ import Header from '../components/Header';
 import { useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { useCounter } from '../hooks/useCounter';
-import { useInput } from '../hooks/useInput';
+import useActiveState from '../hooks/useActiveState';
 
 export default function ProductDetail() {
   const { products } = ProductStore();
@@ -26,6 +26,7 @@ export default function ProductDetail() {
     (product) => Number(product.productId) === Number(productId)
   );
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
+  const { activeState, handleStateChange, handleToggle } = useActiveState(true);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, ''); // 숫자 이외의 값 제거
@@ -45,32 +46,24 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className={styles.productList__container}>
+    <div className='flex__container'>
       <Header />
-      <Container>
+      <div className={styles.productDetail}>
         {/* 이미지와, 상품정보 */}
-        <Box className='whole-top' display={'flex'} gap={10} mb={10}>
+        <div className={styles.detail__container}>
           <MuiImageTabs />
-          <Box
-            className='detail__right'
-            display={'flex'}
-            p={3}
-            flexDirection={'column'}
-            sx={{ width: '50%' }}
-          >
-            <Box className='detail__top' sx={{ fontSize: 30 }}>
-              <Box>{selectedProduct?.productTitle}</Box>
-              <Box sx={{ color: 'error.main' }} my={5}>
+          <div className={styles.detail__right}>
+            <div className={styles.product__info}>
+              <div>{selectedProduct?.productTitle} </div>
+              <div className={styles.product__price}>
                 {selectedProduct?.productPrice}원
-              </Box>
-              <Box mb={5} display={'flex'} alignItems={'center'}>
-                <StarRateIcon sx={{ color: 'warning.main' }} />
-                <Box mr={2}>{selectedProduct?.productRating}</Box>
-                <Box sx={{ color: 'primary.main' }}>
-                  ({selectedProduct?.productRatingCount})
-                </Box>
-              </Box>
-            </Box>
+              </div>
+              <div className={styles.product__rating}>
+                <StarRateIcon sx={{ color: 'var(--color-orange)' }} />
+                <h3>{selectedProduct?.productRating}</h3>
+                <p>({selectedProduct?.productRatingCount})</p>
+              </div>
+            </div>
             <Box
               className='detail__middle'
               display={'flex'}
@@ -92,8 +85,8 @@ export default function ProductDetail() {
                 alignItems={'center'}
                 sx={{ width: '50%' }}
               >
-                <IconButton color='info' onClick={decreaseCounter}>
-                  <RemoveIcon sx={{ fontSize: '40px' }} />
+                <IconButton className='round' onClick={decreaseCounter}>
+                  <RemoveIcon sx={{ fontSize: '30px' }} />
                 </IconButton>
                 <TextField
                   id='outlined'
@@ -110,33 +103,46 @@ export default function ProductDetail() {
                     },
                   }}
                 />
-                <IconButton color='info' onClick={increaseCounter}>
-                  <AddIcon sx={{ fontSize: '40px' }} />
+                <IconButton className='round' onClick={increaseCounter}>
+                  <AddIcon sx={{ fontSize: '30px' }} />
                 </IconButton>
               </Box>
               <Box>
                 <IconButton
-                  color='info'
+                  className='round nest__icons'
                   sx={{
                     marginRight: '20px',
                   }}
                 >
-                  <ShoppingCartIcon sx={{ fontSize: '50px' }} />
+                  <ShoppingCartOutlinedIcon className='default font__large' />
+                  <ShoppingCartIcon className='show font__large' />
                 </IconButton>
-                <IconButton color='info'>
-                  <FavoriteBorderIcon sx={{ fontSize: '50px' }} />
+                <IconButton
+                  className='round nest__icons'
+                  onClick={handleToggle}
+                >
+                  <FavoriteBorderIcon className='default font__large' />
+                  <FavoriteIcon
+                    className={`show font__large ${
+                      activeState ? 'active' : ''
+                    }`}
+                  />
                 </IconButton>
               </Box>
             </Box>
             <Button className='detail__bottom'>구매하기</Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
 
         <MuiTabBar />
 
         {/* 탭 : 상품 설명, 상품 리뷰, Q & A*/}
-      </Container>
+      </div>
       <Footer />
     </div>
   );
 }
+
+// 장바구니 - 모달창 만들어야함
+// 찜 - 클릭시 active 필요함
+// css 통일 작업

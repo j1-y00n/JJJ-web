@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-type UseActiveStateReturn<T> = [T | null, (value: T) => void];
+type UseActiveStateReturn<T> = {
+  activeState: T | null;
+  handleStateChange: (value: T) => void;
+  handleToggle: () => void;
+};
 
 export default function useActiveState<T>(
   initialValue: T | null = null
@@ -11,5 +15,11 @@ export default function useActiveState<T>(
     setActiveState(value);
   };
 
-  return [activeState, handleStateChange];
+  const handleToggle = () => {
+    if (typeof activeState === 'boolean') {
+      setActiveState((prevState) => !prevState as T);
+    }
+  };
+
+  return { activeState, handleStateChange, handleToggle };
 }
