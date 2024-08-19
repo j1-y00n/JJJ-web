@@ -24,7 +24,7 @@
 .item__infos {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-top: 5px;
 }
 
@@ -36,13 +36,16 @@
 .rating__star__container {
   display: flex;
   margin-right: 10px;
+  align-items: flex-end;
 }
 
 .stars {
   display: flex;
   color: var(--color-orange);
+  margin-bottom: 1px;
 }
 
 .rating__count {
+  margin-left: 2px;
   color: var(--color-blue);
 }

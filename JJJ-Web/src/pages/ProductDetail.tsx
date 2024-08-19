@@ -71,7 +71,12 @@ export default function ProductDetail() {
                 {selectedProduct?.productPrice}원
               </div>
               <div className={styles.product__rating}>
-                <StarRateIcon sx={{ color: 'var(--color-orange)' }} />
+                <StarRateIcon
+                  sx={{
+                    color: 'var(--color-orange)',
+                    fontSize: 'var(--font-size-large)',
+                  }}
+                />
                 <h3>{selectedProduct?.productRating}</h3>
                 <p>({selectedProduct?.productRatingCount})</p>
               </div>
@@ -84,7 +89,7 @@ export default function ProductDetail() {
                 sx={{ width: '50%', display: 'flex', alignItems: 'center' }}
               >
                 <IconButton className='round' onClick={decreaseCounter}>
-                  <RemoveIcon sx={{ fontSize: '30px' }} />
+                  <RemoveIcon className='font__large' />
                 </IconButton>
                 <TextField
                   id='outlined'
@@ -102,10 +107,10 @@ export default function ProductDetail() {
                   }}
                 />
                 <IconButton className='round' onClick={increaseCounter}>
-                  <AddIcon sx={{ fontSize: '30px' }} />
+                  <AddIcon className='font__large' />
                 </IconButton>
               </Box>
-              <div>
+              <div className={styles.actions__container}>
                 <IconButton
                   className='round nest__icons'
                   onClick={handleAddToCart}

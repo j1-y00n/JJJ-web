@@ -141,7 +141,7 @@ export const theme = createTheme({
             position: 'relative',
             '& .MuiSvgIcon-root': {
               '&.font__large': {
-                fontSize: '36px',
+                fontSize: '30px',
               },
               '&.default': {
                 position: 'absolute',

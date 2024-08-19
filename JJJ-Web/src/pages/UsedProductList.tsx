@@ -77,10 +77,10 @@ function UsedProduct({
             설명: {usedDescription}
           </div>
           <div className={styles.btn__box}>
-            <IconButton color='info'>
+            <IconButton className='round font__large'>
               <ShoppingCartIcon sx={{ fontSize: '30px' }} />
             </IconButton>
-            <IconButton color='info'>
+            <IconButton className='round font__large'>
               <FavoriteBorderIcon sx={{ fontSize: '30px' }} />
             </IconButton>
             <Button color='secondary'>구매하기</Button>
