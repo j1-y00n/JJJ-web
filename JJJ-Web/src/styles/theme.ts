@@ -11,7 +11,7 @@ export const theme = createTheme({
     borderRadius: 10, // --border-radius
   },
   typography: {
-    // fontFamily: '',
+    fontFamily: 'GmarketSansMedium',
     // fontSize: 14,
     // h1: {
     //   fontSize: 20,
