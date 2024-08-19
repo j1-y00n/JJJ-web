@@ -48,10 +48,8 @@ export default function ProductDetail() {
 
   // 장바구니 모달
   const [isModalOpen, setModalOpen] = useState(false);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const handleAddToCart = (event: React.MouseEvent<HTMLElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    setModalPosition({ top: rect.top, left: rect.left + rect.width / 2 });
+
+  const handleAddToCart = () => {
     setModalOpen(true);
   };
 
@@ -119,7 +117,6 @@ export default function ProductDetail() {
                   <CartModal
                     isOpen={isModalOpen}
                     handleCloseModal={handleCloseModal}
-                    modalPosition={modalPosition}
                   />
                   <ShoppingCartOutlinedIcon className='default font__large' />
                   <ShoppingCartIcon className='show font__large' />
@@ -154,25 +151,13 @@ export default function ProductDetail() {
 interface CartModalProps {
   isOpen: boolean;
   handleCloseModal: () => void;
-  modalPosition: { top: number; left: number };
 }
-function CartModal({
-  isOpen,
-  handleCloseModal,
-  modalPosition,
-}: CartModalProps) {
-  console.log(isOpen);
+function CartModal({ isOpen, handleCloseModal }: CartModalProps) {
   if (!isOpen) return null;
 
   return (
     <div className={styles.modal__overlay} onClick={handleCloseModal}>
-      <div
-        className={styles.modal}
-        style={{
-          top: modalPosition.top - 9,
-          left: modalPosition.left,
-        }}
-      >
+      <div className={styles.modal}>
         <div
           className={styles.modal__content}
           onClick={(e) => e.stopPropagation()}
