@@ -9,8 +9,8 @@
   width: 100%;
 }
 
-
-.header, .second_header {
+.header,
+.second_header {
   width: 100%;
   height: var(--box-height);
   /* background-color: var(--color-blue); */
@@ -30,7 +30,6 @@
   height: 80px;
   margin: var(--page-side-margin);
 }
-
 
 .box_head_content {
   min-width: 400px;
@@ -52,11 +51,9 @@
   margin-top: auto;
 }
 
-
 .box_mytools ul li:hover {
   color: var(--color-white);
 }
-
 
 .icon_container {
   /* border: 1px solid black; */
@@ -73,9 +70,6 @@
   color: var(--color-white);
 }
 
-
-
-
 .text_container {
   display: flex;
   align-items: center;
@@ -89,6 +83,15 @@
   justify-content: space-around;
 }
 
-.text_container ul li:hover {
+/* 신승주 - 자유롭게 이동시켜도 됩니다 */
+/* .text_container ul li:hover {
   color: var(--color-white);
+} */
+.nav__link {
+  cursor: pointer;
+  font-size: var(--font-size-medium);
+}
+
+.nav__link:hover {
+  color: var(--color-blue);
 }
