@@ -35,7 +35,9 @@ export default function Header() {
       <div className={styles.header}>
         <div className={styles.top_header}>
           <div className={styles.box_head_content}>
-            <div className={styles.main_icon}>제이스 JJJ</div>
+            <div className={styles.main_icon} onClick={() => navigate('/')}>
+              제이스 JJJ
+            </div>
           </div>
         </div>
       </div>
