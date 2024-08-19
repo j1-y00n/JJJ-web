@@ -27,6 +27,7 @@ export default function ProductDetail() {
   );
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } = useActiveState(true);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, ''); // 숫자 이외의 값 제거
@@ -43,6 +44,19 @@ export default function ProductDetail() {
     if (count < 1) {
       setCounter(1); // 숫자가 1보다 작으면 1로 고정
     }
+  };
+
+  // 장바구니 모달
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const handleAddToCart = (event: React.MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setModalPosition({ top: rect.top, left: rect.left + rect.width / 2 });
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -64,26 +78,12 @@ export default function ProductDetail() {
                 <p>({selectedProduct?.productRatingCount})</p>
               </div>
             </div>
-            <Box
-              className='detail__middle'
-              display={'flex'}
-              justifyContent={'space-between'}
-              py={5}
-              mb={5}
-              sx={{
-                borderTop: 1,
-                borderBottom: 1,
-                borderColor: 'divider',
-              }}
-            >
+            <div className={styles.detail__actions}>
               <Box
-                className='counter'
                 component='form'
                 noValidate
                 autoComplete='off'
-                display={'flex'}
-                alignItems={'center'}
-                sx={{ width: '50%' }}
+                sx={{ width: '50%', display: 'flex', alignItems: 'center' }}
               >
                 <IconButton className='round' onClick={decreaseCounter}>
                   <RemoveIcon sx={{ fontSize: '30px' }} />
@@ -99,7 +99,7 @@ export default function ProductDetail() {
                     width: '80px',
                     margin: '0 5px',
                     '& .MuiInputBase-input': {
-                      textAlign: 'center', // Center text inside the field
+                      textAlign: 'center',
                     },
                   }}
                 />
@@ -107,13 +107,20 @@ export default function ProductDetail() {
                   <AddIcon sx={{ fontSize: '30px' }} />
                 </IconButton>
               </Box>
-              <Box>
+              <div>
                 <IconButton
                   className='round nest__icons'
+                  onClick={handleAddToCart}
                   sx={{
                     marginRight: '20px',
                   }}
                 >
+                  {/* 장바구니 모달 */}
+                  <CartModal
+                    isOpen={isModalOpen}
+                    handleCloseModal={handleCloseModal}
+                    modalPosition={modalPosition}
+                  />
                   <ShoppingCartOutlinedIcon className='default font__large' />
                   <ShoppingCartIcon className='show font__large' />
                 </IconButton>
@@ -128,15 +135,13 @@ export default function ProductDetail() {
                     }`}
                   />
                 </IconButton>
-              </Box>
-            </Box>
-            <Button className='detail__bottom'>구매하기</Button>
+              </div>
+            </div>
+            <Button>구매하기</Button>
           </div>
         </div>
-
-        <MuiTabBar />
-
         {/* 탭 : 상품 설명, 상품 리뷰, Q & A*/}
+        <MuiTabBar />
       </div>
       <Footer />
     </div>
@@ -146,3 +151,39 @@ export default function ProductDetail() {
 // 장바구니 - 모달창 만들어야함
 // 찜 - 클릭시 active 필요함
 // css 통일 작업
+interface CartModalProps {
+  isOpen: boolean;
+  handleCloseModal: () => void;
+  modalPosition: { top: number; left: number };
+}
+function CartModal({
+  isOpen,
+  handleCloseModal,
+  modalPosition,
+}: CartModalProps) {
+  console.log(isOpen);
+  if (!isOpen) return null;
+
+  return (
+    <div className={styles.modal__overlay} onClick={handleCloseModal}>
+      <div
+        className={styles.modal}
+        style={{
+          top: modalPosition.top - 9,
+          left: modalPosition.left,
+        }}
+      >
+        <div
+          className={styles.modal__content}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h2>장바구니에 담겼습니다</h2>
+          <Button onClick={handleCloseModal} sx={{ padding: '5px 10px' }}>
+            닫기
+          </Button>
+        </div>
+        <div className={styles.arrow}></div>
+      </div>
+    </div>
+  );
+}

@@ -19,6 +19,7 @@
 
 .product__info {
   font-size: var(--font-size-medium);
+  margin-top: 10px;
 }
 
 .product__price {
@@ -29,7 +30,6 @@
 .product__rating {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .product__rating h3 {
@@ -40,28 +40,55 @@
   color: var(--color-blue);
 }
 
-.detailMiddle {
+.detail__actions {
   display: flex;
   justify-content: space-between;
-  padding: 20px 0;
-  margin-bottom: 20px;
-  border-top: 1px solid var(--divider-color);
-  border-bottom: 1px solid var(--divider-color);
+  padding: 40px 0;
+  margin: 40px 0;
+  border-top: 1px solid var(--color-grey-light);
+  border-bottom: 1px solid var(--color-grey-light);
 }
 
-.counter {
+/* ModalCart */
+
+.modal__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
   display: flex;
-  align-items: center;
-  width: 50%;
-}
-
-.actionButtons {
-  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.detailBottom {
-  margin-top: 20px;
+.modal {
+  position: absolute;
+  background: var(--color-white);
+  transform: translate(-50%, -100%);
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-/* Mui Icon Button */
+.modal__content {
+  color: var(--color-black);
+  padding: 10px;
+}
+
+.modal__content h2 {
+  font-size: var(--font-size-regular);
+  margin-bottom: 16px;
+}
+
+.arrow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid var(--color-white);
+}
