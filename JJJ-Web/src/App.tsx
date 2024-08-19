@@ -18,7 +18,6 @@ import UsedProductList from './pages/UsedProductList';
 function App() {
   return (
     <div>
-      <TempNaviBar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signIn' element={<SignIn />} />
