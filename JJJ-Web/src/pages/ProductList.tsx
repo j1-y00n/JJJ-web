@@ -1,9 +1,8 @@
 // 신승주
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Button } from '@mui/material';
 import styles from '../styles/pages/ProductList.module.css';
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Filter from '../components/Filter';
 import { Product } from '../components/Product';
 import { CategoryType } from '../types/Product.type';
@@ -11,12 +10,10 @@ import { FilterStore } from '../stores/Filter.store';
 import { navigateProduct } from '../utils/navigateProduct';
 import { ProductStore } from '../stores/Product.store';
 import { filterAndSortProducts } from '../utils/filterAndSortProducts';
-import { FixedStore } from '../stores/Fixed.store';
 
 export default function ProductList() {
   const { products } = ProductStore();
   const { activeAge, activeSorting } = FilterStore();
-  const { isFixed } = FixedStore();
   const { categoryId } = useParams<{ categoryId: CategoryType }>();
   const { handleProductClick } = navigateProduct();
   const categoryFilteredProducts = categoryId
@@ -30,7 +27,7 @@ export default function ProductList() {
   });
 
   return (
-    <div className={`flex__container ${isFixed ? 'fixed' : ''}`}>
+    <div className='flex__container'>
       <Header />
       <Filter />
       <section className={styles.productList}>
