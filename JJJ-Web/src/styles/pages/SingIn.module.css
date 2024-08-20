@@ -1,1 +1,80 @@
-/* 박용재 */
+/* 신승주 */
+
+.login__section {
+  display: flex;
+  justify-content: center;
+  width: var(--max-width);
+  background-color: var(--color-grey-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-top: 100px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 60px 0;
+}
+
+.input__container {
+  margin-bottom: 20px;
+}
+
+.input__wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.label__box {
+  width: 100px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.input__box {
+  display: flex;
+  flex: 1;
+  margin-left: 60px;
+}
+
+.input {
+  width: 300px;
+  padding: 10px;
+}
+
+.error {
+  width: 100%;
+  text-align: center;
+  color: var(--color-red);
+  padding: 0 20px;
+  margin-top: 10px;
+  white-space: pre-line;
+}
+
+.button__container {
+  padding-left: 40px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.action__container {
+  display: flex;
+  margin-top: 30px;
+  cursor: default;
+}
+
+.action__container li:not(:last-child):after {
+  content: '|';
+  margin: 0 5px;
+}
+
+.sing__up {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sing__up:hover {
+  color: var(--color-blue);
+}
