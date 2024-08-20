@@ -8,7 +8,7 @@ interface FilterState {
   setActiveSorting: (filter: string | null) => void;
 }
 
-export const useFilterStore = create<FilterState>((set) => ({
+export const FilterStore = create<FilterState>((set) => ({
   activeAge: '모두 보기',
   activeSorting: '최신순',
   setActiveAge: (age) => set({ activeAge: age }),

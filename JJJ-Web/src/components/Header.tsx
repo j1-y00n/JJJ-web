@@ -1,10 +1,12 @@
 // 박용재
 import styles from '../styles/components/Header.module.css';
-import cars from '../assets/images/cars.jpg';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import { NavLink, useNavigate } from 'react-router-dom';
+import LogoImg from '../assets/images/logo.png';
+import { useEffect } from 'react';
+import { FixedStore } from '../stores/Fixed.store';
 
 interface IPages {
   [key: string]: string;
@@ -30,86 +32,78 @@ const pages: IPages = {
 
 export default function Header() {
   const navigate = useNavigate();
+  const { isFixed, setIsFixed } = FixedStore();
+
+  const handleScroll = () => {
+    if (window.scrollY > 79) {
+      setIsFixed(true);
+    } else {
+      setIsFixed(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <div id={styles.home}>
-      <div className={styles.header}>
-        <div className={styles.top_header}>
-          <div className={styles.box_head_content}>
-            <div className={styles.main_icon} onClick={() => navigate('/')}>
-              제이스 JJJ
-            </div>
-          </div>
-        </div>
-      </div>
+    <header className={`${styles.header} ${isFixed ? styles.fixed : ''}`}>
+      {!isFixed && <Logo />}
+      <nav className={styles.nav}>
+        {isFixed && <Logo />}
+        <ul className={styles.nav__category}>
+          {links.map((link) => (
+            <NavLink
+              key={link}
+              to={`/${link}`}
+              className={({ isActive }) =>
+                `${styles.nav__link} ${isActive ? styles.active : ''}`
+              }
+            >
+              {pages[link]}
+            </NavLink>
+          ))}
+        </ul>
 
-      <div className={styles.second_header}>
-        {/* li 태그 안에 button 속성 */}
-        <div className={styles.middle_header}>
-          <div className={styles.text_container}>
-            <ul className={styles.page_title_list}>
-              {links.map((link) => (
-                <li
-                  key={link}
-                  className={styles.nav__link}
-                  onClick={() => navigate(`/${link}`)}
-                >
-                  {pages[link]}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <ul className={styles.nav__icons}>
+          <li onClick={() => navigate('/Search')}>
+            <SearchIcon sx={{ fontSize: 'var(--font-size-large)' }} />
+          </li>
+          <li onClick={() => navigate('/Mypage')}>
+            <PermIdentityOutlinedIcon
+              sx={{ fontSize: 'var(--font-size-large)' }}
+            />
+          </li>
+          <li onClick={() => navigate('/Cart')}>
+            <ShoppingBagOutlinedIcon
+              sx={{ fontSize: 'var(--font-size-large)' }}
+            />
+          </li>
 
-          <div className={styles.icon_container}>
-            <div className={styles.box_mytools}>
-              <ul className={styles.list_login}>
-                <li>
-                  <NavLink to='/SignIn'>
-                    <a href='' className={styles.login}>
-                      로그인
-                    </a>
-                  </NavLink>
-                </li>
-              </ul>
+          {/* nav__icons 안의 nav__auto에 absolute 적용 */}
+          <ul className={styles.nav__auth}>
+            <li onClick={() => navigate('/signIn')}>로그인</li>
+            <li onClick={() => navigate('/signUp')}>회원가입</li>
+          </ul>
+        </ul>
+      </nav>
+    </header>
+  );
+}
 
-              <ul className={styles.list_signup}>
-                <li>
-                  <NavLink to='/SignUp'>
-                    <a href='' className={styles.signup}>
-                      회원가입
-                    </a>
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
-
-            <div className={styles.box_icons}>
-              <ul className={styles.icon_area}>
-                <li>
-                  <NavLink to='/Search'>
-                    <a href='' className={styles.search_icon}>
-                      <SearchIcon sx={{ fontSize: '30px' }} />
-                    </a>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to='/Mypage'>
-                    <a href='' className={styles.my_page}>
-                      <PermIdentityOutlinedIcon sx={{ fontSize: '30px' }} />
-                    </a>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to='/Cart'>
-                    <a href='' className={styles.shopping_icon}>
-                      <ShoppingBagOutlinedIcon sx={{ fontSize: '30px' }} />
-                    </a>
-                  </NavLink>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+function Logo() {
+  const navigate = useNavigate();
+  return (
+    <div className={styles.logo__container}>
+      <img
+        className={styles.logo__img}
+        src={LogoImg}
+        alt='Logo'
+        onClick={() => navigate('/')}
+      />
     </div>
   );
 }

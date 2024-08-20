@@ -1,97 +1,115 @@
 /* 박용재 */
 
-* {
-  margin: 0;
-  padding: 0;
+.header {
+  width: 100%;
+  position: relative;
+  z-index: 5;
+  background-color: var(--color-white);
 }
 
-#home {
-  width: 100%;
-}
-
-.header,
-.second_header {
-  width: 100%;
+.logo__container,
+.nav {
+  width: var(--max-width);
   height: var(--box-height);
-  /* background-color: var(--color-blue); */
+  margin: 0 auto;
 }
 
-.top_header {
-  height: 80px;
-  margin: var(--page-side-margin);
-}
-
-.middle_header {
-  /* background-color: var(--color-blue); */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  height: 80px;
-  margin: var(--page-side-margin);
-}
-
-.box_head_content {
-  min-width: 400px;
-  height: 100%;
+.logo__container {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  font-weight: bold;
+  margin-top: 16px;
+  animation: flicker 0.5s;
 }
 
-.box_mytools {
+.logo__img {
+  cursor: pointer;
+}
+
+.nav {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  width: 200px;
-  height: 40%;
-  /* border: 1px solid black; */
-  margin-top: auto;
+  padding: 0 10px;
+  transition: all 0.3s ease-in-out;
 }
 
-.box_mytools ul li:hover {
-  color: var(--color-white);
-}
-
-.icon_container {
-  /* border: 1px solid black; */
-  width: 200px;
-}
-
-.box_icons ul {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
-}
-
-.box_icons ul li:hover {
-  color: var(--color-white);
-}
-
-.text_container {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  font-size: 1.3rem;
-}
-
-.text_container ul {
+.nav__category {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  font-size: var(--font-size-medium);
+  justify-content: space-between;
 }
 
-/* 신승주 - 자유롭게 이동시켜도 됩니다 */
-/* .text_container ul li:hover {
-  color: var(--color-white);
-} */
 .nav__link {
   cursor: pointer;
   font-size: var(--font-size-medium);
 }
 
-.nav__link:hover {
+.nav__link:hover,
+.nav__link.active {
   color: var(--color-blue);
+}
+
+.nav__icons {
+  position: relative;
+  display: flex;
+  min-width: 150px;
+  justify-content: space-between;
+  margin-left: 80px;
+}
+
+.nav__icons li {
+  cursor: pointer;
+}
+
+.nav__icons li:hover {
+  color: var(--color-blue);
+}
+
+.nav__auth {
+  position: absolute;
+  bottom: 50px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-size: var(--font-size-regular);
+}
+
+/* header - fixed */
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  top: 0;
+  box-shadow: var(--box-shadow);
+}
+
+.fixed .nav {
+  position: relative;
+  top: 8px;
+  transform: translateY(-5px);
+}
+
+.fixed .logo__container {
+  position: absolute;
+  margin-top: 0;
+  top: 50%;
+  left: -160px;
+  height: var(--box-height);
+  width: 80px;
+  transform: translateY(-54%) scale(0.5);
+  animation: flicker 0.5s;
+}
+
+.fixed .nav__auth {
+  display: none;
+}
+
+@keyframes flicker {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

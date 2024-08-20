@@ -18,9 +18,11 @@ import { useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { useCounter } from '../hooks/useCounter';
 import useActiveState from '../hooks/useActiveState';
+import { FixedStore } from '../stores/Fixed.store';
 
 export default function ProductDetail() {
   const { products } = ProductStore();
+  const { isFixed } = FixedStore();
   const { productId } = useParams();
   const selectedProduct = products.find(
     (product) => Number(product.productId) === Number(productId)
@@ -58,7 +60,7 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className='flex__container'>
+    <div className={`flex__container ${isFixed ? 'fixed' : ''}`}>
       <Header />
       <div className={styles.productDetail}>
         {/* 이미지와, 상품정보 */}
