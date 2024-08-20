@@ -1,12 +1,16 @@
 /* 신승주 */
 
+.sign__in {
+  /* 스크롤바가 없어서 로고 정렬을 위한 코드 */
+  margin-right: 17px;
+}
 .login__section {
   display: flex;
   justify-content: center;
-  width: var(--max-width);
-  background-color: var(--color-grey-bg);
+  /* width: 600px; */
+  /* background-color: var(--color-grey-bg); */
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  /* box-shadow: var(--box-shadow); */
   margin-top: 100px;
 }
 

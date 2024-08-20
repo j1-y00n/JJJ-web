@@ -74,7 +74,7 @@ export default function ProductDetail() {
                 <StarRateIcon
                   sx={{
                     color: 'var(--color-orange)',
-                    fontSize: 'var(--font-size-large)',
+                    fontSize: 'var(--font-size-medium)',
                   }}
                 />
                 <h3>{selectedProduct?.productRating}</h3>
