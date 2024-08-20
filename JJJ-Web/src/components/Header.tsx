@@ -94,7 +94,7 @@ export default function Header() {
   );
 }
 
-function Logo() {
+export function Logo() {
   const navigate = useNavigate();
   return (
     <div className={styles.logo__container}>
