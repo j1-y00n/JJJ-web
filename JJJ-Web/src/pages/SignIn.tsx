@@ -93,8 +93,10 @@ export default function SignIn() {
   };
 
   return (
-    <div className={`flex__container ${styles.sign__in}`}>
-      <Logo />
+    <div className='flex__container'>
+      <div className={styles.logo__container}>
+        <Logo />
+      </div>
       <div className={styles.login__section}>
         <form className={styles.login__form} onSubmit={handleSubmit}>
           <div className={styles.input__container}>

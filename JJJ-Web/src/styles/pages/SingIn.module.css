@@ -1,17 +1,13 @@
 /* 신승주 */
 
-.sign__in {
-  /* 스크롤바가 없어서 로고 정렬을 위한 코드 */
-  margin-right: 17px;
+.logo__container {
+  margin: 180px 0 40px 36px;
 }
+
 .login__section {
   display: flex;
   justify-content: center;
-  /* width: 600px; */
-  /* background-color: var(--color-grey-bg); */
   border-radius: var(--border-radius);
-  /* box-shadow: var(--box-shadow); */
-  margin-top: 100px;
 }
 
 .login__form {
@@ -19,7 +15,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 60px 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
 .input__container {
@@ -58,14 +55,15 @@
 }
 
 .button__container {
-  padding-left: 40px;
+  padding-left: 36px;
   margin-top: 20px;
   width: 100%;
 }
 
 .action__container {
   display: flex;
-  margin-top: 30px;
+  margin-left: 36px;
+  margin-top: 10px;
   cursor: default;
 }
 
