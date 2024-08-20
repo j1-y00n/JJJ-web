@@ -34,10 +34,12 @@
 
 .product__rating h3 {
   margin-right: 8px;
+  font-size: var(--font-size-regular);
 }
 
 .product__rating p {
   color: var(--color-blue);
+  font-size: var(--font-size-regular);
 }
 
 .detail__actions {
