@@ -9,14 +9,16 @@ import { ProductStore } from '../stores/Product.store';
 import { Product } from '../components/Product';
 import { navigateProduct } from '../utils/navigateProduct';
 import { ProductProp } from '../types/TempMockdata';
-import { useFilterStore } from '../stores/Filter.store';
+import { FilterStore } from '../stores/Filter.store';
 import { filterAndSortProducts } from '../utils/filterAndSortProducts';
+import { FixedStore } from '../stores/Fixed.store';
 
 export default function Search() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
   const { products } = ProductStore();
-  const { activeAge, activeSorting } = useFilterStore();
+  const { activeAge, activeSorting } = FilterStore();
+  const { isFixed } = FixedStore();
   const [searchedProducts, setSearchedProducts] = useState<ProductProp[]>([]);
   const { handleProductClick } = navigateProduct();
 
@@ -36,7 +38,7 @@ export default function Search() {
   });
 
   return (
-    <div className={styles.productList__container}>
+    <div className={`flex__container ${isFixed ? 'fixed' : ''}`}>
       <Header />
       <SearchBar />
       <section className={styles.searched__query}>

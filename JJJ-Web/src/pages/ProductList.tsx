@@ -7,14 +7,16 @@ import { NavLink, useParams } from 'react-router-dom';
 import Filter from '../components/Filter';
 import { Product } from '../components/Product';
 import { CategoryType } from '../types/Product.type';
-import { useFilterStore } from '../stores/Filter.store';
+import { FilterStore } from '../stores/Filter.store';
 import { navigateProduct } from '../utils/navigateProduct';
 import { ProductStore } from '../stores/Product.store';
 import { filterAndSortProducts } from '../utils/filterAndSortProducts';
+import { FixedStore } from '../stores/Fixed.store';
 
 export default function ProductList() {
   const { products } = ProductStore();
-  const { activeAge, activeSorting } = useFilterStore();
+  const { activeAge, activeSorting } = FilterStore();
+  const { isFixed } = FixedStore();
   const { categoryId } = useParams<{ categoryId: CategoryType }>();
   const { handleProductClick } = navigateProduct();
   const categoryFilteredProducts = categoryId
@@ -28,7 +30,7 @@ export default function ProductList() {
   });
 
   return (
-    <div className={styles.productList__container}>
+    <div className={`flex__container ${isFixed ? 'fixed' : ''}`}>
       <Header />
       <Filter />
       <section className={styles.productList}>

@@ -10,8 +10,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { FixedStore } from '../stores/Fixed.store';
 export default function UsedProductList() {
   const navigate = useNavigate();
+  const { isFixed } = FixedStore();
   const [products, setProducts] = useState<UsedProductProp[]>([]);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function UsedProductList() {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className={`flex__container ${isFixed ? 'fixed' : ''}`}>
       <Header />
       <div className={styles.products__container}>
         {products.map((product, index) => (

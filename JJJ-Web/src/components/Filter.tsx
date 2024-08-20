@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { theme } from '../styles/theme';
-import { useFilterStore } from '../stores/Filter.store';
+import { FilterStore } from '../stores/Filter.store';
 import { CategoryAgeType } from '../types/TempMockdata';
 import styles from '../styles/components/Filter.module.css';
 interface AgeOption {
@@ -28,7 +28,7 @@ export default function Filter() {
   ];
 
   const { activeAge, activeSorting, setActiveAge, setActiveSorting } =
-    useFilterStore();
+    FilterStore();
 
   const handleAgeClick = (age: CategoryAgeType) => {
     setActiveAge(age === activeAge ? '모두 보기' : age);
