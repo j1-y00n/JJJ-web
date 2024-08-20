@@ -9,12 +9,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Button } from '@mui/material';
 import useActiveState from '../hooks/useActiveState';
-import { FixedStore } from '../stores/Fixed.store';
 
 export default function MyPage() {
-  const { isFixed } = FixedStore();
   return (
-    <div className={`flex__container ${isFixed ? 'fixed' : ''}`}>
+    <div className='flex__container'>
       <Header />
       <div className={styles.myPage__inner}>
         <MyPageLinks />
