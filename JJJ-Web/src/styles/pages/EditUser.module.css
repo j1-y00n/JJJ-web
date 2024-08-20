@@ -1,1 +1,53 @@
 /* 변지윤 */
+.edit__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit__header {
+  font-size: var(--font-size-medium);
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* 회원 정보 확인 */
+.edit__check__title {
+  font-size: var(--font-size-medium);
+  margin-bottom: 10px;
+}
+
+.edit__check__inner {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit__check__user__container {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
+.title__input {
+  width: 300px;
+  border: 1px solid grey;
+  padding: 0 12px;
+  height: 35px;
+}
+
+.title__input:focus {
+  outline-color: var(--color-blue);
+}
+
+.edit__check__select__container {
+  display: flex;
+}
+
+.edit__check__select__container .edit__check__btn {
+  width: 140px;
+}
+
+/* 회원 정보 수정 */

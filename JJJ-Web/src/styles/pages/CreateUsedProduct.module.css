@@ -47,7 +47,11 @@
 .name__container {
   display: flex;
   padding: 30px 0;
+}
 
+.name__container .inner__title {
+  display: flex;
+  align-items: center;
 }
 
 .title__input {
@@ -65,13 +69,11 @@
 .condition__container {
   display: flex;
   padding: 30px 0;
-
 }
 
 .detail__container {
   display: flex;
   padding: 30px 0;
-
 }
 
 .detail__input {
@@ -97,15 +99,22 @@
 .num__container {
   display: flex;
   padding: 30px 0;
+}
 
+.num__container .inner__title {
+  display: flex;
+  align-items: center;
 }
 
 .transaction__container {
   display: flex;
   padding: 30px 0;
-
 }
 
+.transaction__container .inner__title {
+  display: flex;
+  align-items: center;
+}
 
 .fixed__container {
   display: flex;
