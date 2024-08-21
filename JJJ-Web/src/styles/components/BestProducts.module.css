@@ -24,7 +24,6 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  /* border-radius: var(--border-radius); */
 }
 
 .best__product__items {

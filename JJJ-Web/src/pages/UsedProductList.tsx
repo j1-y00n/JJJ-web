@@ -96,11 +96,6 @@ function UsedProduct({
 
   return (
     <div className={styles.item__container} onClick={onClick}>
-      {/* <img
-        src={usedThumbImg}
-        alt={usedTitle}
-        className={styles.item__thumb__img}
-      /> */}
       <ImageTab
         images={[usedThumbImg, ...usedImgSrc]}
         currentImg={currentImg}
@@ -108,16 +103,18 @@ function UsedProduct({
         customStyles={customImageTabStyles}
       />
       <div className={styles.item__descriptions}>
-        <div className={styles.item__title}>{usedTitle}</div>
         <div className={styles.item__infos}>
-          <div className={styles.item__price}>
-            {usedPrice.toLocaleString()}원
-          </div>
-          <div className={styles.item__status}>{usedStatus}</div>
-          <div className={styles.item__count}>수량: {usedCount}</div>
-          <div className={styles.item__method}>직거래: {usedMethod}</div>
-          <div className={styles.item__description}>
-            설명: {usedDescription}
+          <div className={styles.info__container}>
+            <div className={styles.item__title}>{usedTitle}</div>
+            <div className={styles.item__price}>
+              {usedPrice.toLocaleString()}원
+            </div>
+            <div className={styles.item__status}>{usedStatus}</div>
+            <div className={styles.item__count}>수량: {usedCount}</div>
+            <div className={styles.item__method}>직거래: {usedMethod}</div>
+            <div className={styles.item__description}>
+              설명: {usedDescription}
+            </div>
           </div>
           <div className={styles.btn__box}>
             <IconButton
@@ -141,22 +138,15 @@ function UsedProduct({
                 className={`show font__medium ${activeState ? 'active' : ''}`}
               />
             </IconButton>
-            <Button color='secondary' sx={{ padding: '5px' }}>
+            <Button
+              color='secondary'
+              sx={{ padding: '5px', marginLeft: '20px' }}
+            >
               구매하기
             </Button>
           </div>
         </div>
       </div>
-      {/* <div className={styles.item__imgs}>
-        {usedImgSrc.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`${usedTitle} ${index + 1}`}
-            className={styles.item__additionalImg}
-          />
-        ))}
-      </div> */}
     </div>
   );
 }
