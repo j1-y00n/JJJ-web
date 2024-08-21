@@ -1,6 +1,5 @@
 // 신승주
 import React, { useState } from 'react';
-import MuiImageTabs from '../muiComponents/productDetail/MuiImageTabs';
 import styles from '../styles/pages/ProductDetail.module.css';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -8,7 +7,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Box, Container, IconButton, TextField } from '@mui/material';
+import { Box, IconButton, TextField } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTabBar from '../muiComponents/productDetail/MuiTabBar';
@@ -18,6 +17,14 @@ import { useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { useCounter } from '../hooks/useCounter';
 import useActiveState from '../hooks/useActiveState';
+import img01 from '../assets/images/exam01.jpg';
+import img02 from '../assets/images/exam02.jpg';
+import img03 from '../assets/images/exam03.jpg';
+import img04 from '../assets/images/balloon.jpg';
+import img05 from '../assets/images/boardgame.jpg';
+import ImageTab from '../components/ImageTab';
+
+const images = [img01, img02, img03, img04, img05];
 
 export default function ProductDetail() {
   const { products } = ProductStore();
@@ -27,6 +34,15 @@ export default function ProductDetail() {
   );
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } = useActiveState(true);
+
+  const [currentImg, setCurrentImg] = useState(img01);
+  const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const value = e.target as HTMLImageElement;
+    if (!value.src) {
+      return;
+    }
+    setCurrentImg(value.src);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -61,9 +77,24 @@ export default function ProductDetail() {
     <div className='flex__container'>
       <Header />
       <div className={styles.productDetail}>
-        {/* 이미지와, 상품정보 */}
         <div className={styles.detail__container}>
-          <MuiImageTabs />
+          <ImageTab
+            images={images}
+            currentImg={currentImg}
+            handleImgClick={handleImgClick}
+          />
+          {/* <div className={styles.detail__left}>
+            <img
+              className={styles.detail__thumb__img}
+              src={currentImg}
+              alt='img01'
+            />
+            <div className={styles.detail__imgs} onClick={handleImgClick}>
+              {images.map((image, index) => (
+                <img key={index} src={image} alt={`img${index}`} />
+              ))}
+            </div>
+          </div> */}
           <div className={styles.detail__right}>
             <div className={styles.product__info}>
               <div>{selectedProduct?.productTitle} </div>
@@ -157,7 +188,7 @@ interface CartModalProps {
   isOpen: boolean;
   handleCloseModal: () => void;
 }
-function CartModal({ isOpen, handleCloseModal }: CartModalProps) {
+export function CartModal({ isOpen, handleCloseModal }: CartModalProps) {
   if (!isOpen) return null;
 
   return (
