@@ -11,15 +11,17 @@ import Company from './pages/Company';
 import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
 import CreateUsedProduct from './pages/CreateUsedProduct';
-import TempNaviBar from './components/TempNaviBar';
-// 임시 중고상품 목록 페이지
 import UsedProductList from './pages/UsedProductList';
 import { FixedStore } from './stores/Fixed.store';
+import FloatingActionButtons from './pages/FabIcon';
+import ScrollToTop from './utils/scrollToTop';
 
 function App() {
   const { isFixed } = FixedStore();
   return (
     <div className={`${isFixed ? 'fixed' : ''}`}>
+      <FloatingActionButtons />
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signIn' element={<SignIn />} />
@@ -36,8 +38,7 @@ function App() {
         />
         {/* 중고 상품 등록 페이지 */}
         <Route path='/createUsedProduct' element={<CreateUsedProduct />} />
-
-        {/* 임시 중고상품 목록 페이지 */}
+        {/* 중고 상품 목록 페이지 */}
         <Route path='/UsedProductList' element={<UsedProductList />} />
       </Routes>
     </div>

@@ -25,7 +25,6 @@ export default function OrderedList() {
         autoComplete='off'
         sx={{
           display: 'flex',
-          alignItems: 'center',
           width: '500px',
           marginBottom: '20px',
         }}
@@ -52,12 +51,11 @@ export default function OrderedList() {
 
 const Orders = () => {
   return (
-    <div>
+    <div className={styles.orders}>
       <div className={styles.order__number}>주문번호 : 1111111</div>
-      <div className={styles.orders}>
-        <Order />
-        <Order />
-      </div>
+      <Order />
+      <Order />
+      <Order />
     </div>
   );
 };

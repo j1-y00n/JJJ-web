@@ -2,8 +2,7 @@
 import Header from '../components/Header';
 import Slider from '../components/Slider';
 import SearchBar from '../components/SearchBar';
-import BestItems from '../components/BestItems';
-import BestReviews from '../components/BestReviews';
+import BestProducts from '../components/BestProducts';
 import Footer from '../components/Footer';
 
 export default function Home() {
@@ -14,8 +13,7 @@ export default function Home() {
       <Header />
       <Slider />
       <SearchBar />
-      <BestItems />
-      <BestReviews />
+      <BestProducts />
       <Footer />
     </div>
   );

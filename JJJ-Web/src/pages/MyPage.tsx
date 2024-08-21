@@ -55,9 +55,8 @@ const MyPageLinks = () => {
             handleStateChange(link);
           }}
           sx={{
-            border: '1px solid var(--color-black)',
-            margin: '10px',
             fontSize: 'var(--font-size-regular)',
+            marginBottom: '20px',
           }}
         >
           {pages[link]}

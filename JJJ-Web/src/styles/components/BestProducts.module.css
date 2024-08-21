@@ -1,0 +1,33 @@
+.best__product {
+  width: var(--max-width);
+  margin: 50px 0px 25px;
+}
+
+/* .best__product__title {
+  background-color: var(--color-blue);
+  color: white;
+  height: 64px;
+  width: 220px;
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  text-align: center;
+  line-height: 64px;
+} */
+
+.best__product__container:first-of-type {
+  margin-bottom: 75px;
+}
+
+.best__product__img {
+  width: 200px;
+  height: 60px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  /* border-radius: var(--border-radius); */
+}
+
+.best__product__items {
+  display: flex;
+  flex-wrap: wrap;
+}
