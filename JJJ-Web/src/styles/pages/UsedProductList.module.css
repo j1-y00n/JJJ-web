@@ -66,3 +66,20 @@
   justify-content: space-between;
   align-items: center;
 }
+
+/* ImageTab.module.css 에서의 커스텀*/
+/* .detail__left */
+.usedProductDetailLeft {
+  /* width: 100%; */
+  padding: 0;
+}
+/* detail__thumb__img */
+.usedProductThumbImg {
+  height: 246px;
+}
+/* detail__imgs */
+.usedProductImgs {
+}
+/* detail__imgs img */
+.usedProductImg {
+}

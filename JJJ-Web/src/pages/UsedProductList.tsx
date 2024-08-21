@@ -14,6 +14,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import useActiveState from '../hooks/useActiveState';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { CartModal } from './ProductDetail';
+import ImageTab from '../components/ImageTab';
 
 export default function UsedProductList() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function UsedProductList() {
       <Header />
       <Button
         onClick={() => navigate('/createUsedProduct')}
-        sx={{ marginLeft: '1060px'}}
+        sx={{ marginLeft: '1060px' }}
       >
         중고 상품 등록 +
       </Button>
@@ -62,9 +63,10 @@ function UsedProduct({
   usedMethod,
   onClick,
 }: UsedProductProps) {
-  const { activeState, handleStateChange, handleToggle } = useActiveState(false);
+  const { activeState, handleStateChange, handleToggle } =
+    useActiveState(false);
 
- // 장바구니 모달
+  // 장바구니 모달
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleAddToCart = () => {
@@ -75,12 +77,35 @@ function UsedProduct({
     setModalOpen(false);
   };
 
+  // 이미지탭 커스텀 CSS
+  const customImageTabStyles = {
+    detailLeft: styles.usedProductDetailLeft,
+    detailThumbImg: styles.usedProductThumbImg,
+    detailImgs: styles.usedProductImgs,
+    img: styles.usedProductImg,
+  };
+
+  const [currentImg, setCurrentImg] = useState(usedThumbImg);
+  const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const value = e.target as HTMLImageElement;
+    if (!value.src) {
+      return;
+    }
+    setCurrentImg(value.src);
+  };
+
   return (
     <div className={styles.item__container} onClick={onClick}>
-      <img
+      {/* <img
         src={usedThumbImg}
         alt={usedTitle}
         className={styles.item__thumb__img}
+      /> */}
+      <ImageTab
+        images={[usedThumbImg, ...usedImgSrc]}
+        currentImg={currentImg}
+        handleImgClick={handleImgClick}
+        customStyles={customImageTabStyles}
       />
       <div className={styles.item__descriptions}>
         <div className={styles.item__title}>{usedTitle}</div>
@@ -110,18 +135,15 @@ function UsedProduct({
               <ShoppingCartOutlinedIcon className='default font__medium' />
               <ShoppingCartIcon className='show font__medium' />
             </IconButton>
-            <IconButton
-              className='round nest__icons'
-              onClick={handleToggle}
-            >
+            <IconButton className='round nest__icons' onClick={handleToggle}>
               <FavoriteBorderIcon className='default font__medium' />
               <FavoriteIcon
-                className={`show font__medium ${
-                  activeState ? 'active' : ''
-                }`}
+                className={`show font__medium ${activeState ? 'active' : ''}`}
               />
             </IconButton>
-            <Button color='secondary' sx={{padding: '5px'}}>구매하기</Button>
+            <Button color='secondary' sx={{ padding: '5px' }}>
+              구매하기
+            </Button>
           </div>
         </div>
       </div>
