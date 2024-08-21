@@ -31,6 +31,15 @@
   --box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.2);
 }
 
+/* 스크롤바 지우기 */
+body::-webkit-scrollbar {
+  display: none;
+}
+html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Global */
 body * {
   box-sizing: border-box;
