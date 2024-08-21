@@ -47,6 +47,9 @@ export const theme = createTheme({
               color: 'var(--color-blue)', // 체크박스 선택된 색상
             },
           },
+          '&:hover': {
+            backgroundColor: 'white',
+          },
         },
       },
     },
@@ -142,6 +145,9 @@ export const theme = createTheme({
             '& .MuiSvgIcon-root': {
               '&.font__large': {
                 fontSize: '30px',
+              },
+              '&.font__medium': {
+                fontSize: '20px',
               },
               '&.default': {
                 position: 'absolute',

@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Footer from '../components/Footer';
 import { useInput } from '../hooks/useInput';
 import { InputAdornment, OutlinedInput, Typography } from '@mui/material';
+import { Logo } from '../components/Header';
 
 export default function CreateUsedProduct() {
   // 상품상태 radio button
@@ -73,12 +74,13 @@ export default function CreateUsedProduct() {
 
   return (
     <div className='flex__container'>
+      <Logo/>
       <form>
-        <div className={styles.createUsedProduct__header}>중고 상품 등록</div>
+        {/* <div className={styles.createUsedProduct__header}>중고 상품 등록</div> */}
           <div className={styles.createUsedProduct__inner}>
             {/* 상품정보 */}
             <div className={styles.create__desc__container}>
-              <div className={styles.container__title}>상품정보</div>
+              <div className={styles.container__title}>중고상품정보</div>
               <div className={styles.desc__inner}>
                 <div className={styles.image__container}>
                   <div className={styles.inner__title}>상품 이미지</div>
