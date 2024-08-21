@@ -1,9 +1,13 @@
 /* 신승주 */
 .item__container {
-  width: 25%;
-  padding: 0 10px;
+  width: 285px;
   margin: 15px 0px;
+  margin-right: 20px;
   cursor: pointer;
+}
+
+.item__container:nth-child(4n) {
+  margin-right: 0;
 }
 
 .item__img {
