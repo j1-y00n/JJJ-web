@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/pages/SignUp.module.css";
 import {
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -10,8 +11,11 @@ import {
   RadioGroup,
 } from "@mui/material";
 
-import { NavLink } from "react-router-dom";
-import Postcode from "../components/PostCode";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Logo } from "../components/Header";
+import Modal from "react-modal";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface SignUpForm {
   id: number;
@@ -40,12 +44,6 @@ export default function SignUp() {
 
   const [gendervalue, setGenderValue] = useState("male");
 
-  // const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setValue((e.target as HTMLInputElement).value);
-  // };
-
-
-
   const [errors, setErrors] = useState<SignUpForm>({
     id: 1,
     userId: "",
@@ -57,7 +55,8 @@ export default function SignUp() {
     gender: "",
   });
 
-  const { userId, password, passwordCheck, name, email, phone, gender } = formData;
+  const { userId, password, passwordCheck, name, email, phone, gender } =
+    formData;
 
   const validateId = (userId: string): boolean => {
     return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4,}$/.test(userId);
@@ -128,7 +127,7 @@ export default function SignUp() {
     setErrors(tempErrors);
 
     if (isValid) {
-      console.log("회원 가입 데이터: ", formData);
+      console.log("회원 가입 데이터: ", formData, gendervalue);
       alert(`회원 가입을 축하합니다!! ${name}님!! `);
 
       setFormData({
@@ -157,8 +156,9 @@ export default function SignUp() {
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGenderValue((e.target as HTMLInputElement).value);
-  }
+  };
 
+  //! 생일 입력 기능
   const today = new Date();
   const [birthform, setBirthform] = useState({
     year: today.getFullYear(),
@@ -190,156 +190,331 @@ export default function SignUp() {
     }
   }
 
-  return (
-    <div id={styles.login_page}>
-      <div id={styles.login_container}>
-        <div className={styles.login_header}>Join The JJJ Web Store</div>
+  //! 주소 입력 기능
+  const [zipCode, setZipCode] = useState<string>("");
+  const [roadAddress, setRoadAddress] = useState<string>("");
+  const [detailAddress, setDetailAddress] = useState<string>("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-        <div className={styles.login_section}>
-          <div className={styles.login_form}>
-            <form onSubmit={handleSubmit}>
-              <div className="inputId">
-                <label>아이디 </label>
+  const finalInput = (data: any) => {
+    setZipCode(data.zonecode);
+    setRoadAddress(data.roadAddress);
+    setIsOpen(false);
+  };
+
+  // 검색 클릭
+  const searchtoggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // 상세주소 검색
+  const addressChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDetailAddress(e.target.value);
+  };
+
+  // 추가
+  const addressClickHandler = () => {
+    if (!detailAddress) {
+      alert("상세주소를 입력해주세요");
+    } else {
+      console.log(zipCode, roadAddress, detailAddress);
+    }
+  };
+
+  const modalStyles: ReactModal.Styles = {
+    overlay: {
+      backgroundColor: "rgba(0,0,0,0.5)",
+    },
+
+    content: {
+      width: "500px",
+      height: "600px",
+      margin: "auto",
+      overflow: "hidden",
+      padding: "20px",
+      position: "absolute",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+      backgroundColor: "white",
+      justifyContent: "center",
+    },
+  };
+
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex__container">
+      <div className={styles.login__container}>
+        <Logo />
+      </div>
+      <div className={styles.login__section}>
+        <form className={styles.login__form} onSubmit={handleSubmit}>
+          <div className={styles.input__container}>
+            <div className={`${styles.input__wrapper} ${styles.btn__box}`}>
+              <div className={styles.label__box}>
+                <label>아이디</label>
+              </div>
+              <div className={styles.input__box}>
                 <input
                   type="text"
+                  className={styles.input}
                   name="userId"
                   placeholder="4글자 이상 영문과 숫자 조합"
                   value={userId}
                   onChange={handleInputChange}
                 />
-                <button
-                  style={{
-                    fontSize: "12px",
-                    borderRadius: "10px",
-                    padding: "5px",
-                    cursor: "pointer"
-                  }}
-                >
-                  중복 확인
-                </button>
-
-                {errors.userId ? <p style={{ color: "red" }}>{errors.userId}</p> : ""}
               </div>
+              <Button
+                color="info"
+                sx={{
+                  position: "absolute",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  right: "-80px",
+                }}
+              >
+                중복 확인
+              </Button>
+            </div>
+            {errors.userId ? (
+              <p className={styles.error}>{errors.userId}</p>
+            ) : (
+              " "
+            )}
+          </div>
 
-              <div className="inputPassword" style={{marginLeft: "-73px"}}>
-                <label>비밀번호 </label>
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>비밀번호</label>
+              </div>
+              <div className={styles.input__box}>
                 <input
                   type="text"
+                  className={styles.input}
                   name="password"
                   placeholder="8 ~ 12자의 영문과 숫자 조합"
                   value={password}
                   onChange={handleInputChange}
                 />
-                {errors.password ? (
-                  <p style={{ color: "red" }}>{errors.password}</p>
-                ) : (
-                  " "
-                )}
               </div>
+            </div>
+            {errors.password ? (
+              <p className={styles.error}>{errors.password}</p>
+            ) : (
+              " "
+            )}
+          </div>
 
-              <div
-                className="checkedInputPassword" style={{marginLeft: "-100px"}}
-              >
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
                 <label>비밀번호 확인</label>
+              </div>
+              <div className={styles.input__box}>
                 <input
                   type="text"
+                  className={styles.input}
                   name="passwordCheck"
                   placeholder="비밀번호 확인"
                   value={passwordCheck}
                   onChange={handleInputChange}
                 />
-                {errors.passwordCheck ? (
-                  <p style={{ color: "red" }}>{errors.passwordCheck}</p>
-                ) : (
-                  ""
-                )}
               </div>
+            </div>
+            {errors.passwordCheck ? (
+              <p className={styles.error}>{errors.passwordCheck}</p>
+            ) : (
+              " "
+            )}
+          </div>
 
-              <div className="inputName" style={{marginLeft: "-45px"}}>
-                <label>이름 </label>
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>이름</label>
+              </div>
+              <div className={styles.input__box}>
                 <input
                   type="text"
+                  className={styles.input}
                   name="name"
                   placeholder="이름"
                   value={name}
                   onChange={handleInputChange}
                 />
               </div>
+            </div>
+            {errors.name ? <p className={styles.error}>{errors.name}</p> : " "}
+          </div>
 
-              <div className="inputEmail" style={{marginLeft: "-60px"}}>
-                <label>이메일 </label>
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>이메일</label>
+              </div>
+              <div className={styles.input__box}>
                 <input
                   type="text"
+                  className={styles.input}
                   name="email"
                   placeholder="example@gmail.com"
                   value={email}
                   onChange={handleInputChange}
                 />
-                {errors.email ? (
-                  <p style={{ color: "red" }}>{errors.email}</p>
-                ) : (
-                  ""
-                )}
               </div>
+            </div>
+            {errors.email ? (
+              <p className={styles.error}>{errors.email}</p>
+            ) : (
+              " "
+            )}
+          </div>
 
-              <div className="inputPhone" style={{marginLeft: "-60px"}}>
-                <label>휴대폰 </label>
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>휴대폰</label>
+              </div>
+              <div className={styles.input__box}>
                 <input
                   type="text"
                   name="phone"
                   placeholder="010-1234-5678"
                   value={phone}
                   onChange={handleInputChange}
+                  className={styles.input}
                 />
-                {errors.phone ? (
-                  <p style={{ color: "red" }}>{errors.phone}</p>
-                ) : (
-                  ""
-                )}
               </div>
+            </div>
+            {errors.phone ? (
+              <p className={styles.error}>{errors.phone}</p>
+            ) : (
+              " "
+            )}
+          </div>
 
-              <div className={styles.choose_gender} style={{display: "flex"}}>
-              <label style={{margin: "20px 0 0 -100px"}}>성별 </label>
-                <FormControl>        
-                  <RadioGroup
-                    name="gender"
-                    value={gendervalue}
-                    onChange={handleGenderChange}
-                    sx={{
-                      width: "100%",
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>성별</label>
+              </div>
+              <FormControl>
+                <RadioGroup
+                  name="gender"
+                  value={gendervalue}
+                  onChange={handleGenderChange}
+                  sx={{
+                    width: "300px",
+                    display: "flex",
+                    flexDirection: "row",
+                    marginLeft: "60px",
+                  }}
+                >
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </div>
+          </div>
+
+          <div className={styles.input__container}>
+            <div className={`${styles.input__wrapper} ${styles.btn__box}`}>
+              <div className={styles.label__box}>
+                <label>주소</label>
+              </div>
+              <div className={styles.address__box}>
+                <div className={styles.input__box}>
+                  <input
+                    value={zipCode}
+                    placeholder="우편번호"
+                    className={styles.input}
+                    readOnly
+                  />
+                </div>
+                <Button
+                  onClick={searchtoggle}
+                  color="info"
+                  sx={{
+                    borderRadius: "10px",
+                    cursor: "pointer",
+                    position: "absolute",
+                    right: "-70px",
+                    top: "5px",
+                  }}
+                >
+                  주소찾기
+                </Button>
+
+                <div className={styles.input__box}>
+                  <input
+                    value={roadAddress}
+                    placeholder="도로명주소"
+                    className={styles.input}
+                    readOnly
+                  />
+                </div>
+
+                <Modal
+                  isOpen={isOpen}
+                  style={modalStyles}
+                  ariaHideApp={false}
+                  onRequestClose={() => setIsOpen(false)}
+                >
+                  <div
+                    id="closeBtn"
+                    style={{
                       display: "flex",
-                      flexDirection: "row",
-                      marginLeft: "50px",
+                      justifyContent: "end",
+                      marginBottom: "10px",
                     }}
                   >
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                      sx={{ width: "100px" }}
+                    <CloseIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => setIsOpen(false)}
                     />
+                  </div>
+                  <DaumPostcodeEmbed
+                    onComplete={finalInput}
+                    style={{ height: "95%" }}
+                  />
+                </Modal>
 
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                      sx={{ width: "100px" }}
-                    />
-                  </RadioGroup>
-                </FormControl>
+                <div className={styles.input__box}>
+                  <input
+                    value={detailAddress}
+                    onChange={addressChangeHandler}
+                    className={styles.input}
+                    placeholder="상세주소"
+                  />
+                </div>
               </div>
+            </div>
+          </div>
 
-              <div className="inputAddress" style={{ display: "flex" }}>
-                <label style={{ marginTop: "20px" }}>주소 </label>
-                <Postcode/>
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>생년월일</label>
               </div>
-
-              <div className={styles.birthday_container} style={{marginLeft: "-115px"}}>
-                <label style={{marginTop: "20px"}}>생년월일 </label>
-              <select
+              <div className={styles.input__box}>
+                <select
+                  className={styles.birth__select}
                   value={birthform.year}
                   onChange={(e) =>
-                    setBirthform({ ...birthform, year: Number(e.target.value)})
+                    setBirthform({
+                      ...birthform,
+                      year: Number(e.target.value),
+                    })
                   }
                 >
                   {years.map((item) => (
@@ -350,9 +525,10 @@ export default function SignUp() {
                 </select>
 
                 <select
+                  className={styles.birth__select}
                   value={birthform.month}
                   onChange={(e) =>
-                    setBirthform({ ...birthform, month: e.target.value})
+                    setBirthform({ ...birthform, month: e.target.value })
                   }
                 >
                   {months.map((item) => (
@@ -363,6 +539,7 @@ export default function SignUp() {
                 </select>
 
                 <select
+                  className={styles.birth__select}
                   value={birthform.day}
                   onChange={(e) =>
                     setBirthform({ ...birthform, day: e.target.value })
@@ -374,21 +551,25 @@ export default function SignUp() {
                     </option>
                   ))}
                 </select>
-
-              
               </div>
-
-              <div className={styles.button_container} >
-                <NavLink to="/">
-                  <button id={styles.button_detail}>취소</button>
-                </NavLink>
-                <button id={styles.button_detail}>
-                  회원가입
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
+
+          <div className={styles.button__container}>
+            {/* <Button
+              onClick={() => navigate("/")}
+              sx={{ fontSize: "var(--font-size-medium)" }}
+            >
+              취소
+            </Button> */}
+
+            <Button
+              sx={{ fontSize: "var(--font-size-medium)", width: "100%"}}
+            >
+              회원가입
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );
