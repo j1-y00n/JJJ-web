@@ -89,6 +89,7 @@
   border-radius: var(--border-radius);
   /* box-shadow: var(--box-shadow); */
   /* margin-top: 100px; */
+  margin-right: 37px;
 }
 
 .login__form {
@@ -96,6 +97,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 60px;
 }
 
 .input__container {
@@ -176,9 +178,4 @@
 }
 .birth__select:first-child {
   margin-left: 0;
-}
-
-.login__container {
-  margin-left: 36px;
-  margin-bottom: 60px;
 }

@@ -26,36 +26,36 @@ interface SignUpForm {
   email: string;
   phone: string;
   gender: string;
+  adďress: string;
 }
 
 export default function SignUp() {
+  const userIdRef = useRef(1);
   const [formData, setFormData] = useState({
-    id: 1,
+    id: userIdRef.current,
     userId: "",
     password: "",
     passwordCheck: "",
     name: "",
     email: "",
     phone: "",
-    gender: "",
+    address: "",
   });
 
-  const nextId = useRef(2);
 
   const [gendervalue, setGenderValue] = useState("male");
 
-  const [errors, setErrors] = useState<SignUpForm>({
-    id: 1,
+  const [errors, setErrors] = useState({
+    id: userIdRef.current,
     userId: "",
     password: "",
     passwordCheck: "",
     name: "",
     email: "",
     phone: "",
-    gender: "",
   });
 
-  const { userId, password, passwordCheck, name, email, phone, gender } =
+  const { userId, password, passwordCheck, name, email, phone, address } =
     formData;
 
   const validateId = (userId: string): boolean => {
@@ -75,21 +75,20 @@ export default function SignUp() {
   };
 
   const validatePhone = (phone: string): boolean => {
-    return /^(01[016789]{1})-?[0-9]{4}-?[0-9]{4}$/.test(phone);
+    return /^(01[016789]{1}) ?[0-9]{4} ?[0-9]{4}$/.test(phone);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     let tempErrors = {
-      id: 1,
+      id: userIdRef.current,
       userId: "",
       password: "",
       passwordCheck: "",
       name: "",
       email: "",
       phone: "",
-      gender: "",
     };
 
     let isValid = true;
@@ -108,7 +107,6 @@ export default function SignUp() {
 
     if (!checkingPassword(passwordCheck)) {
       tempErrors.passwordCheck = "비밀번호를 재입력해주세요";
-      // alert("비밀번호 확인을 완료해주세요");
       isValid = false;
     }
 
@@ -125,25 +123,24 @@ export default function SignUp() {
     }
 
     setErrors(tempErrors);
-
+    
     if (isValid) {
-      console.log("회원 가입 데이터: ", formData, gendervalue);
+      console.log("회원 가입 데이터: ", formData);
       alert(`회원 가입을 축하합니다!! ${name}님!! `);
-
+      
       setFormData({
-        id: nextId.current,
+        id: userIdRef.current++,
         userId: "",
         password: "",
         passwordCheck: "",
         name: "",
         email: "",
         phone: "",
-        gender: "",
+        address: "",
       });
-
-      nextId.current += 1;
-    }
-  };
+    };
+      
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //? 이벤트에서 입력 필드의 이름과 값을 추출
@@ -221,6 +218,8 @@ export default function SignUp() {
     }
   };
 
+  const addressAll = [zipCode, roadAddress, detailAddress];
+
   const modalStyles: ReactModal.Styles = {
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -244,11 +243,9 @@ export default function SignUp() {
 
   return (
     <div className="flex__container">
-      <div className={styles.login__container}>
-        <Logo />
-      </div>
+      <Logo />
       <div className={styles.login__section}>
-        <form className={styles.login__form} onSubmit={handleSubmit}>
+        <form className={styles.login__form}>
           <div className={styles.input__container}>
             <div className={`${styles.input__wrapper} ${styles.btn__box}`}>
               <div className={styles.label__box}>
@@ -435,9 +432,11 @@ export default function SignUp() {
               <div className={styles.address__box}>
                 <div className={styles.input__box}>
                   <input
+                    name="zipCode"
                     value={zipCode}
                     placeholder="우편번호"
                     className={styles.input}
+                    onChange={handleInputChange}
                     readOnly
                   />
                 </div>
@@ -457,9 +456,11 @@ export default function SignUp() {
 
                 <div className={styles.input__box}>
                   <input
+                    name="roadAddress"
                     value={roadAddress}
                     placeholder="도로명주소"
                     className={styles.input}
+                    onChange={handleInputChange}
                     readOnly
                   />
                 </div>
@@ -491,6 +492,7 @@ export default function SignUp() {
 
                 <div className={styles.input__box}>
                   <input
+                    name="detailAddress"
                     value={detailAddress}
                     onChange={addressChangeHandler}
                     className={styles.input}
@@ -556,15 +558,12 @@ export default function SignUp() {
           </div>
 
           <div className={styles.button__container}>
-            {/* <Button
-              onClick={() => navigate("/")}
-              sx={{ fontSize: "var(--font-size-medium)" }}
-            >
-              취소
-            </Button> */}
-
             <Button
-              sx={{ fontSize: "var(--font-size-medium)", width: "100%"}}
+              sx={{ fontSize: "var(--font-size-medium)", width: "100%" }}
+              onClick={(e) => {
+                handleSubmit(e);
+                addressClickHandler();
+              }}
             >
               회원가입
             </Button>
