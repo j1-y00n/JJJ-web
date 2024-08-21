@@ -10,6 +10,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import useActiveState from '../hooks/useActiveState';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { CartModal } from './ProductDetail';
+
 export default function UsedProductList() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<UsedProductProp[]>([]);
@@ -22,6 +27,12 @@ export default function UsedProductList() {
   return (
     <div className='flex__container'>
       <Header />
+      <Button
+        onClick={() => navigate('/createUsedProduct')}
+        sx={{ marginLeft: '1060px'}}
+      >
+        중고 상품 등록 +
+      </Button>
       <div className={styles.products__container}>
         {products.map((product, index) => (
           <UsedProduct
@@ -32,12 +43,6 @@ export default function UsedProductList() {
         ))}
       </div>
       <Footer />
-      <Button
-        onClick={() => navigate('/createUsedProduct')}
-        sx={{ position: 'fixed', bottom: '30px', right: '150px' }}
-      >
-        중고 상품 등록 +
-      </Button>
     </div>
   );
 }
@@ -57,6 +62,19 @@ function UsedProduct({
   usedMethod,
   onClick,
 }: UsedProductProps) {
+  const { activeState, handleStateChange, handleToggle } = useActiveState(false);
+
+ // 장바구니 모달
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleAddToCart = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <div className={styles.item__container} onClick={onClick}>
       <img
@@ -77,13 +95,33 @@ function UsedProduct({
             설명: {usedDescription}
           </div>
           <div className={styles.btn__box}>
-            <IconButton className='round font__large'>
-              <ShoppingCartIcon sx={{ fontSize: '30px' }} />
+            <IconButton
+              className='round nest__icons'
+              onClick={handleAddToCart}
+              sx={{
+                marginRight: '20px',
+              }}
+            >
+              {/* 장바구니 모달 */}
+              <CartModal
+                isOpen={isModalOpen}
+                handleCloseModal={handleCloseModal}
+              />
+              <ShoppingCartOutlinedIcon className='default font__medium' />
+              <ShoppingCartIcon className='show font__medium' />
             </IconButton>
-            <IconButton className='round font__large'>
-              <FavoriteBorderIcon sx={{ fontSize: '30px' }} />
+            <IconButton
+              className='round nest__icons'
+              onClick={handleToggle}
+            >
+              <FavoriteBorderIcon className='default font__medium' />
+              <FavoriteIcon
+                className={`show font__medium ${
+                  activeState ? 'active' : ''
+                }`}
+              />
             </IconButton>
-            <Button color='secondary'>구매하기</Button>
+            <Button color='secondary' sx={{padding: '5px'}}>구매하기</Button>
           </div>
         </div>
       </div>

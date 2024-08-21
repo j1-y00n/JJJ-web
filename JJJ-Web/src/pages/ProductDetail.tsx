@@ -157,7 +157,7 @@ interface CartModalProps {
   isOpen: boolean;
   handleCloseModal: () => void;
 }
-function CartModal({ isOpen, handleCloseModal }: CartModalProps) {
+export function CartModal({ isOpen, handleCloseModal }: CartModalProps) {
   if (!isOpen) return null;
 
   return (
