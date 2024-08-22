@@ -37,9 +37,13 @@
   flex-direction: column;
 }
 
+.item__user {
+  padding-top: 3px;
+  font-size: var(--font-size-small);
+}
+
 .item__title {
   font-weight: bold;
-  padding-top: 3px;
 }
 
 .item__infos {
@@ -56,13 +60,14 @@
   font-weight: bold;
 }
 
+.item__user,
 .item__title,
 .item__price,
 .item__status,
 .item__description,
 .item__count,
 .item__method {
-  margin-bottom: 13px;
+  margin-bottom: 9px;
 }
 
 .btn__box {
@@ -75,7 +80,6 @@
 /* ImageTab.module.css 에서의 커스텀*/
 /* .detail__left */
 .usedProductDetailLeft {
-  /* width: 100%; */
   padding: 0;
 }
 /* detail__thumb__img */
@@ -85,6 +89,8 @@
 /* detail__imgs */
 .usedProductImgs {
 }
+
 /* detail__imgs img */
-.usedProductImg {
+.usedProductImgs img {
+  height: 60px;
 }

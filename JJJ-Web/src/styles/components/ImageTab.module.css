@@ -16,7 +16,7 @@
 
 .detail__imgs img {
   width: 20%;
-  height: 60px;
+  height: 80px;
   cursor: pointer;
   object-fit: cover;
 }

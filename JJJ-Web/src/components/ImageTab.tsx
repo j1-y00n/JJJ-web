@@ -8,7 +8,6 @@ interface ImageTabProps {
     detailLeft?: string;
     detailThumbImg?: string;
     detailImgs?: string;
-    img?: string;
   };
 }
 
@@ -32,12 +31,7 @@ export default function ImageTab({
         onClick={handleImgClick}
       >
         {images.map((image, index) => (
-          <img
-            key={index}
-            className={customStyles.img || ''}
-            src={image}
-            alt={`img${index}`}
-          />
+          <img key={index} src={image} alt={`img${index}`} />
         ))}
       </div>
     </div>
