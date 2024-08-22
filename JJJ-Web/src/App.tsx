@@ -13,7 +13,7 @@ import ProductDetail from './pages/ProductDetail';
 import CreateUsedProduct from './pages/CreateUsedProduct';
 import UsedProductList from './pages/UsedProductList';
 import { FixedStore } from './stores/Fixed.store';
-import FloatingActionButtons from './pages/FabIcon';
+import FloatingActionButtons from './components/FabIcon';
 import ScrollToTop from './utils/scrollToTop';
 
 function App() {

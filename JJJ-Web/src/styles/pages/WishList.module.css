@@ -1,13 +1,11 @@
 /* 변지윤 */
 .wish__container {
   width: 100%;
-  padding: 0 50px 20px;
-  
+  padding-bottom: 20px;
 }
 
 .wish__container .wish__desc {
-  width: 910px;
-  /* border: none; */
+  width: 100%;
   padding: 12px 0;
   border: 1px solid var(--color-grey-bg);
   border-radius: var(--border-radius);

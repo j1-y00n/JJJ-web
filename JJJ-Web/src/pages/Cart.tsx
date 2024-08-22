@@ -10,6 +10,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { useCounter } from '../hooks/useCounter';
 import ClearIcon from '@mui/icons-material/Clear';
+import Header from '../components/Header';
 
 
 // Select component
@@ -81,64 +82,64 @@ export default function Cart() {
 
   return (
     <div className='flex__container'>
+      <Header />
+      <div className={styles.cart__container}>
+        <div className={styles.cart__title}>장바구니</div>
 
-        <div className={styles.cart__container}>
-          <div className={styles.cart__title}>장바구니</div>
+        {/* 선택박스 */}
+        <CustomSelect />
 
-          {/* 선택박스 */}
-          <CustomSelect />
+        {/* 상품리스트 */}
+        <div className={styles.cart__list__container}>
+          <div className={styles.list__container__inner}>
 
-          {/* 상품리스트 */}
-          <div className={styles.cart__list__container}>
-            <div className={styles.list__container__inner}>
+            <CustomProduct />
 
-              <CustomProduct />
-
-              <div className={styles.list__quantity}>
-                <div className={styles.title__font}>상품 주문 수량</div>
-                <div>
-                  <IconButton className={styles.btn__quantity} onClick={decreaseCounter}>
-                    <RemoveIcon sx={{ fontSize: '18px' }} />
-                  </IconButton>
-                  <TextField
-                    id='outlined'
-                    type='text'
-                    value={count}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    InputProps={{
-                      sx: {
-                        padding: '0 !important', // Apply !important to padding
-                        width: '50px',
-                        height: '28px',
-                        margin: '0 5px',
-                        '& .MuiInputBase-input': {
-                          textAlign: 'center',
-                        },
+            <div className={styles.list__quantity}>
+              <div className={styles.title__font}>상품 주문 수량</div>
+              <div>
+                <IconButton className={styles.btn__quantity} onClick={decreaseCounter}>
+                  <RemoveIcon sx={{ fontSize: '18px' }} />
+                </IconButton>
+                <TextField
+                  id='outlined'
+                  type='text'
+                  value={count}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  InputProps={{
+                    sx: {
+                      padding: '0 !important', // Apply !important to padding
+                      width: '50px',
+                      height: '28px',
+                      margin: '0 5px',
+                      '& .MuiInputBase-input': {
+                        textAlign: 'center',
                       },
-                    }}
-                  />
-                  <IconButton className={styles.btn__quantity} onClick={increaseCounter}>
-                    <AddIcon sx={{ fontSize: '18px' }} />
-                  </IconButton>
+                    },
+                  }}
+                />
+                <IconButton className={styles.btn__quantity} onClick={increaseCounter}>
+                  <AddIcon sx={{ fontSize: '18px' }} />
+                </IconButton>
 
-                </div>
               </div>
-
-              <div className={styles.list__price}>
-                <div className={styles.title__font}>상품금액</div>
-                <div className={styles.context__font}>0000 원</div>
-              </div>
-
-              <div className={styles.list__delivery}>
-                <div className={styles.title__font}>배송비</div>
-                <div className={styles.context__font}>무료</div>
-              </div>
-
             </div>
+
+            <div className={styles.list__price}>
+              <div className={styles.title__font}>상품금액</div>
+              <div className={styles.context__font}>0000 원</div>
+            </div>
+
+            <div className={styles.list__delivery}>
+              <div className={styles.title__font}>배송비</div>
+              <div className={styles.context__font}>무료</div>
+            </div>
+
           </div>
-          
         </div>
+        
+      </div>
 
       <div style={{marginBottom: '50px', width: '100%'}}>
         <Footer />
@@ -147,7 +148,7 @@ export default function Cart() {
       {/* FIXED */}
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
-          <div className={styles.fixed__price}>총 0건 주문금액 00000원</div>
+          <div className={styles.fixed__price}>총 0건 주문금액 000000원</div>
           <Button className={styles.fixed__order}>주문하기</Button>
         </div>
       </div>

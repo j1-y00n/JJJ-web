@@ -55,7 +55,7 @@
 }
 
 .title__input {
-  width: 800px;
+  width: 500px;
   border: 1px solid grey;
   border-radius: var(--border-radius);
   font-size: var(--font-size-regular);
@@ -77,10 +77,12 @@
 }
 
 .detail__input {
-  width: 800px;
+  width: 500px;
+  height: 100px;
   border-radius: var(--border-radius);
   font-size: var(--font-size-regular);
   padding: 12px 12px;
+  resize: none;
 }
 
 .detail__input:focus {
