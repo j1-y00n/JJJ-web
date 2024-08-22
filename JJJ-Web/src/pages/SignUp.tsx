@@ -26,8 +26,8 @@ interface SignUpForm {
   name: string;
   email: string;
   phone: string;
+  address: AddressForm;
   gender?: string | undefined;
-  address?: AddressForm | undefined;
   birth?: BirthForm | undefined;
 }
 
@@ -40,9 +40,9 @@ interface BirthForm {
 
 // 생성
 interface AddressForm {
-  zipCode?: string;
-  roadAddress?: string;
-  detailAddress?: string | undefined;
+  zipCode: string;
+  roadAddress: string;
+  detailAddress: string;
 }
 
 export default function SignUp() {
@@ -57,13 +57,17 @@ export default function SignUp() {
     name: '',
     email: '',
     phone: '',
+    address: {
+      zipCode: '',
+      roadAddress: '',
+      detailAddress: '',
+    },
   };
 
   // 초기값 설정함으로써 아래에서 반복되는 코드 줄임
   const includedOptionalFormInitialValue = {
     ...requiredFormInitialValue,
     gender: undefined,
-    address: undefined,
     birth: undefined,
   };
 
@@ -72,12 +76,13 @@ export default function SignUp() {
     includedOptionalFormInitialValue
   );
 
-  // 아래 코드는 불필요, 이렇게하면 formData와 gender를 따로 상태 관리 해야 함
-  // const [gender, setGender] = useState('male');
-
   const [errors, setErrors] = useState<SignUpForm>({
     ...requiredFormInitialValue,
-    address: undefined,
+    address: {
+      zipCode: '',
+      roadAddress: '',
+      detailAddress: '',
+    },
   });
 
   const {
@@ -118,6 +123,8 @@ export default function SignUp() {
     let tempErrors = {
       ...requiredFormInitialValue,
       address: {
+        zipCode: '',
+        roadAddress: '',
         detailAddress: '',
       },
     };
@@ -126,13 +133,11 @@ export default function SignUp() {
 
     if (!userId || !validateId(userId)) {
       tempErrors.userId = '영어와 숫자를 포함하여 4글자 이상 작성하세요';
-      // alert('아이디 확인을 완료해주세요');
       isValid = false;
     }
 
     if (!password || !validatePassword(password)) {
       tempErrors.password = '영어와 숫자를 포함하여 8 ~ 12글자로 작성하세요';
-      // alert("비밀번호 입력을 완료해주세요");
       isValid = false;
     }
 
@@ -143,27 +148,24 @@ export default function SignUp() {
 
     if (!email || !validateEmail(email)) {
       tempErrors.email = '유효한 이메일을 입력하거나 빈 칸을 채워주세요';
-      // alert("이메일 입력을 완료해주세요");
       isValid = false;
     }
 
     if (!phone || !validatePhone(phone)) {
       tempErrors.phone = '유효한 핸드폰 번호를 입력하거나 빈 칸을 채워주세요';
-      // alert("휴대폰 번호 입력을 완료해주세요");
       isValid = false;
     }
 
-    if (
-      address &&
-      address.zipCode &&
-      address.roadAddress &&
-      !address.detailAddress
-    ) {
+    if (!address.zipCode) {
+      tempErrors.address!.zipCode = '주소찾기 버튼을 눌러주세요';
+      isValid = false;
+    }
+
+    if (address.zipCode && !address.detailAddress) {
       tempErrors.address!.detailAddress = '상세주소를 입력해주세요';
       isValid = false;
     }
 
-    // handleAddressClick();
 
     setErrors(tempErrors);
 
@@ -178,11 +180,7 @@ export default function SignUp() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //? 이벤트에서 입력 필드의 이름과 값을 추출
     const { name, value } = e.target;
-    // 파라미터로 formData를 받게 수정 - 이러면 gender도 같이 사용이 가능해짐
-    // setFormData((formData) => ({
-    //   ...formData,
-    //   [name]: value,
-    // }));
+
     if (name === 'detailAddress') {
       setFormData((prevData) => ({
         ...prevData,
@@ -229,36 +227,18 @@ export default function SignUp() {
   const selectedYear = birthForm?.year || '선택';
   const selectedMonth = birthForm?.month || '선택';
   const selectedDay = birthForm?.day || '선택';
-  // let years = [];
-  // for (let y = today.getFullYear(); y >= 1930; y -= 1) {
-  //   years.push(y);
-  // }
+
   const years: string[] = ['선택'];
   for (let y = today.getFullYear(); y >= 1930; y--) {
     years.push(y.toString());
   }
 
-  // let months = [];
-  // for (let m = 1; m <= 12; m += 1) {
-  //   if (m < 10) {
-  //     months.push('0' + m.toString());
-  //   } else {
-  //     months.push(m.toString());
-  //   }
-  // }
+
   const months: string[] = ['선택'];
   for (let m = 1; m <= 12; m++) {
     months.push(m.toString().padStart(2, '0'));
   }
 
-  // let date = new Date(birthForm.year, Number(birthForm.month), 0).
-  // for (let d = 1; d <= date; d += 1) {
-  //   if (d < 10) {
-  //     days.push('0' + d.toString());
-  //   } else {
-  //     days.push(d.toString());
-  //   }
-  // }
   let date = new Date(Number(selectedYear), Number(selectedMonth), 0).getDate();
   let days: string[] = ['선택'];
   for (let d = 1; d <= date; d++) {
@@ -266,16 +246,8 @@ export default function SignUp() {
   }
 
   //! 주소 입력 기능
-  // const [zipCode, setZipCode] = useState<string>('');
-  // const [roadAddress, setRoadAddress] = useState<string>('');
-  // const [detailAddress, setDetailAddress] = useState<string>('');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  // const finalInput = (data: any) => {
-  //   setZipCode(data.zonecode);
-  //   setRoadAddress(data.roadAddress);
-  //   setIsOpen(false);
-  // };
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const finalInput = (data: any) => {
     setFormData((prevData) => ({
@@ -294,24 +266,6 @@ export default function SignUp() {
   const handleSearchtoggle = () => {
     setIsOpen(!isOpen);
   };
-
-  // 상세주소 검색
-  // const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setDetailAddress(e.target.value);
-  // };
-
-  // 아래 코드는, 우편번호와 도로명주소를 입력했는데
-  // 상세주소를 입력안했을 경우에 작동하게 로직 변경
-  // 추가
-  // const handleAddressClick = () => {
-  //   if (zipCode && roadAddress && !detailAddress) {
-  //     alert('상세주소를 입력해주세요');
-  //   } else {
-  //     console.log(zipCode, roadAddress, detailAddress);
-  //   }
-  // };
-
-  // const addressAll = [zipCode, roadAddress, detailAddress];
 
   const modalStyles: ReactModal.Styles = {
     overlay: {
@@ -484,44 +438,6 @@ export default function SignUp() {
             )}
           </div>
 
-          <div className={styles.more__info__container}>
-            <div className={styles.more__info}>추가정보</div>
-            <div className={styles.more__box}></div>
-          </div>
-
-          <div className={styles.input__container}>
-            <div className={styles.input__wrapper}>
-              <div className={styles.label__box}>
-                <label>성별</label>
-              </div>
-              <FormControl>
-                <RadioGroup
-                  name='gender'
-                  value={gender || ''}
-                  onChange={handleInputChange}
-                  sx={{
-                    width: '300px',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    marginLeft: '60px',
-                  }}
-                >
-                  <FormControlLabel
-                    value='male'
-                    control={<Radio />}
-                    label='Male'
-                  />
-
-                  <FormControlLabel
-                    value='female'
-                    control={<Radio />}
-                    label='Female'
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-          </div>
-
           <div className={styles.input__container}>
             <div className={`${styles.input__wrapper} ${styles.btn__box}`}>
               <div className={styles.label__box}>
@@ -597,12 +513,56 @@ export default function SignUp() {
                     placeholder='상세주소'
                   />
                 </div>
-                {errors.address?.detailAddress && (
-                  <p className={styles.error}>{errors.address.detailAddress}</p>
-                )}
               </div>
             </div>
+            <div className={styles.input__container}>
+              {errors.address.zipCode && (
+                <p className={styles.error}>{errors.address.zipCode}</p>
+              )}
+              {errors.address.detailAddress && (
+                <p className={styles.error}>{errors.address.detailAddress}</p>
+              )}
+            </div>
           </div>
+
+          <div className={styles.more__info__container}>
+            <div className={styles.more__info}>추가정보</div>
+            <div className={styles.more__box}></div>
+          </div>
+
+          <div className={styles.input__container}>
+            <div className={styles.input__wrapper}>
+              <div className={styles.label__box}>
+                <label>성별</label>
+              </div>
+              <FormControl>
+                <RadioGroup
+                  name='gender'
+                  value={gender || ''}
+                  onChange={handleInputChange}
+                  sx={{
+                    width: '300px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginLeft: '60px',
+                  }}
+                >
+                  <FormControlLabel
+                    value='male'
+                    control={<Radio />}
+                    label='남성'
+                  />
+
+                  <FormControlLabel
+                    value='female'
+                    control={<Radio />}
+                    label='여성'
+                  />
+                </RadioGroup>
+              </FormControl>
+            </div>
+          </div>
+
 
           <div className={styles.input__container}>
             <div className={styles.input__wrapper}>
@@ -613,12 +573,6 @@ export default function SignUp() {
                 <select
                   className={styles.birth__select}
                   value={selectedYear}
-                  // onChange={(e) =>
-                  //   setBirthForm({
-                  //     ...birthForm,
-                  //     year: e.target.value,
-                  //   })
-                  // }
                   onChange={(e) => updateBirthForm('year', e.target.value)}
                 >
                   {years.map((item) => (
@@ -631,9 +585,6 @@ export default function SignUp() {
                 <select
                   className={styles.birth__select}
                   value={selectedMonth}
-                  // onChange={(e) =>
-                  //   setBirthForm({ ...birthForm, month: e.target.value })
-                  // }
                   onChange={(e) => updateBirthForm('month', e.target.value)}
                   disabled={selectedYear === '선택'}
                 >
@@ -647,9 +598,6 @@ export default function SignUp() {
                 <select
                   className={styles.birth__select}
                   value={selectedDay}
-                  // onChange={(e) =>
-                  //   setBirthForm({ ...birthForm, day: e.target.value })
-                  // }
                   onChange={(e) => updateBirthForm('day', e.target.value)}
                   disabled={selectedMonth === '선택' || selectedYear === '선택'}
                 >
