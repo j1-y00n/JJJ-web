@@ -105,6 +105,7 @@ function UsedProduct({
       <div className={styles.item__descriptions}>
         <div className={styles.item__infos}>
           <div className={styles.info__container}>
+            <div className={styles.item__user}>userId</div>
             <div className={styles.item__title}>{usedTitle}</div>
             <div className={styles.item__price}>
               {usedPrice.toLocaleString()}원

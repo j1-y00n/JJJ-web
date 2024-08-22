@@ -68,6 +68,8 @@
 
 .modal {
   position: absolute;
+  left: 23px;
+  top: -10px;
   background: var(--color-white);
   transform: translate(-50%, -100%);
   padding: 10px 20px;
