@@ -65,8 +65,8 @@ export default function MyUsedProduct() {
   };
 
   return (
-    <Box sx={{ width: '100%', paddingLeft: '20px' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', marginLeft: '30px'}}>
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs 
           value={value} 
           onChange={handleChange} 
@@ -74,6 +74,13 @@ export default function MyUsedProduct() {
           textColor="primary" 
           centered
           variant="fullWidth"
+          sx={{
+            '& .MuiTab-root': {
+              '&:hover': {
+                color: 'var(--color-blue)',
+              },
+            },
+          }}
         >
           <Tab label="판매중" {...a11yProps(0)} />
           <Tab label="판매완료" {...a11yProps(1)} />
@@ -86,6 +93,8 @@ export default function MyUsedProduct() {
 
       <CustomTabPanel value={value} index={1}>
         {/* 판매완료 내용 */}
+        <CustomMyUsedItem />
+        <CustomMyUsedItem />
         <CustomMyUsedItem />
         <CustomMyUsedItem />
         <CustomMyUsedItem />

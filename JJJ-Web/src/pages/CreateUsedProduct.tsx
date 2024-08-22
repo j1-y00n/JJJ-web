@@ -31,10 +31,62 @@ export default function CreateUsedProduct() {
   };
 
   // 상품명
-  const { value: title, handleInputChange: titleInputChange } = useInput('');
+  // const { value: title, handleInputChange: titleInputChange } = useInput('');
+  const [title, setTitle] = useState('');
+
+  const validateTitle = (input: string) => {
+    let byteLength = 0;
+
+    for (let i = 0; i < input.length; i++) {
+      const char = input[i];
+      byteLength += char.charCodeAt(0) > 0x007f ? 2 : 1; 
+
+      if (byteLength > 40) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+
+    if (validateTitle(input)) {
+      setTitle(input);
+    }
+  }
 
   // 설명
-  const { value: detail, handleInputChange: detailInputChange } = useInput('');
+  // const { value: detail, handleInputChange: detailInputChange } = useInput('');
+  const [detail, setDetail] = useState('');
+
+  const validateDetail = (input: string) => {
+    let byteLength = 0;
+
+    for (let i = 0; i < input.length; i++) {
+      const char = input[i];
+      byteLength += char.charCodeAt(0) > 0x007f ? 2 : 1; 
+
+      if (byteLength > 240) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  const handleDetailChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const input = e.target.value;
+
+    if (validateDetail(input)) {
+      setDetail(input);
+    }
+  }
+
+  const handleDetailKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  }
 
   // 가격(number만 입력가능)
   const [price, setPrice] = useState<number>(0);
@@ -92,9 +144,12 @@ export default function CreateUsedProduct() {
                     type='text' 
                     className={styles.title__input} 
                     value={title} 
-                    onChange={titleInputChange} 
+                    onChange={handleTitleChange} 
+                    placeholder='최대 20자'
                     maxLength={20}
+                    required
                   />
+                  <div style={{marginTop: '30px', marginLeft: '10px'}}>{title.length}/20</div>
                 </div>
                 <div className={styles.condition__container}>
                   <div className={styles.inner__title}>상품 상태</div>
@@ -141,10 +196,13 @@ export default function CreateUsedProduct() {
                     name='detailContent'
                     className={styles.detail__input}
                     value={detail}
-                    onChange={detailInputChange}
-                    rows={3}
-                    maxLength={100}
+                    onChange={handleDetailChange}
+                    onKeyDown={handleDetailKeyDown}
+                    rows={5}
+                    maxLength={120}
+                    required
                   ></textarea>
+                  <div style={{marginTop: '90px', marginLeft: '10px'}}>{detail.length}/120</div>
                 </div>
               </div>
             </div>

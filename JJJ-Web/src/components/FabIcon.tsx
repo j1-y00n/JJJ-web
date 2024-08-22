@@ -3,6 +3,7 @@ import Fab from '@mui/material/Fab';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useEffect, useState } from 'react';
+import { Padding, WidthFull } from '@mui/icons-material';
 
 export default function FloatingActionButtons() {
   const [isShow, setIsShow] = useState(false);
@@ -36,8 +37,10 @@ export default function FloatingActionButtons() {
   };
 
   const fabIconStyles = {
-    borderRadius: '0',
+    borderRadius: '50%',
     height: '40px',
+    width: '20px',
+    margin: '5px',
     backgroundColor: 'var(--color-blue-light)',
     '&:hover': {
       color: 'var(--color-white)',

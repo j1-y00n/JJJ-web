@@ -1,11 +1,15 @@
 /* 변지윤 */
 .myused__container {
-  width: 172px;
+  width: 172.5px;
   border: 1px solid var(--color-grey-bg);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   padding: 10px;
-  margin: 10px 30px;
+  margin: 10px 0;
+  margin-right: 70px;
+}
+.myused__container:nth-child(4n) {
+  margin-right: 0;
 }
 
 .myused__img {
