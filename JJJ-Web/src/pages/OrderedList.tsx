@@ -52,7 +52,7 @@ export default function OrderedList() {
 const Orders = () => {
   return (
     <div className={styles.orders}>
-      <div className={styles.order__number}>주문번호 : 1111111</div>
+      <div className={styles.order__number}>주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원</div>
       <Order />
       <Order />
       <Order />
@@ -84,9 +84,10 @@ const Order = () => {
         <img src={balloonImg} alt='balloonImg' />
       </div>
       <div className={styles.order__details}>
-        <p>상품명 : 풍선</p>
-        <p>상품가격 : 2000원</p>
+        <p>스마일 풍선</p>
+        <p>2000원</p>
         <p>수량 : 5개</p>
+        <p>총 상품금액 : 10000원</p>
       </div>
       <div className={styles.order__buttons}>
         <Button onClick={() => navigate('/cart')} sx={{ marginBottom: '20px' }}>
