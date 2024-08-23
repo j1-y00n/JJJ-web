@@ -1,16 +1,12 @@
 import styles from "../styles/components/Slider.module.css";
-
-import React, { useState, useEffect, useRef, useCallback } from "react";
-
-import SlidersampleA from "../assets/images/balloon.jpg";
-import SlidersampleB from "../assets/images/boardgame.jpg";
-import SlidersampleC from "../assets/images/book.jpg";
+import React, { useState, useEffect, useRef } from "react";
+import SlidersampleA from "../assets/images/dollsTh.jpg";
+import SlidersampleB from "../assets/images/robotTh.jpg";
+import SlidersampleC from "../assets/images/ducksTh.jpg";
 import SlidersampleD from "../assets/images/cars.jpg";
-import SlidersampleE from "../assets/images/exam02.jpg";
+import SlidersampleE from "../assets/images/boardgameTh.jpg";
 
-// interface ImageSliderProps {
-//   images: string[];
-// }
+import SlidersampleF from "../assets/images/childroomTh.jpg";
 
 const Aimages: string[] = [
   SlidersampleA,
@@ -18,15 +14,18 @@ const Aimages: string[] = [
   SlidersampleC,
   SlidersampleD,
   SlidersampleE,
+  SlidersampleF,
 ];
 
 const ImageSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleTransitionEnd = () => {
     setIsTransitioning(false);
+
     if (currentIndex === Aimages.length + 1) {
       setCurrentIndex(1);
       if (sliderRef.current) {
@@ -42,15 +41,43 @@ const ImageSlider = () => {
         }%)`;
       }
     }
+
+    setTimeout(() => {
+      if (sliderRef.current) {
+        sliderRef.current.style.transition = "transform 1s ease-in-out";
+      }
+    }, 50);
+  };
+
+  const startAutoSlide = () => {
+    intervalRef.current = setInterval(() => {
+      handleNextClick();
+    }, 5000); // 5초마다 슬라이드 변경
+  };
+
+  const stopAutoSlide = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleNextClick();
-    }, 3000); // 3초마다 슬라이드 변경
+    startAutoSlide();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    return () => clearInterval(interval);
-  }, [Aimages.length]);
+    return () => {
+      stopAutoSlide();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      stopAutoSlide();
+    } else {
+      startAutoSlide();
+    }
+  };
 
   const handlePrevClick = () => {
     if (isTransitioning) return;
@@ -66,34 +93,9 @@ const ImageSlider = () => {
 
   useEffect(() => {
     if (sliderRef.current && isTransitioning) {
-      sliderRef.current.style.transition = "transform 1s ease-in-out";
       sliderRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-  }, [currentIndex, isTransitioning]);
-
-  // const slides = [...Aimages];
-  // slides.unshift(Aimages[Aimages.length - 1]);
-  // slides.push(Aimages[0]);
-
-  // const onPickIndex = useCallback((index: React.Key): void => {
-  //   if (currentIndex === index) {
-
-  //     return;
-  //   }
-  //   setCurrentIndex(index);
-  // }, [currentIndex]);
-  
-  // useEffect(() => {
-  //   setCurrentIndex(Aimages.map((image: string, index: React.Key ) => {
-  //     return (
-  //       <Picker
-  //         onClick={() => onPickIndex(index)}
-  //         background={currentIndex === index ? 'orange' : 'white'}
-  //       >
-  //       </Picker>
-  //     );
-  //   }));
-  // }, [onPickIndex, currentIndex]);
+  }, [currentIndex]);
 
   return (
     <div className={styles.slider}>
@@ -102,12 +104,11 @@ const ImageSlider = () => {
         ref={sliderRef}
         onTransitionEnd={handleTransitionEnd}
       >
-        
         <div className={styles.slide}>
           <img src={Aimages[Aimages.length - 1]} alt={`Slide ${Aimages.length - 1}`} />
         </div>
 
-        {Aimages.map((image: string | undefined, index: React.Key | null | undefined) => (
+        {Aimages.map((image, index) => (
           <div key={index} className={styles.slide}>
             <img src={image} alt={`Slide ${index}`} />
           </div>
@@ -116,15 +117,6 @@ const ImageSlider = () => {
         <div className={styles.slide}>
           <img src={Aimages[0]} alt="Slide 0" />
         </div>
-
-        {/* {slides.map(
-          (image: string | undefined, index: React.Key | null | undefined) => (
-            <div key={index} className={styles.slide}>
-              <img src={image} alt={`Slide ${index}`} />
-            </div>
-          )
-        )} */}
-
       </div>
       <button className={styles.prev} onClick={handlePrevClick}>
         &#10094;
