@@ -7,10 +7,7 @@
 .orders {
   width: 100%;
   padding: 20px;
-  /* background-color: var(--color-blue-light); */
-  /* border: 1px solid var(--color-blue); */
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  background-color: var(--color-grey-bg);
   margin-bottom: 30px;
 }
 
@@ -23,9 +20,9 @@
   display: flex;
   border: 1px solid var(--color-white);
   border-radius: var(--border-radius);
-  /* background-color: var(--color-white); */
+  background-color: var(--color-white);
   box-shadow: var(--box-shadow);
-  height: 250px;
+  height: 150px;
   gap: 20px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -36,12 +33,15 @@
 }
 
 .order__img {
-  flex: 1.5;
+  flex: 1;
 }
 .order__img img {
   width: 100%;
-  height: 100%;
+  height: 126px;
   object-fit: cover;
+  margin: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--color-grey);
 }
 
 .order__details,
@@ -53,16 +53,16 @@
 }
 
 .order__details {
-  flex: 2;
+  flex: 4;
 }
 
 .order__details p {
-  padding: 20px 0;
+  padding: 8px 0;
   margin-left: 40px;
 }
 
 .order__buttons {
-  flex: 1;
+  flex: 0.5;
 }
 
 /* 모달 */
@@ -116,6 +116,7 @@
   width: 400px;
   height: auto;
   text-align: center;
+  padding: 30px;
 }
 
 .modal__inner__nest p {
