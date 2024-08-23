@@ -1,23 +1,20 @@
 // 박용재
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from '../styles/pages/SignUp.module.css';
 import {
   Button,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
 } from '@mui/material';
 
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Header';
 import Modal from 'react-modal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import CloseIcon from '@mui/icons-material/Close';
-
-// 옵션기능에는 ? 물음표 사용 권장
 interface SignUpForm {
   id: number;
   userId: string;
@@ -31,14 +28,12 @@ interface SignUpForm {
   birth?: BirthForm | undefined;
 }
 
-// 생성
 interface BirthForm {
   year: string;
   month: string;
   day: string;
 }
 
-// 생성
 interface AddressForm {
   zipCode: string;
   roadAddress: string;
@@ -47,8 +42,8 @@ interface AddressForm {
 
 export default function SignUp() {
   const userIdRef = useRef(1);
+  const navigate = useNavigate();
 
-  // 초기값 설정함으로써 아래에서 반복되는 코드 줄임
   const requiredFormInitialValue = {
     id: userIdRef.current,
     userId: '',
@@ -64,14 +59,12 @@ export default function SignUp() {
     },
   };
 
-  // 초기값 설정함으로써 아래에서 반복되는 코드 줄임
   const includedOptionalFormInitialValue = {
     ...requiredFormInitialValue,
     gender: undefined,
     birth: undefined,
   };
 
-  // SignUpForm 타입 추가
   const [formData, setFormData] = useState<SignUpForm>(
     includedOptionalFormInitialValue
   );
@@ -97,8 +90,9 @@ export default function SignUp() {
     // birth,
   } = formData;
 
+  // 정규식을 이용한 검증
   const validateId = (userId: string): boolean => {
-    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4,}$/.test(userId);
+    return /^(?=.*\d)(?=.*[a-z])[0-9a-z]{4,20}$/.test(userId);
   };
 
   const validatePassword = (password: string): boolean => {
@@ -109,17 +103,44 @@ export default function SignUp() {
     return password === passwordCheck ? true : false;
   };
 
+  const validateName = (name: string): boolean => {
+    return /^[a-zA-Z가-힣][a-zA-Z가-힣\s]*[a-zA-Z가-힣]$/.test(name);
+  };
+
   const validateEmail = (email: string): boolean => {
     return /\S+@\S+\.\S+/.test(email);
   };
 
   const validatePhone = (phone: string): boolean => {
-    return /^(01[016789]{1}) ?[0-9]{4} ?[0-9]{4}$/.test(phone);
+    return /^010\d{8}$/.test(phone);
+  };
+
+  const validationRules: Record<string, (value: string) => boolean> = {
+    userId: (value: string) => validateId(value),
+    password: (value: string) => validatePassword(value),
+    passwordCheck: (value: string) => checkingPassword(value),
+    name: (value: string) => validateName(value),
+    email: (value: string) => validateEmail(value),
+    phone: (value: string) => validatePhone(value),
+    zipCode: (value: string) => !!value,
+    detailAddress: (value: string) => !!value,
+  };
+
+  const errorMessages: Record<string, string> = {
+    userId: '영어(소문자)와 숫자를 혼합하여 4~20자 이내로 작성하세요',
+    password: '영어와 숫자를 혼합하여 8~12자 이내로 작성하세요',
+    passwordCheck: '비밀번호가 일치하지 않습니다',
+    name: '유효한 이름을 입력하세요',
+    email: '유효한 이메일을 입력하세요',
+    phone: '유효한 핸드폰 번호를 입력하세요',
+    zipCode: '주소찾기 버튼을 눌러주세요',
+    detailAddress: '상세주소를 입력해주세요',
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 회원가입 버튼 클릭시 input 검증
     let tempErrors = {
       ...requiredFormInitialValue,
       address: {
@@ -132,67 +153,96 @@ export default function SignUp() {
     let isValid = true;
 
     if (!userId || !validateId(userId)) {
-      tempErrors.userId = '영어와 숫자를 포함하여 4글자 이상 작성하세요';
+      tempErrors.userId = errorMessages.userId;
       isValid = false;
     }
 
     if (!password || !validatePassword(password)) {
-      tempErrors.password = '영어와 숫자를 포함하여 8 ~ 12글자로 작성하세요';
+      tempErrors.password = errorMessages.password;
       isValid = false;
     }
 
     if (!checkingPassword(passwordCheck)) {
-      tempErrors.passwordCheck = '비밀번호를 재입력해주세요';
+      tempErrors.passwordCheck = errorMessages.passwordCheck;
+      isValid = false;
+    }
+
+    if (!name || !validateName(name)) {
+      tempErrors.name = errorMessages.name;
       isValid = false;
     }
 
     if (!email || !validateEmail(email)) {
-      tempErrors.email = '유효한 이메일을 입력하거나 빈 칸을 채워주세요';
+      tempErrors.email = errorMessages.email;
       isValid = false;
     }
 
     if (!phone || !validatePhone(phone)) {
-      tempErrors.phone = '유효한 핸드폰 번호를 입력하거나 빈 칸을 채워주세요';
+      tempErrors.phone = errorMessages.phone;
       isValid = false;
     }
 
     if (!address.zipCode) {
-      tempErrors.address!.zipCode = '주소찾기 버튼을 눌러주세요';
+      tempErrors.address!.zipCode = errorMessages.zipCode;
       isValid = false;
     }
 
     if (address.zipCode && !address.detailAddress) {
-      tempErrors.address!.detailAddress = '상세주소를 입력해주세요';
+      tempErrors.address!.detailAddress = errorMessages.detailAddress;
       isValid = false;
     }
-
 
     setErrors(tempErrors);
 
     if (isValid) {
       console.log('회원 가입 데이터: ', formData);
       alert(`회원 가입을 축하합니다!! ${name}님!! `);
-
       setFormData(includedOptionalFormInitialValue);
+      navigate('/');
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //? 이벤트에서 입력 필드의 이름과 값을 추출
     const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedFormData = { ...prevData, [name]: value };
 
-    if (name === 'detailAddress') {
-      setFormData((prevData) => ({
-        ...prevData,
-        address: {
-          ...prevData.address,
-          detailAddress: value,
-        },
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
+      if (name === 'detailAddress') {
+        return {
+          ...updatedFormData,
+          address: {
+            ...prevData.address,
+            detailAddress: value,
+          },
+        };
+      }
+
+      return updatedFormData;
+    });
+
+    // 에러 메세지가 있는 경우에 실시간 input 검증
+    // 올바르게 입력했을 경우 에러 메세지 삭제
+    if (validationRules[name]) {
+      const isValid = validationRules[name](value);
+
+      if (isValid) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: isValid && '',
+        }));
+      }
+    }
+  };
+
+  // input창에서 focus 잃을 때 input 검증
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (validationRules[name]) {
+      const isValid = validationRules[name](value);
+
+      setErrors((prev) => ({
+        ...prev,
+        [name]: isValid ? '' : errorMessages[name],
       }));
     }
   };
@@ -233,7 +283,6 @@ export default function SignUp() {
     years.push(y.toString());
   }
 
-
   const months: string[] = ['선택'];
   for (let m = 1; m <= 12; m++) {
     months.push(m.toString().padStart(2, '0'));
@@ -246,9 +295,10 @@ export default function SignUp() {
   }
 
   //! 주소 입력 기능
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const handleSearchtoggle = () => {
+    setIsOpen(!isOpen);
+  };
   const finalInput = (data: any) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -260,11 +310,6 @@ export default function SignUp() {
       },
     }));
     setIsOpen(false);
-  };
-
-  // 검색 클릭
-  const handleSearchtoggle = () => {
-    setIsOpen(!isOpen);
   };
 
   const modalStyles: ReactModal.Styles = {
@@ -286,8 +331,6 @@ export default function SignUp() {
     },
   };
 
-  const navigate = useNavigate();
-
   return (
     <div className='flex__container'>
       <Logo />
@@ -300,12 +343,15 @@ export default function SignUp() {
               </div>
               <div className={styles.input__box}>
                 <input
-                  type='text'
                   className={styles.input}
+                  type='text'
                   name='userId'
-                  placeholder='4글자 이상 영문과 숫자 조합'
-                  value={userId}
+                  minLength={4}
+                  maxLength={20}
+                  placeholder='소문자와 숫자를 혼합하여 4~20자 이내'
+                  value={userId.toLowerCase()}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                 />
               </div>
               <Button
@@ -334,12 +380,15 @@ export default function SignUp() {
               </div>
               <div className={styles.input__box}>
                 <input
-                  type='text'
                   className={styles.input}
+                  type='text'
                   name='password'
+                  minLength={8}
+                  maxLength={12}
                   placeholder='8 ~ 12자의 영문과 숫자 조합'
                   value={password}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -357,12 +406,15 @@ export default function SignUp() {
               </div>
               <div className={styles.input__box}>
                 <input
-                  type='text'
                   className={styles.input}
+                  type='text'
                   name='passwordCheck'
+                  minLength={8}
+                  maxLength={12}
                   placeholder='비밀번호 확인'
                   value={passwordCheck}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -380,12 +432,14 @@ export default function SignUp() {
               </div>
               <div className={styles.input__box}>
                 <input
-                  type='text'
                   className={styles.input}
+                  type='text'
                   name='name'
-                  placeholder='이름'
+                  maxLength={20}
+                  placeholder='이름 - 한글 및 영어만 허용'
                   value={name}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -402,9 +456,11 @@ export default function SignUp() {
                   type='text'
                   className={styles.input}
                   name='email'
+                  maxLength={50}
                   placeholder='example@gmail.com'
                   value={email}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -422,12 +478,15 @@ export default function SignUp() {
               </div>
               <div className={styles.input__box}>
                 <input
+                  className={styles.input}
                   type='text'
                   name='phone'
-                  placeholder='010-1234-5678'
+                  minLength={11}
+                  maxLength={11}
+                  placeholder='ex) 01012345678 - (-) 없이 작성'
                   value={phone}
                   onChange={handleInputChange}
-                  className={styles.input}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -446,10 +505,10 @@ export default function SignUp() {
               <div className={styles.address__box}>
                 <div className={styles.input__box}>
                   <input
+                    className={styles.input}
                     name='zipCode'
                     value={formData.address?.zipCode || ''}
                     placeholder='우편번호'
-                    className={styles.input}
                     onChange={handleInputChange}
                     readOnly
                   />
@@ -470,10 +529,10 @@ export default function SignUp() {
 
                 <div className={styles.input__box}>
                   <input
+                    className={styles.input}
                     name='roadAddress'
                     value={formData.address?.roadAddress || ''}
                     placeholder='도로명주소'
-                    className={styles.input}
                     onChange={handleInputChange}
                     readOnly
                   />
@@ -506,11 +565,13 @@ export default function SignUp() {
 
                 <div className={styles.input__box}>
                   <input
-                    name='detailAddress'
-                    value={formData.address?.detailAddress || ''}
-                    onChange={handleInputChange}
                     className={styles.input}
+                    name='detailAddress'
+                    maxLength={50}
+                    value={formData.address?.detailAddress || ''}
                     placeholder='상세주소'
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
                   />
                 </div>
               </div>
@@ -562,7 +623,6 @@ export default function SignUp() {
               </FormControl>
             </div>
           </div>
-
 
           <div className={styles.input__container}>
             <div className={styles.input__wrapper}>

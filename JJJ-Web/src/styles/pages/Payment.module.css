@@ -1,2 +1,221 @@
-/* 박용재 */
+/* 신승주 */
 
+/* 변지윤 */
+
+.form__payment {
+  /* width: var(--max-width); */
+}
+
+.relative {
+}
+
+.info__title {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-medium);
+  border-bottom: 1px solid var(--color-black);
+  height: 100px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.info__container {
+  display: flex;
+  padding: 30px 0;
+  align-items: center;
+}
+
+.address__container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.label {
+  width: 200px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 500px;
+  height: 48px;
+  border: 1px solid var(--color-grey);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-regular);
+  padding: 0 12px;
+}
+
+.input:focus {
+  outline-color: var(--color-blue);
+}
+
+.input__card__number {
+  width: 100px;
+  height: 48px;
+  border: 1px solid var(--color-grey);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-regular);
+  padding: 0 12px;
+}
+
+.input__card__number:focus {
+  outline-color: var(--color-blue);
+}
+
+.input__card__number:last-of-type {
+  margin-right: 0;
+}
+
+.address:not(:last-of-type) {
+  margin-bottom: 5px;
+}
+
+.textarea {
+  width: 500px;
+  height: 100px;
+  border: 1px solid var(--color-grey);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-regular);
+  padding: 12px 12px;
+  resize: none;
+  position: relative;
+}
+
+.textarea:focus {
+  outline-color: var(--color-blue);
+}
+
+.select {
+  width: 500px;
+  height: 48px;
+}
+
+.enter__directly {
+  position: relative;
+  padding-top: 0;
+}
+
+.text__length {
+  position: absolute;
+  top: 112px;
+  right: -56px;
+}
+
+.card__payment__container {
+  width: 500px;
+}
+
+.not__ready {
+  width: 500px;
+  height: 42px;
+  margin-top: 58px;
+}
+
+/* OrderedList.module.css 에서 가져와서 변형 */
+.delivery__products {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.delivery__products > div:last-of-type {
+  margin-bottom: 0;
+}
+
+.total__price {
+  margin: 5px 0 20px 5px;
+  color: var(--color-black);
+}
+
+.product__container {
+  display: flex;
+  border: 1px solid var(--color-white);
+  border-radius: var(--border-radius);
+  background-color: var(--color-white);
+  box-shadow: var(--box-shadow);
+  height: 150px;
+  gap: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.product__img {
+  flex: 1;
+}
+.product__img img {
+  width: 100%;
+  height: 126px;
+  object-fit: cover;
+  margin: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--color-grey);
+}
+
+.product__details,
+.product__delivery__price {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 0 10px;
+}
+
+.product__details {
+  flex: 4;
+}
+
+.product__details p {
+  padding: 8px 0;
+  margin-left: 40px;
+}
+
+.product__delivery__price {
+  flex: 0.5;
+  align-items: center;
+}
+
+/* Cart.module.css 의 내용 그대로 가져옴 */
+.fixed__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  height: 76px;
+  background-color: var(--color-black);
+  width: 100%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.fixed__inner {
+  width: var(--max-width);
+  display: flex;
+  justify-content: flex-end;
+  gap: 25px;
+  height: 48px;
+}
+
+.fixed__price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 265px;
+  color: var(--color-white);
+  font-size: var(--font-size-medium);
+  font-weight: bold;
+}
+
+.fixed__inner .fixed__order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 230px;
+  border: 1px solid black;
+  background-color: var(--color-blue-light);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-size-regular);
+  font-weight: bold;
+}
