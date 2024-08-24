@@ -9,7 +9,7 @@
 .edit__header {
   font-size: var(--font-size-medium);
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 /* 회원 정보 확인 */
@@ -18,36 +18,128 @@
   margin-bottom: 10px;
 }
 
-.edit__check__inner {
-  margin-top: 20px;
+
+/* 로그인 css */
+.login__section {
+  display: flex;
+  justify-content: center;
+  border-radius: var(--border-radius);
+}
+
+.login__form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
-.edit__check__user__container {
+.input__container {
+  margin-bottom: 20px;
+}
+
+.input__wrapper {
   display: flex;
   align-items: center;
-  height: 50px;
 }
 
-.title__input {
+.label__box {
+  width: 100px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.input__box {
+  display: flex;
+  flex: 1;
+  margin-left: 60px;
+}
+
+.input {
   width: 300px;
-  border: 1px solid grey;
-  padding: 0 12px;
-  height: 35px;
+  padding: 10px;
 }
 
-.title__input:focus {
-  outline-color: var(--color-blue);
-}
+/* .error {
+  width: 100%;
+  text-align: center;
+  color: var(--color-red);
+  padding: 0 20px;
+  margin-top: 10px;
+  white-space: pre-line;
+} */
 
-.edit__check__select__container {
+.button__container {
   display: flex;
+  gap: 10px;
+  padding-left: 36px;
+  margin-top: 20px;
+  width: 100%;
 }
 
-.edit__check__select__container .edit__check__btn {
-  width: 140px;
+.action__container {
+  display: flex;
+  margin-left: 36px;
+  margin-top: 10px;
+  cursor: default;
 }
+
+.action__container li:not(:last-child):after {
+  content: '|';
+  margin: 0 5px;
+}
+
+.sing__up {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sing__up:hover {
+  color: var(--color-blue);
+}
+
 
 /* 회원 정보 수정 */
+
+/* 회원가입 css */
+
+.error {
+  text-align: right;
+  color: var(--color-red);
+  margin-top: 10px;
+}
+
+.more__info__container {
+  display: flex;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.more__info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 40px;
+  width: 100px;
+  color: var(--color-blue);
+  font-weight: bold;
+  font-size: var(--font-size-regular);
+  /* margin: 20px; */
+}
+
+.btn__box {
+  position: relative;
+}
+
+.address__box input {
+  margin: 5px;
+}
+
+.birth__select {
+  width: 90px;
+  padding: 10px;
+  margin-left: 15px;
+}
+.birth__select:first-child {
+  margin-left: 0;
+}

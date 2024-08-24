@@ -8,7 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Footer from '../components/Footer';
 import { useInput } from '../hooks/useInput';
-import { InputAdornment, OutlinedInput, Typography } from '@mui/material';
+import { Button, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import { Logo } from '../components/Header';
 
 export default function CreateUsedProduct() {
@@ -286,7 +286,7 @@ export default function CreateUsedProduct() {
       {/* Fixed */}
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
-          <button className={styles.fixed__create}>등록하기</button>
+          <Button className={styles.fixed__create}>등록하기</Button>
         </div>
       </div>
     </div>
