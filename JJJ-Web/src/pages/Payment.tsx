@@ -1,21 +1,17 @@
 // 신승주
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/pages/Payment.module.css';
 import {
   RadioGroup,
   Radio,
   FormControlLabel,
   FormControl,
-  FormLabel,
   Select,
   MenuItem,
-  TextField,
   Button,
   Box,
   SelectChangeEvent,
-  OutlinedInput,
-  InputAdornment,
   Typography,
 } from '@mui/material';
 import { Logo } from '../components/Header';
@@ -23,11 +19,13 @@ import Footer from '../components/Footer';
 import { useInput } from '../hooks/useInput';
 import CloseIcon from '@mui/icons-material/Close';
 import Modal from 'react-modal';
+import MuiModal from '@mui/material/Modal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import balloonImg from '../assets/images/balloon.jpg';
+import { useNavigate } from 'react-router-dom';
+import { regexName, regexPayment, regexPhone } from '../regex/regex';
 
 export default function Payment() {
-  // CreateUsedProduct.tsx
   // 구매자 이름
   const { value: name, handleInputChange: nameInputChange } = useInput('');
 
@@ -59,8 +57,7 @@ export default function Payment() {
     },
   };
 
-  // 아래 gtp
-  const [deliveryMemo, setDeliveryMemo] = useState('1');
+  const [deliveryMemo, setDeliveryMemo] = useState('0');
   const [customMemo, setCustomMemo] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [selectedBank, setSelectedBank] = useState('kbstar');
@@ -76,6 +73,35 @@ export default function Payment() {
       updatedCardNumber[index] = event.target.value.slice(0, 4);
       setCardNumber(updatedCardNumber);
     };
+
+  // 결제하기 버튼 클릭
+  const [isPay, setIsPay] = useState<boolean>(false);
+  const handlePayProcess = () => setIsPay(true);
+  const handlePayDone = () => {
+    setIsPay(false);
+    navigate('/myPage');
+  };
+  const navigate = useNavigate();
+
+  // 정규식
+
+  const validatePayment = (cardNumber: string[]): boolean => {
+    const combinedCardNumber = cardNumber.join('');
+    return regexPayment.test(combinedCardNumber);
+  };
+
+  // 검증 로직
+  const errorMessages: Record<string, string> = {
+    payment: '결제 수단을 선택해주세요',
+  };
+
+  const [errors, setErrors] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    let tempErrors = '';
+    let isValid = true;
+  };
 
   return (
     <div className='flex__container'>
@@ -95,7 +121,7 @@ export default function Payment() {
               value={name}
               onChange={nameInputChange}
               maxLength={20}
-              required
+              disabled={true}
             />{' '}
           </div>
           <div className={styles.info__container}>
@@ -110,7 +136,7 @@ export default function Payment() {
               value={name}
               onChange={nameInputChange}
               maxLength={20}
-              required
+              disabled={true}
             />{' '}
           </div>
 
@@ -129,6 +155,7 @@ export default function Payment() {
                 // onChange={handleInputChange}
                 maxLength={20}
                 readOnly
+                disabled={true}
               />
               <input
                 className={`${styles.input} ${styles.address}`}
@@ -139,6 +166,7 @@ export default function Payment() {
                 // onChange={handleInputChange}
                 maxLength={20}
                 readOnly
+                disabled={true}
               />
               <input
                 className={`${styles.input} ${styles.address}`}
@@ -150,10 +178,12 @@ export default function Payment() {
                 // onBlur={handleBlur}
                 maxLength={20}
                 required
+                disabled={true}
               />
               <Button
                 onClick={handleSearchtoggle}
                 color='info'
+                disabled={true}
                 sx={{
                   position: 'absolute',
                   top: '0px',
@@ -202,6 +232,7 @@ export default function Payment() {
               value={deliveryMemo}
               onChange={handleDeliveryMemoChange}
             >
+              <MenuItem value='0'>선택</MenuItem>
               <MenuItem value='1'>문 앞</MenuItem>
               <MenuItem value='2'>직접 받고 부재 시 문 앞</MenuItem>
               <MenuItem value='3'>경비실</MenuItem>
@@ -265,12 +296,14 @@ export default function Payment() {
                   className={styles.label}
                   value='account'
                   control={<Radio />}
+                  disabled={true}
                   label='계좌 간편 결제'
                 />
                 <FormControlLabel
                   className={styles.label}
                   value='general'
                   control={<Radio />}
+                  disabled={true}
                   label='일반 결제'
                 />
               </RadioGroup>
@@ -331,9 +364,31 @@ export default function Payment() {
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
           <div className={styles.fixed__price}>주문 확인, 정보 제공 동의</div>
-          <Button className={styles.fixed__order}>10000원 결제하기</Button>
+          <Button className={styles.fixed__order} onClick={handlePayProcess}>
+            10000원 결제하기
+          </Button>
         </div>
       </div>
+
+      {/* 모달 */}
+      <MuiModal
+        open={isPay}
+        onClose={handlePayDone}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box className={styles.modal__inner}>
+          <Typography id='modal-modal-title' variant='h6' component='h2'>
+            결제가 완료 되었습니다
+          </Typography>
+          <Typography id='modal-modal-description' sx={{ my: 2 }}>
+            총 금액 10000원
+          </Typography>
+          <Button onClick={() => navigate('/Mypage')} sx={{ width: '90%' }}>
+            주문내역으로 이동
+          </Button>
+        </Box>
+      </MuiModal>
     </div>
   );
 }
