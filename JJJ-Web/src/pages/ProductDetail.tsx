@@ -12,7 +12,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { useCounter } from '../hooks/useCounter';
 import useActiveState from '../hooks/useActiveState';
@@ -38,6 +38,7 @@ export default function ProductDetail() {
   );
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } = useActiveState(true);
+  const navigate = useNavigate();
 
   const [currentImg, setCurrentImg] = useState(img01);
   const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -163,7 +164,10 @@ export default function ProductDetail() {
                 </IconButton>
               </div>
             </div>
-            <Button sx={{ fontSize: 'var(--font-size-regular)' }}>
+            <Button
+              onClick={() => navigate('/payment')}
+              sx={{ fontSize: 'var(--font-size-regular)' }}
+            >
               구매하기
             </Button>
           </div>

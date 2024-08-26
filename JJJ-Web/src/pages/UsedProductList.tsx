@@ -65,7 +65,7 @@ function UsedProduct({
 }: UsedProductProps) {
   const { activeState, handleStateChange, handleToggle } =
     useActiveState(false);
-
+  const navigate = useNavigate();
   // 장바구니 모달
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -141,6 +141,7 @@ function UsedProduct({
             </IconButton>
             <Button
               color='secondary'
+              onClick={() => navigate('/payment')}
               sx={{ padding: '5px', marginLeft: '20px' }}
             >
               구매하기

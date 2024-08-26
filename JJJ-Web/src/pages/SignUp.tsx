@@ -15,6 +15,13 @@ import { Logo } from '../components/Header';
 import Modal from 'react-modal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import CloseIcon from '@mui/icons-material/Close';
+import {
+  regexEmail,
+  regexId,
+  regexName,
+  regexPassword,
+  regexPhone,
+} from '../regex/regex';
 interface SignUpForm {
   id: number;
   userId: string;
@@ -92,11 +99,11 @@ export default function SignUp() {
 
   // 정규식을 이용한 검증
   const validateId = (userId: string): boolean => {
-    return /^(?=.*\d)(?=.*[a-z])[0-9a-z]{4,20}$/.test(userId);
+    return regexId.test(userId);
   };
 
   const validatePassword = (password: string): boolean => {
-    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/.test(password);
+    return regexPassword.test(password);
   };
 
   const checkingPassword = (passwordCheck: string): boolean => {
@@ -104,15 +111,15 @@ export default function SignUp() {
   };
 
   const validateName = (name: string): boolean => {
-    return /^[a-zA-Z가-힣][a-zA-Z가-힣\s]*[a-zA-Z가-힣]$/.test(name);
+    return regexName.test(name);
   };
 
   const validateEmail = (email: string): boolean => {
-    return /\S+@\S+\.\S+/.test(email);
+    return regexEmail.test(email);
   };
 
   const validatePhone = (phone: string): boolean => {
-    return /^010\d{8}$/.test(phone);
+    return regexPhone.test(phone);
   };
 
   const validationRules: Record<string, (value: string) => boolean> = {
