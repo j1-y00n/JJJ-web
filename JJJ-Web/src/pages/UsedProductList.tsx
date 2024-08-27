@@ -13,9 +13,11 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import useActiveState from '../hooks/useActiveState';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { CartModal } from './ProductDetail';
 import ImageTab from '../components/ImageTab';
-
+import { ModalCart } from '../components/ModalCart';
+import { useOpenModal } from '../hooks/useOpenModal';
+import ClearIcon from '@mui/icons-material/Clear';
+import ModalIsDelete from '../components/ModalIsDelete';
 export default function UsedProductList() {
   const navigate = useNavigate();
   const [products, setProducts] = useState<UsedProductProp[]>([]);
@@ -67,15 +69,11 @@ function UsedProduct({
     useActiveState(false);
   const navigate = useNavigate();
   // 장바구니 모달
-  const [isModalOpen, setModalOpen] = useState(false);
+  const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
+  const customPosition = { left: 18, top: -9 };
 
-  const handleAddToCart = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
+  // 삭제 모달
+  const isDelete = useOpenModal();
 
   // 이미지탭 커스텀 CSS
   const customImageTabStyles = {
@@ -94,6 +92,8 @@ function UsedProduct({
     setCurrentImg(value.src);
   };
 
+  const userId = 'userId1234';
+
   return (
     <div className={styles.item__container} onClick={onClick}>
       <ImageTab
@@ -105,7 +105,21 @@ function UsedProduct({
       <div className={styles.item__descriptions}>
         <div className={styles.item__infos}>
           <div className={styles.info__container}>
-            <div className={styles.item__user}>userId</div>
+            <div className={styles.item__user}>
+              <div>{userId}</div>
+              {userId && (
+                <IconButton
+                  onClick={isDelete.handleOpenModal}
+                  sx={{ padding: '2px' }}
+                >
+                  <ClearIcon sx={{ fontSize: 'var(--font-size-regular)' }} />
+                </IconButton>
+              )}
+              <ModalIsDelete
+                isOpen={isDelete.isOpen}
+                handleCloseModal={isDelete.handleCloseModal}
+              />
+            </div>
             <div className={styles.item__title}>{usedTitle}</div>
             <div className={styles.item__price}>
               {usedPrice.toLocaleString()}원
@@ -118,18 +132,19 @@ function UsedProduct({
             </div>
           </div>
           <div className={styles.btn__box}>
+            {/* 장바구니 모달 */}
+            <ModalCart
+              isOpen={isOpen}
+              handleCloseModal={handleCloseModal}
+              cartModalStyles={customPosition}
+            />
             <IconButton
               className='round nest__icons'
-              onClick={handleAddToCart}
+              onClick={handleOpenModal}
               sx={{
                 marginRight: '20px',
               }}
             >
-              {/* 장바구니 모달 */}
-              <CartModal
-                isOpen={isModalOpen}
-                handleCloseModal={handleCloseModal}
-              />
               <ShoppingCartOutlinedIcon className='default font__medium' />
               <ShoppingCartIcon className='show font__medium' />
             </IconButton>

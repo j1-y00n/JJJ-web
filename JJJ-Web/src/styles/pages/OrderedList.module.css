@@ -24,7 +24,6 @@
   box-shadow: var(--box-shadow);
   height: 150px;
   gap: 20px;
-  overflow: hidden;
   margin-bottom: 20px;
 }
 
@@ -63,6 +62,7 @@
 
 .order__buttons {
   flex: 0.5;
+  position: relative;
 }
 
 /* 모달 */
@@ -173,12 +173,17 @@
   user-select: none;
   width: 250px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .label__button:hover {
   color: var(--color-white);
   background-color: var(--color-blue);
+}
+
+.label__span {
+  margin-bottom: 1px;
+  margin-left: 5px;
 }
 
 .preview__container {

@@ -52,48 +52,41 @@
 }
 
 .actions__container {
+  position: relative;
   display: flex;
   align-items: center;
 }
 
-/* ModalCart */
-.modal__overlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 5;
+/* Review CSS */
+.review {
+  width: 100%;
+  border-bottom: 1px solid var(--color-grey-light);
+  padding: 50px 0;
 }
 
-.modal {
-  position: absolute;
-  left: 23px;
-  top: -10px;
-  background: var(--color-white);
-  transform: translate(-50%, -100%);
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  text-align: center;
+.review:first-child {
+  padding-top: 0;
 }
 
-.modal__content {
-  color: var(--color-black);
-  padding: 10px;
+.review__id {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.modal__content h2 {
-  font-size: var(--font-size-regular);
-  margin-bottom: 16px;
+.star__date__container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.arrow {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 10px solid var(--color-white);
+.review__img__container {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.review__img__container img {
+  width: 115px;
+  height: 80px;
+  object-fit: cover;
 }

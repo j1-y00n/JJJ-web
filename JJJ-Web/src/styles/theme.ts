@@ -141,7 +141,6 @@ export const theme = createTheme({
             borderRadius: '50%',
           },
           '&.nest__icons': {
-            position: 'relative',
             '& .MuiSvgIcon-root': {
               '&.font__large': {
                 fontSize: '30px',

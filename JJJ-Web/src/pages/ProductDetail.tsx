@@ -4,6 +4,7 @@ import styles from '../styles/pages/ProductDetail.module.css';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -27,7 +28,9 @@ import desc01 from '../assets/images/productDescription/desc01.jpeg';
 import desc02 from '../assets/images/productDescription/desc02.jpeg';
 import desc03 from '../assets/images/productDescription/desc03.jpeg';
 import desc04 from '../assets/images/productDescription/desc04.jpeg';
-
+import { useOpenModal } from '../hooks/useOpenModal';
+import { ModalCart } from '../components/ModalCart';
+import ModalIsDelete from '../components/ModalIsDelete';
 const images = [img01, img02, img03, img04, img05];
 
 export default function ProductDetail() {
@@ -68,15 +71,8 @@ export default function ProductDetail() {
   };
 
   // 장바구니 모달
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleAddToCart = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
+  const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
+  const customPosition = { left: 23, top: -10 };
 
   return (
     <div className='flex__container'>
@@ -136,18 +132,19 @@ export default function ProductDetail() {
                 </IconButton>
               </Box>
               <div className={styles.actions__container}>
+                {/* 장바구니 모달 */}
+                <ModalCart
+                  isOpen={isOpen}
+                  handleCloseModal={handleCloseModal}
+                  cartModalStyles={customPosition}
+                />
                 <IconButton
                   className='round nest__icons'
-                  onClick={handleAddToCart}
+                  onClick={handleOpenModal}
                   sx={{
                     marginRight: '20px',
                   }}
                 >
-                  {/* 장바구니 모달 */}
-                  <CartModal
-                    isOpen={isModalOpen}
-                    handleCloseModal={handleCloseModal}
-                  />
                   <ShoppingCartOutlinedIcon className='default font__large' />
                   <ShoppingCartIcon className='show font__large' />
                 </IconButton>
@@ -175,32 +172,6 @@ export default function ProductDetail() {
         <DetailTab />
       </div>
       <Footer />
-    </div>
-  );
-}
-
-// 장바구니 - 모달창 만들어야함
-interface CartModalProps {
-  isOpen: boolean;
-  handleCloseModal: () => void;
-}
-export function CartModal({ isOpen, handleCloseModal }: CartModalProps) {
-  if (!isOpen) return null;
-
-  return (
-    <div className={styles.modal__overlay} onClick={handleCloseModal}>
-      <div className={styles.modal}>
-        <div
-          className={styles.modal__content}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h2>장바구니에 담겼습니다</h2>
-          <Button onClick={handleCloseModal} sx={{ padding: '5px 10px' }}>
-            닫기
-          </Button>
-        </div>
-        <div className={styles.arrow}></div>
-      </div>
     </div>
   );
 }
@@ -261,12 +232,82 @@ function DetailTab() {
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>
-        <Box>하하</Box>
+        <Box sx={{ width: '100%' }}>
+          <Review />
+          <Review />
+          <Review />
+          {/* 리뷰가 없을 때 */}
+          {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            등록된 리뷰가 없습니다.
+          </Box> */}
+        </Box>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <Box>하하</Box>
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            등록된 문의가 없습니다.
+          </Box>
+        </Box>
       </CustomTabPanel>
     </Box>
+  );
+}
+
+function Review() {
+  const userId = 'userId1234';
+  // 로그인된 사용자의 리뷰에만 삭제 버튼이 보이도록 해야 함
+
+  // 삭제 모달
+  const isDelete = useOpenModal();
+
+  return (
+    <div className={styles.review}>
+      <div className={styles.review__id}>
+        <div>{userId}</div>
+        {userId && (
+          <IconButton
+            onClick={isDelete.handleOpenModal}
+            sx={{ padding: '5px' }}
+          >
+            <ClearIcon sx={{ fontSize: 'var(--font-size-regular)' }} />
+          </IconButton>
+        )}
+        <ModalIsDelete
+          isOpen={isDelete.isOpen}
+          handleCloseModal={isDelete.handleCloseModal}
+        />
+      </div>
+      <div className={styles.star__date__container}>
+        <div className={styles.stars}>
+          {[...Array(5)].map((_, index) => (
+            <StarRateIcon
+              key={index}
+              fontSize='small'
+              sx={{
+                margin: '0 -1.4px',
+                color:
+                  index < 4 ? 'var(--color-orange)' : 'var(--color-blue-light)',
+              }}
+            />
+          ))}
+        </div>
+        <div>{new Date().toLocaleDateString()}</div>
+      </div>
+      {images && (
+        <div className={styles.review__img__container}>
+          {images.map((image) => (
+            <img src={image} alt='이미지' />
+          ))}
+        </div>
+      )}
+      <div className={styles.review__description}>
+        이 장난감은 정말 대단한 발견이에요! 잘 만들어졌고, 다채롭고, 아이들에게
+        안전합니다. 우리 아이는 그것을 정말 좋아하고 몇 시간 동안 계속
+        참여합니다. <br />
+        소재는 내구성이 뛰어나고 디자인은 세심해서 걱정할 작은 부품이 없습니다.
+        창의성을 장려하고 청소가 쉽습니다. 활동적인 플레이에 적극 추천합니다!
+      </div>
+    </div>
   );
 }
 
@@ -288,7 +329,9 @@ function CustomTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ pt: 3, display: 'flex', flexWrap: 'wrap' }}>{children}</Box>
+        <Box sx={{ paddingTop: '50px', display: 'flex', flexWrap: 'wrap' }}>
+          {children}
+        </Box>
       )}
     </div>
   );
