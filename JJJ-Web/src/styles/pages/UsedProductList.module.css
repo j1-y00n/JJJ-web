@@ -18,6 +18,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.item__container:last-of-type {
+  margin-bottom: 50px;
+}
+
 .item__thumb__img {
   width: 50%;
   height: 246px;
@@ -38,8 +42,10 @@
 }
 
 .item__user {
-  padding-top: 3px;
   font-size: var(--font-size-small);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .item__title {
@@ -49,6 +55,9 @@
 .item__infos {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 306px;
 }
 
 .info__container {
@@ -71,10 +80,11 @@
 }
 
 .btn__box {
-  height: 60px;
+  /* height: 60px; */
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  /* justify-content: flex-end; */
+  /* align-items: flex-end; */
+  position: relative;
 }
 
 /* ImageTab.module.css 에서의 커스텀*/

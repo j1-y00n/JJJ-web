@@ -15,6 +15,8 @@ import React, { useState } from 'react';
 import { useInput } from '../hooks/useInput';
 import { useInputFile } from '../hooks/useInputfile';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { useOpenModal } from '../hooks/useOpenModal';
+import { ModalCart } from '../components/ModalCart';
 export default function OrderedList() {
   const { value, handleInputChange, reset } = useInput('');
   return (
@@ -52,7 +54,9 @@ export default function OrderedList() {
 const Orders = () => {
   return (
     <div className={styles.orders}>
-      <div className={styles.order__number}>주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원</div>
+      <div className={styles.order__number}>
+        주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원
+      </div>
       <Order />
       <Order />
       <Order />
@@ -78,6 +82,10 @@ const Order = () => {
 
   const [valueStars, setValueStars] = useState<number | null>(5);
 
+  // 장바구니 모달
+  const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
+  const customPosition = { left: 55, top: 10 };
+
   return (
     <div className={styles.order__container}>
       <div className={styles.order__img}>
@@ -90,9 +98,14 @@ const Order = () => {
         <p>총 상품금액 : 10000원</p>
       </div>
       <div className={styles.order__buttons}>
-        <Button onClick={() => navigate('/cart')} sx={{ marginBottom: '20px' }}>
+        <Button onClick={handleOpenModal} sx={{ marginBottom: '20px' }}>
           장바구니
         </Button>
+        <ModalCart
+          isOpen={isOpen}
+          handleCloseModal={handleCloseModal}
+          cartModalStyles={customPosition}
+        />
         <React.Fragment>
           <Button onClick={handleOpen}>리뷰작성</Button>
           <Modal
@@ -177,7 +190,7 @@ function UploadInput() {
       <div>
         <label role='button' htmlFor='file' className={styles.label__button}>
           <AddAPhotoIcon />
-          이미지 등록 : 최대 5개
+          <span className={styles.label__span}>이미지 등록 : 최대 5개</span>
         </label>
         <input
           id='file'

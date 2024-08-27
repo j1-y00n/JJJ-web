@@ -355,7 +355,7 @@ export default function Payment() {
       </form>
 
       <footer
-        style={{ marginBottom: '50px', marginTop: '100px', width: '100%' }}
+        style={{ marginBottom: '50px', marginTop: '50px', width: '100%' }}
       >
         <Footer />
       </footer>
