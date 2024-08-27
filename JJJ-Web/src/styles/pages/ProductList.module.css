@@ -23,7 +23,7 @@
 
 .no__product {
   font-size: var(--font-size-medium);
-  margin: 30px auto;
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

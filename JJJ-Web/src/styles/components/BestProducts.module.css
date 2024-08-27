@@ -1,6 +1,6 @@
 .best__product {
   width: var(--max-width);
-  margin: 50px 0px 25px;
+  margin-top: 50px;
 }
 
 /* .best__product__title {

@@ -18,6 +18,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.item__container:last-of-type {
+  margin-bottom: 50px;
+}
+
 .item__thumb__img {
   width: 50%;
   height: 246px;
