@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "product_id": 1,
+      "product_title": "Educational Toy",
+      "product_price": 49.99,
+      "product_thumbnail": "https://example.com/image1.jpg",
+      "product_stock": 100,
+      "product_sales_price": 39.99,
+      "product_sales_count": 10
+    },
+    {
+      "product_id": 2,
+      "product_title": "Puzzle Game",
+      "product_price": 19.99,
+      "product_thumbnail": "https://example.com/image2.jpg",
+      "product_stock": 200,
+      "product_sales_price": 15.99,
+      "product_sales_count": 20
+    }
+  ]
+}

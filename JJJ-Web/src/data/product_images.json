@@ -1,0 +1,6 @@
+{
+  "product_images": [
+    { "image_id": 1, "product_id": 1, "image_url": "https://example.com/product1_img1.jpg" },
+    { "image_id": 2, "product_id": 1, "image_url": "https://example.com/product1_img2.jpg" }
+  ]
+}

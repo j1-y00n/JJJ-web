@@ -1,0 +1,9 @@
+{
+  "categories": [
+    { "category_id": 1, "category_name": "gift" },
+    { "category_id": 2, "category_name": "intelligence" },
+    { "category_id": 3, "category_name": "five_senses" },
+    { "category_id": 4, "category_name": "emotion" },
+    { "category_id": 5, "category_name": "society" }
+  ]
+}
