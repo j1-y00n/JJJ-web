@@ -11,10 +11,15 @@ import AddIcon from '@mui/icons-material/Add';
 import { useCounter } from '../hooks/useCounter';
 import ClearIcon from '@mui/icons-material/Clear';
 import Header from '../components/Header';
+import ModalIsDelete from '../components/ModalIsDelete';
+import { useOpenModal } from '../hooks/useOpenModal';
 
 
 // Select component
 export const CustomSelect = () => {
+  // 삭제 모달
+  const isDelete = useOpenModal();
+
   return (
     <div className={styles.cart__select}>
       <div className={styles.select__total}>
@@ -22,9 +27,16 @@ export const CustomSelect = () => {
         <div className={styles.select__total__title}>전체선택</div>
       </div>
       <div className={styles.select__delete}>
-        <Button color='info'>
+        <Button 
+          color='info' 
+          onClick={isDelete.handleOpenModal}
+        >
           <ClearIcon sx={{ fontSize: '14px' }} /> 선택삭제
         </Button>
+        <ModalIsDelete
+          isOpen={isDelete.isOpen}
+          handleCloseModal={isDelete.handleCloseModal}
+        />
       </div>
     </div>
   );
@@ -39,11 +51,21 @@ interface CustomProductProps {
 }
 
 export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName }: CustomProductProps) => {
+  // 삭제 모달
+  const isDelete = useOpenModal();
+
   return (
     <div className={`${styles.list__desc} ${descClassName ? descClassName : ''}`}>
-      <IconButton className={styles.btn__delete}>
+      <IconButton 
+        className={styles.btn__delete}
+        onClick={isDelete.handleOpenModal}
+      >
         <ClearIcon sx={{ fontSize: '16px' }} />
       </IconButton>
+      <ModalIsDelete
+        isOpen={isDelete.isOpen}
+        handleCloseModal={isDelete.handleCloseModal}
+      />
       <div className={styles.desc__container}>
         <Checkbox {...label} color='primary' />
         <img src={exampleImg} alt="상품이미지" className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} />
@@ -92,7 +114,6 @@ export default function Cart() {
         {/* 상품리스트 */}
         <div className={styles.cart__list__container}>
           <div className={styles.list__container__inner}>
-
             <CustomProduct />
 
             <div className={styles.list__quantity}>
@@ -122,7 +143,6 @@ export default function Cart() {
                 <IconButton className={styles.btn__quantity} onClick={increaseCounter}>
                   <AddIcon sx={{ fontSize: '18px' }} />
                 </IconButton>
-
               </div>
             </div>
 
@@ -135,7 +155,6 @@ export default function Cart() {
               <div className={styles.title__font}>배송비</div>
               <div className={styles.context__font}>무료</div>
             </div>
-
           </div>
         </div>
         
