@@ -1,7 +1,7 @@
 /* 변지윤 */
 .cart__container {
   width: var(--max-width);
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .list__desc .btn__delete {

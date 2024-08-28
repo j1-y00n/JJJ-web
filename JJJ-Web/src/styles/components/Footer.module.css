@@ -29,12 +29,9 @@
 .footer__map:hover {
   /* color: var(--color-blue-light); */
   cursor: pointer;
-  
-}
-
-.footer__map p:hover {
   color: var(--color-blue);
   text-decoration: underline;
+  
 }
 
 .footer__detail p {

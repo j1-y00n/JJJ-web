@@ -5,6 +5,8 @@ import styles from '../styles/pages/MyUsedProduct.module.css'
 import { Box, Button, Tab, Tabs } from '@mui/material';
 import exampleImg from '../assets/images/cars.jpg';
 import { wrap } from 'module';
+import { useOpenModal } from '../hooks/useOpenModal';
+import ModalIsDelete from '../components/ModalIsDelete';
 
 
 interface TabPanelProps {
@@ -37,6 +39,8 @@ function a11yProps(index: number) {
 }
 
 const CustomMyUsedItem = () => {
+  const isDelete = useOpenModal();
+
   return (
     <div className={styles.myused__container}>
     <div>
@@ -48,9 +52,16 @@ const CustomMyUsedItem = () => {
       <div>1개</div>
     </div>
     <div>
-      <Button className={styles.myused__button}>
+      <Button 
+        className={styles.myused__button}
+        onClick={isDelete.handleOpenModal}
+      >
         게시글 삭제
       </Button>
+      <ModalIsDelete
+        isOpen={isDelete.isOpen}
+        handleCloseModal={isDelete.handleCloseModal}
+      />
     </div>
   </div>
   )
@@ -65,7 +76,7 @@ export default function MyUsedProduct() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', marginBottom: '40px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs 
           value={value} 

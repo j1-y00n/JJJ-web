@@ -279,7 +279,7 @@ export default function CreateUsedProduct() {
         </div>
       </form>
 
-      <div style={{ marginBottom: '50px', marginTop: '100px', width: '100%' }}>
+      <div style={{ marginBottom: '50px', marginTop: '50px', width: '100%' }}>
         <Footer />
       </div>
 

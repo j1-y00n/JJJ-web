@@ -338,7 +338,6 @@ export default function EditUser() {
       // 회원 정보 수정
       <div>
 
-
         <div className={styles.login__section}>
           <form className={styles.login__form}>
 
