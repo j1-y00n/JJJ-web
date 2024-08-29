@@ -29,13 +29,13 @@ const ImageSlider = () => {
     if (currentIndex === Aimages.length + 1) {
       setCurrentIndex(1);
       if (sliderRef.current) {
-        sliderRef.current.style.transition = "none";
+        sliderRef.current.style.transition = 'none';
         sliderRef.current.style.transform = `translateX(-100%)`;
       }
     } else if (currentIndex === 0) {
       setCurrentIndex(Aimages.length);
       if (sliderRef.current) {
-        sliderRef.current.style.transition = "none";
+        sliderRef.current.style.transition = 'none';
         sliderRef.current.style.transform = `translateX(-${
           Aimages.length * 100
         }%)`;
@@ -44,7 +44,7 @@ const ImageSlider = () => {
 
     setTimeout(() => {
       if (sliderRef.current) {
-        sliderRef.current.style.transition = "transform 1s ease-in-out";
+        sliderRef.current.style.transition = 'transform 1s ease-in-out';
       }
     }, 50);
   };
@@ -52,7 +52,7 @@ const ImageSlider = () => {
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
       handleNextClick();
-    }, 5000); // 5초마다 슬라이드 변경
+    }, 5000);
   };
 
   const stopAutoSlide = () => {
@@ -68,11 +68,11 @@ const ImageSlider = () => {
 
   useEffect(() => {
     startAutoSlide();
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       stopAutoSlide();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -131,7 +131,7 @@ const ImageSlider = () => {
         ))}
 
         <div className={styles.slide}>
-          <img src={Aimages[0]} alt="Slide 0" />
+          <img src={Aimages[0]} alt='Slide 0' />
         </div>
       </div>
       <button className={styles.prev} onClick={handlePrevClick}>
@@ -145,4 +145,3 @@ const ImageSlider = () => {
 };
 
 export default ImageSlider;
-

@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import styles from '../styles/components/CartModal.module.css';
+import styles from '../styles/components/ModalCart.module.css';
 
 interface ModalCartProps {
   isOpen: boolean;
@@ -20,11 +20,7 @@ export function ModalCart({
   }, 3000);
 
   return (
-    <div
-      id='modal'
-      className={styles.modal__overlay}
-      onClick={handleCloseModal}
-    >
+    <div className={styles.modal__overlay} onClick={handleCloseModal}>
       <div className={styles.modal} style={cartModalStyles}>
         <div
           className={styles.modal__content}
