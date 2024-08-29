@@ -1,11 +1,12 @@
-import styles from '../styles/components/Slider.module.css';
-import React, { useState, useEffect, useRef } from 'react';
-import SlidersampleA from '../assets/images/dollsTh.jpg';
-import SlidersampleB from '../assets/images/robotTh.jpg';
-import SlidersampleC from '../assets/images/ducksTh.jpg';
-import SlidersampleD from '../assets/images/cars.jpg';
-import SlidersampleE from '../assets/images/boardgameTh.jpg';
-import SlidersampleF from '../assets/images/childroomTh.jpg';
+
+import styles from "../styles/components/Slider.module.css";
+import React, { useState, useEffect, useRef } from "react";
+import SlidersampleA from "../assets/images/dollsTh.jpg";
+import SlidersampleB from "../assets/images/robotTh.jpg";
+import SlidersampleC from "../assets/images/ducksTh.jpg";
+import SlidersampleD from "../assets/images/cars.jpg";
+import SlidersampleE from "../assets/images/boardgameTh.jpg";
+import SlidersampleF from "../assets/images/childroomTh.jpg";
 
 const Aimages: string[] = [
   SlidersampleA,
@@ -88,7 +89,8 @@ const ImageSlider = () => {
 
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex - 1);
-
+    // stopAutoSlide(); // 버튼 클릭 시 자동 슬라이드 일시 정지
+    // setTimeout(restartAutoSlide, 3000); // 3초 후 자동 슬라이드 재시작
     restartAutoSlide();
   };
 
@@ -97,7 +99,8 @@ const ImageSlider = () => {
 
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex + 1);
-
+    // stopAutoSlide(); // 버튼 클릭 시 자동 슬라이드 일시 정지
+    // setTimeout(restartAutoSlide, 3000); // 3초 후 자동 슬라이드 재시작
     restartAutoSlide();
   };
 
