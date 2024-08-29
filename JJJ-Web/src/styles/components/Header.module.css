@@ -75,6 +75,15 @@
   font-size: var(--font-size-regular);
 }
 
+.login__auth {
+  position: absolute;
+  bottom: 50px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
+}
+
 /* header - fixed */
 .fixed {
   position: fixed;
