@@ -1,3 +1,4 @@
+
 import styles from "../styles/components/Slider.module.css";
 import React, { useState, useEffect, useRef } from "react";
 import SlidersampleA from "../assets/images/dollsTh.jpg";
@@ -5,7 +6,6 @@ import SlidersampleB from "../assets/images/robotTh.jpg";
 import SlidersampleC from "../assets/images/ducksTh.jpg";
 import SlidersampleD from "../assets/images/cars.jpg";
 import SlidersampleE from "../assets/images/boardgameTh.jpg";
-
 import SlidersampleF from "../assets/images/childroomTh.jpg";
 
 const Aimages: string[] = [
@@ -61,6 +61,11 @@ const ImageSlider = () => {
     }
   };
 
+  const restartAutoSlide = () => {
+    stopAutoSlide();
+    startAutoSlide();
+  };
+
   useEffect(() => {
     startAutoSlide();
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -81,14 +86,22 @@ const ImageSlider = () => {
 
   const handlePrevClick = () => {
     if (isTransitioning) return;
+
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex - 1);
+    // stopAutoSlide(); // 버튼 클릭 시 자동 슬라이드 일시 정지
+    // setTimeout(restartAutoSlide, 3000); // 3초 후 자동 슬라이드 재시작
+    restartAutoSlide();
   };
 
   const handleNextClick = () => {
     if (isTransitioning) return;
+
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex + 1);
+    // stopAutoSlide(); // 버튼 클릭 시 자동 슬라이드 일시 정지
+    // setTimeout(restartAutoSlide, 3000); // 3초 후 자동 슬라이드 재시작
+    restartAutoSlide();
   };
 
   useEffect(() => {
@@ -100,12 +113,15 @@ const ImageSlider = () => {
   return (
     <div className={styles.slider}>
       <div
-        className={styles.slider_images}
+        className={styles.slider__images}
         ref={sliderRef}
         onTransitionEnd={handleTransitionEnd}
       >
         <div className={styles.slide}>
-          <img src={Aimages[Aimages.length - 1]} alt={`Slide ${Aimages.length - 1}`} />
+          <img
+            src={Aimages[Aimages.length - 1]}
+            alt={`Slide ${Aimages.length - 1}`}
+          />
         </div>
 
         {Aimages.map((image, index) => (
@@ -129,3 +145,4 @@ const ImageSlider = () => {
 };
 
 export default ImageSlider;
+
