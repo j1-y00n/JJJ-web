@@ -1,0 +1,18 @@
+{
+  "reviews": [
+    {
+      "review_id": 1,
+      "review_content": "Great product!",
+      "review_rating": 5,
+      "product_id": 1,
+      "user_id": 1
+    },
+    {
+      "review_id": 2,
+      "review_content": "Not bad, could be better.",
+      "review_rating": 3,
+      "product_id": 2,
+      "user_id": 2
+    }
+  ]
+}

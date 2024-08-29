@@ -1,12 +1,11 @@
-import styles from "../styles/components/Slider.module.css";
-import React, { useState, useEffect, useRef } from "react";
-import SlidersampleA from "../assets/images/dollsTh.jpg";
-import SlidersampleB from "../assets/images/robotTh.jpg";
-import SlidersampleC from "../assets/images/ducksTh.jpg";
-import SlidersampleD from "../assets/images/cars.jpg";
-import SlidersampleE from "../assets/images/boardgameTh.jpg";
-
-import SlidersampleF from "../assets/images/childroomTh.jpg";
+import styles from '../styles/components/Slider.module.css';
+import React, { useState, useEffect, useRef } from 'react';
+import SlidersampleA from '../assets/images/dollsTh.jpg';
+import SlidersampleB from '../assets/images/robotTh.jpg';
+import SlidersampleC from '../assets/images/ducksTh.jpg';
+import SlidersampleD from '../assets/images/cars.jpg';
+import SlidersampleE from '../assets/images/boardgameTh.jpg';
+import SlidersampleF from '../assets/images/childroomTh.jpg';
 
 const Aimages: string[] = [
   SlidersampleA,
@@ -29,13 +28,13 @@ const ImageSlider = () => {
     if (currentIndex === Aimages.length + 1) {
       setCurrentIndex(1);
       if (sliderRef.current) {
-        sliderRef.current.style.transition = "none";
+        sliderRef.current.style.transition = 'none';
         sliderRef.current.style.transform = `translateX(-100%)`;
       }
     } else if (currentIndex === 0) {
       setCurrentIndex(Aimages.length);
       if (sliderRef.current) {
-        sliderRef.current.style.transition = "none";
+        sliderRef.current.style.transition = 'none';
         sliderRef.current.style.transform = `translateX(-${
           Aimages.length * 100
         }%)`;
@@ -44,7 +43,7 @@ const ImageSlider = () => {
 
     setTimeout(() => {
       if (sliderRef.current) {
-        sliderRef.current.style.transition = "transform 1s ease-in-out";
+        sliderRef.current.style.transition = 'transform 1s ease-in-out';
       }
     }, 50);
   };
@@ -52,7 +51,7 @@ const ImageSlider = () => {
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
       handleNextClick();
-    }, 5000); // 5초마다 슬라이드 변경
+    }, 5000);
   };
 
   const stopAutoSlide = () => {
@@ -61,13 +60,18 @@ const ImageSlider = () => {
     }
   };
 
+  const restartAutoSlide = () => {
+    stopAutoSlide();
+    startAutoSlide();
+  };
+
   useEffect(() => {
     startAutoSlide();
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       stopAutoSlide();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -81,14 +85,20 @@ const ImageSlider = () => {
 
   const handlePrevClick = () => {
     if (isTransitioning) return;
+
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex - 1);
+
+    restartAutoSlide();
   };
 
   const handleNextClick = () => {
     if (isTransitioning) return;
+
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex + 1);
+
+    restartAutoSlide();
   };
 
   useEffect(() => {
@@ -100,12 +110,15 @@ const ImageSlider = () => {
   return (
     <div className={styles.slider}>
       <div
-        className={styles.slider_images}
+        className={styles.slider__images}
         ref={sliderRef}
         onTransitionEnd={handleTransitionEnd}
       >
         <div className={styles.slide}>
-          <img src={Aimages[Aimages.length - 1]} alt={`Slide ${Aimages.length - 1}`} />
+          <img
+            src={Aimages[Aimages.length - 1]}
+            alt={`Slide ${Aimages.length - 1}`}
+          />
         </div>
 
         {Aimages.map((image, index) => (
@@ -115,7 +128,7 @@ const ImageSlider = () => {
         ))}
 
         <div className={styles.slide}>
-          <img src={Aimages[0]} alt="Slide 0" />
+          <img src={Aimages[0]} alt='Slide 0' />
         </div>
       </div>
       <button className={styles.prev} onClick={handlePrevClick}>

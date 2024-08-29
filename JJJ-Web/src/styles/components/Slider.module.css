@@ -1,6 +1,5 @@
 /* 박용재 */
 
-
 .slider {
   position: relative;
   width: 100%;
@@ -9,15 +8,13 @@
   overflow: hidden;
 }
 
-
-.slider_images {
+.slider__images {
   height: 100%;
   width: 100%;
   display: flex;
   transition: transform 1s ease-in-out;
   margin: auto;
 }
-
 
 .slide {
   min-width: 100%;
@@ -31,8 +28,8 @@
   vertical-align: middle;
 }
 
-
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -62,4 +59,3 @@
 .next {
   right: 10px;
 }
-
