@@ -4,6 +4,13 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
+interface UploadFileProp{
+  UploadFileStyles: {
+    left: number;
+    top: number;
+  };
+}
+
 export default function UploadFile() {
   const [images, setImages] = useState<string[]>([]);
   const [fileNames, setFileNames] = useState<string[]>([]);
@@ -96,7 +103,3 @@ export default function UploadFile() {
     </div>
   );
 }
-
-// 여유가 되면 구현해보고 싶은 로직
-// 이미지를 업로드하면 덮어씌우게 하기
-// 이미지에 X 버튼 눌러서 삭제하는 기능
