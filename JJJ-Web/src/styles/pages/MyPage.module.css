@@ -1,18 +1,39 @@
 /* 신승주 */
 
-.navbar {
-  min-width: 250px;
-  /* background-color: var(--color-blue-light); */
-  /* border: 1px solid var(--color-blue); */
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--border-radius);
-  margin-right: 50px;
-}
-
 .myPage__inner {
   width: var(--max-width);
   display: flex;
   margin-top: 30px;
+  position: relative;
+}
+
+.navbar {
+  position: sticky;
+  top: calc(var(--box-height) + 30px);
+  min-width: 250px;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  margin-right: 50px;
+  box-shadow: var(--box-shadow);
+}
+
+.navbar__title {
+  font-size: var(--font-size-medium);
+  margin-bottom: 20px;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.nav__link {
+  display: flex;
+  justify-content: center;
+}
+
+.navbar .active .nav__btn {
+  color: var(--color-white);
+  background-color: var(--color-blue);
 }

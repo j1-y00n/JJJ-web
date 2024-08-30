@@ -1,0 +1,60 @@
+/* UploadInput */
+.upload__container {
+  width: 451px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sr__only {
+  display: none;
+}
+
+.label__button {
+  background-color: var(--color-blue-light);
+  color: var(--color-black);
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: var(--font-size-regular);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  user-select: none;
+  width: 250px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.label__button:hover {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+}
+
+.disabled {
+  cursor: default;
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.label__span {
+  margin-bottom: 1px;
+  margin-left: 5px;
+}
+
+.preview__container {
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+  height: 100px;
+}
+
+.output__image {
+  width: 20%;
+  margin-right: 1px;
+  position: relative;
+}
+
+.output__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

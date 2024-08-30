@@ -57,6 +57,25 @@
   align-items: center;
 }
 
+.detail__purchase {
+  display: flex;
+  flex-direction: column;
+}
+
+.total__price__container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: var(--font-size-medium);
+}
+
+.product__total__price {
+  color: var(--color-red);
+  margin-left: 10px;
+  font-size: var(--font-size-medium);
+}
+
 /* Review CSS */
 .review {
   width: 100%;

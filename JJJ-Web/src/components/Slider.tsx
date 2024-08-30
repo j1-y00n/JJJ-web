@@ -52,9 +52,11 @@ const ImageSlider = () => {
   useEffect(() => {
     startAutoSlide();
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       stopAutoSlide();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);

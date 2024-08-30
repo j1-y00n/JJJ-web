@@ -4,6 +4,7 @@ import balloonImg from '../assets/images/balloon.jpg';
 import {
   Box,
   Button,
+  IconButton,
   Modal,
   Rating,
   Stack,
@@ -13,10 +14,12 @@ import {
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useInput } from '../hooks/useInput';
-import { useInputFile } from '../hooks/useInputfile';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { useOpenModal } from '../hooks/useOpenModal';
 import { ModalCart } from '../components/ModalCart';
+import UploadFile from '../components/UploadFile';
+import ClearIcon from '@mui/icons-material/Clear';
+import ModalIsDelete from '../components/ModalIsDelete';
+
 export default function OrderedList() {
   const { value, handleInputChange, reset } = useInput('');
   return (
@@ -52,10 +55,17 @@ export default function OrderedList() {
 }
 
 const Orders = () => {
+  const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
   return (
     <div className={styles.orders}>
       <div className={styles.order__number}>
-        주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원
+        <span>
+          주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원
+        </span>
+        <IconButton sx={{ padding: '3px' }} onClick={handleOpenModal}>
+          <ClearIcon sx={{ fontSize: '16px' }} />
+        </IconButton>
+        <ModalIsDelete isOpen={isOpen} handleCloseModal={handleCloseModal} />
       </div>
       <Order />
       <Order />
@@ -141,7 +151,7 @@ const Order = () => {
                   </div>
                 </div>
               </Typography>
-              <UploadInput />
+              <UploadFile />
               <Box
                 component='form'
                 noValidate
@@ -182,41 +192,5 @@ const Order = () => {
     </div>
   );
 };
-function UploadInput() {
-  const { images, fileNames, isLoaded, handleChangeFile } = useInputFile();
 
-  return (
-    <div className={styles.upload__container}>
-      <div>
-        <label role='button' htmlFor='file' className={styles.label__button}>
-          <AddAPhotoIcon />
-          <span className={styles.label__span}>이미지 등록 : 최대 5개</span>
-        </label>
-        <input
-          id='file'
-          className={styles.sr__only}
-          type='file'
-          multiple
-          onChange={handleChangeFile}
-        />
-      </div>
-      {isLoaded && (
-        <div className={styles.preview__container}>
-          {images.slice(0, 5).map((src, index) => (
-            <img
-              key={index}
-              className={styles.output__image}
-              src={src}
-              alt={`미리보기 ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 // 검색 로직 구현 안 했음 - 여유 되면 구현
-
-// 여유가 되면 구현해보고 싶은 로직
-// 이미지를 업로드하면 덮어씌우게 하기
-// 이미지에 X 버튼 눌러서 삭제하는 기능

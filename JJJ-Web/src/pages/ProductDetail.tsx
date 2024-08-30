@@ -161,12 +161,22 @@ export default function ProductDetail() {
                 </IconButton>
               </div>
             </div>
-            <Button
-              onClick={() => navigate('/payment')}
-              sx={{ fontSize: 'var(--font-size-regular)' }}
-            >
-              구매하기
-            </Button>
+            <div>
+              <div className={styles.detail__purchase}>
+                <div className={styles.total__price__container}>
+                  <span>총 결제 금액 :</span>
+                  <span className={styles.product__total__price}>
+                    {selectedProduct && selectedProduct.productPrice * count}원
+                  </span>
+                </div>
+                <Button
+                  onClick={() => navigate('/payment')}
+                  sx={{ fontSize: 'var(--font-size-regular)' }}
+                >
+                  구매하기
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
         <DetailTab />
