@@ -1,6 +1,6 @@
 /* UploadInput */
 .upload__container {
-  width: 100%;
+  width: 451px;
   display: flex;
   flex-direction: column;
 }
@@ -30,10 +30,8 @@
 }
 
 .disabled {
-  opacity: 0.5;
   cursor: default;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.26);
 }
 
