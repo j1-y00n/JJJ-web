@@ -1,12 +1,11 @@
-
-import styles from "../styles/components/Slider.module.css";
-import React, { useState, useEffect, useRef } from "react";
-import SlidersampleA from "../assets/images/dollsTh.jpg";
-import SlidersampleB from "../assets/images/robotTh.jpg";
-import SlidersampleC from "../assets/images/ducksTh.jpg";
-import SlidersampleD from "../assets/images/cars.jpg";
-import SlidersampleE from "../assets/images/boardgameTh.jpg";
-import SlidersampleF from "../assets/images/childroomTh.jpg";
+import styles from '../styles/components/Slider.module.css';
+import React, { useState, useEffect, useRef } from 'react';
+import SlidersampleA from '../assets/images/dollsTh.jpg';
+import SlidersampleB from '../assets/images/robotTh.jpg';
+import SlidersampleC from '../assets/images/ducksTh.jpg';
+import SlidersampleD from '../assets/images/cars.jpg';
+import SlidersampleE from '../assets/images/boardgameTh.jpg';
+import SlidersampleF from '../assets/images/childroomTh.jpg';
 
 const Aimages: string[] = [
   SlidersampleA,
@@ -18,7 +17,7 @@ const Aimages: string[] = [
 ];
 
 const ImageSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -26,33 +25,17 @@ const ImageSlider = () => {
   const handleTransitionEnd = () => {
     setIsTransitioning(false);
 
-    if (currentIndex === Aimages.length + 1) {
-      setCurrentIndex(1);
-      if (sliderRef.current) {
-        sliderRef.current.style.transition = 'none';
-        sliderRef.current.style.transform = `translateX(-100%)`;
-      }
-    } else if (currentIndex === 0) {
+    if (currentIndex === 0) {
       setCurrentIndex(Aimages.length);
-      if (sliderRef.current) {
-        sliderRef.current.style.transition = 'none';
-        sliderRef.current.style.transform = `translateX(-${
-          Aimages.length * 100
-        }%)`;
-      }
+    } else if (currentIndex === Aimages.length + 1) {
+      setCurrentIndex(1);
     }
-
-    setTimeout(() => {
-      if (sliderRef.current) {
-        sliderRef.current.style.transition = 'transform 1s ease-in-out';
-      }
-    }, 50);
   };
 
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
       handleNextClick();
-    }, 5000);
+    }, 2000);
   };
 
   const stopAutoSlide = () => {
@@ -69,9 +52,11 @@ const ImageSlider = () => {
   useEffect(() => {
     startAutoSlide();
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       stopAutoSlide();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
@@ -105,10 +90,13 @@ const ImageSlider = () => {
   };
 
   useEffect(() => {
-    if (sliderRef.current && isTransitioning) {
+    if (sliderRef.current) {
+      sliderRef.current.style.transition = isTransitioning
+        ? 'transform 1s ease-in-out'
+        : 'none';
       sliderRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-  }, [currentIndex]);
+  }, [currentIndex, isTransitioning]);
 
   return (
     <div className={styles.slider}>
