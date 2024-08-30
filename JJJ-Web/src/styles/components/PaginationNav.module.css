@@ -1,0 +1,8 @@
+.pagination {
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.page__item:not(:last-of-type) {
+  margin-right: 10px;
+}

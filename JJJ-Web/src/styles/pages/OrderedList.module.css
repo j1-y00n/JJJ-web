@@ -18,6 +18,9 @@
 .order__number {
   margin: 5px 0 20px 5px;
   color: var(--color-black);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .order__container {

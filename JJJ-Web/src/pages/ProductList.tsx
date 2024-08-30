@@ -10,6 +10,9 @@ import { FilterStore } from '../stores/Filter.store';
 import { navigateProduct } from '../utils/navigateProduct';
 import { ProductStore } from '../stores/Product.store';
 import { filterAndSortProducts } from '../utils/filterAndSortProducts';
+import { useState } from 'react';
+import PaginationNav from '../components/PaginationNav';
+import { usePagination } from '../hooks/usePagination';
 
 export default function ProductList() {
   const { products } = ProductStore();
@@ -26,13 +29,17 @@ export default function ProductList() {
     activeSorting,
   });
 
+  // Pagination
+  const { displayedItems, currentPage, itemsPerPage, paginate, totalItems } =
+    usePagination({ data: sortedProducts, itemsPerPage: 20 });
+
   return (
     <div className='flex__container'>
       <Header />
       <Filter />
       <section className={styles.productList}>
-        {sortedProducts.length > 0 ? (
-          sortedProducts.map((product) => (
+        {displayedItems.length > 0 ? (
+          displayedItems.map((product) => (
             <Product
               key={product.productId}
               imgSrc={product.productImg}
@@ -49,6 +56,12 @@ export default function ProductList() {
           </div>
         )}
       </section>
+      <PaginationNav
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
       <Footer />
     </div>
   );
