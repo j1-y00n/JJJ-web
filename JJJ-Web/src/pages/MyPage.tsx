@@ -44,6 +44,7 @@ const MyPageLinks = () => {
 
   return (
     <ul className={styles.navbar}>
+      <h2 className={styles.navbar__title}>마이페이지</h2>
       {links.map((link) => (
         <NavLink
           className={({ isActive }) =>
@@ -56,7 +57,7 @@ const MyPageLinks = () => {
           <Button
             className={styles.nav__btn}
             sx={{
-              width: '100%',
+              width: '90%',
               fontSize: 'var(--font-size-regular)',
               marginBottom: '20px',
             }}
