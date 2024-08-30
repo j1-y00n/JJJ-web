@@ -16,3 +16,8 @@
   display: flex;
   margin-top: 30px;
 }
+
+.navbar .active .nav__btn {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+}

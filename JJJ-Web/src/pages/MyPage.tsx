@@ -1,6 +1,6 @@
 // 신승주
 import styles from '../styles/pages/MyPage.module.css';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import OrderedList from './OrderedList';
 import EditUser from './EditUser';
 import WishList from './WishList';
@@ -8,7 +8,6 @@ import MyUsedProduct from './MyUsedProduct';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Button } from '@mui/material';
-import useActiveState from '../hooks/useActiveState';
 
 export default function MyPage() {
   return (
@@ -42,25 +41,29 @@ const pages: IPages = {
 
 const MyPageLinks = () => {
   const links: string[] = ['/', 'editUser', 'wishList', 'myUsedProduct'];
-  const { activeState, handleStateChange } = useActiveState(links[0]);
-  const navigate = useNavigate();
+
   return (
     <ul className={styles.navbar}>
       {links.map((link) => (
-        <Button
+        <NavLink
+          className={({ isActive }) =>
+            `${styles.nav__link} ${isActive ? styles.active : ''}`
+          }
           key={link}
-          className={activeState === link ? 'active' : ''}
-          onClick={() => {
-            navigate(link === '/' ? '' : link);
-            handleStateChange(link);
-          }}
-          sx={{
-            fontSize: 'var(--font-size-regular)',
-            marginBottom: '20px',
-          }}
+          to={link === '/' ? '' : link}
+          end
         >
-          {pages[link]}
-        </Button>
+          <Button
+            className={styles.nav__btn}
+            sx={{
+              width: '100%',
+              fontSize: 'var(--font-size-regular)',
+              marginBottom: '20px',
+            }}
+          >
+            {pages[link]}
+          </Button>
+        </NavLink>
       ))}
     </ul>
   );
