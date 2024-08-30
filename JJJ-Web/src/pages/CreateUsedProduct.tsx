@@ -10,6 +10,7 @@ import Footer from '../components/Footer';
 import { useInput } from '../hooks/useInput';
 import { Button, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import { Logo } from '../components/Header';
+import UploadFile from '../components/UploadFile';
 
 export default function CreateUsedProduct() {
   // 상품상태 radio button
@@ -136,7 +137,8 @@ export default function CreateUsedProduct() {
               <div className={styles.desc__inner}>
                 <div className={styles.image__container}>
                   <div className={styles.inner__title}>상품 이미지</div>
-                  <input type='file' />
+                  {/* <input type='file' /> */}
+                  <UploadFile />
                 </div>
                 <div className={styles.name__container}>
                   <div className={styles.inner__title}>상품명</div>

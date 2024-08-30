@@ -26,19 +26,6 @@
   height: 48px;
 }
 
-.createUsedProduct__inner {
-
-}
-
-.create__desc__container {
-
-}
-
-
-.desc__inner {
-
-}
-
 .image__container {
   display: flex;
   padding: 30px 0;
@@ -50,6 +37,12 @@
 }
 
 .name__container .inner__title {
+  display: flex;
+  align-items: center;
+}
+
+.name__container .inner__title,
+.image__container .inner__title {
   display: flex;
   align-items: center;
 }
@@ -88,15 +81,6 @@
 
 .detail__input:focus {
   outline-color: var(--color-blue);
-}
-
-.create__price__container {
-
-}
-
-
-.create__add__container {
-
 }
 
 .num__container {
