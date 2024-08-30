@@ -4,6 +4,7 @@ import balloonImg from '../assets/images/balloon.jpg';
 import {
   Box,
   Button,
+  IconButton,
   Modal,
   Rating,
   Stack,
@@ -16,6 +17,8 @@ import { useInput } from '../hooks/useInput';
 import { useOpenModal } from '../hooks/useOpenModal';
 import { ModalCart } from '../components/ModalCart';
 import UploadFile from '../components/UploadFile';
+import ClearIcon from '@mui/icons-material/Clear';
+import ModalIsDelete from '../components/ModalIsDelete';
 
 export default function OrderedList() {
   const { value, handleInputChange, reset } = useInput('');
@@ -52,10 +55,17 @@ export default function OrderedList() {
 }
 
 const Orders = () => {
+  const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
   return (
     <div className={styles.orders}>
       <div className={styles.order__number}>
-        주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원
+        <span>
+          주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원
+        </span>
+        <IconButton sx={{ padding: '3px' }} onClick={handleOpenModal}>
+          <ClearIcon sx={{ fontSize: '16px' }} />
+        </IconButton>
+        <ModalIsDelete isOpen={isOpen} handleCloseModal={handleCloseModal} />
       </div>
       <Order />
       <Order />
