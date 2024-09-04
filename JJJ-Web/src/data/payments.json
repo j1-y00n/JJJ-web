@@ -1,20 +1,76 @@
 {
   "payments": [
     {
-      "payment_id": 1,
-      "payment_timestamp": "2024-08-01T12:00:00Z",
-      "payment_total_price": 79.98,
-      "user_id": 1,
-      "product_id": 1,
-      "payment_quantity": 2
+      "paymentId": 1,
+      "paymentTimestamp": "2024-08-01T12:10:30Z",
+      "paymentTotalPrice": 10000,
+      "userId": 1,
+      "productId": 1,
+      "paymentQuantity": 1
     },
     {
-      "payment_id": 2,
-      "payment_timestamp": "2024-08-02T12:00:00Z",
-      "payment_total_price": 15.99,
-      "user_id": 2,
-      "product_id": 2,
-      "payment_quantity": 1
+      "paymentId": 2,
+      "paymentTimestamp": "2024-08-02T15:22:00Z",
+      "paymentTotalPrice": 12000,
+      "userId": 1,
+      "productId": 2,
+      "paymentQuantity": 2
+    },
+    {
+      "paymentId": 3,
+      "paymentTimestamp": "2024-08-05T09:33:11Z",
+      "paymentTotalPrice": 19000,
+      "userId": 1,
+      "productId": 1,
+      "paymentQuantity": 1
+    },
+    {
+      "paymentId": 4,
+      "paymentTimestamp": "2024-08-05T09:33:11Z",
+      "paymentTotalPrice": 30000,
+      "userId": 1,
+      "productId": 3,
+      "paymentQuantity": 2
+    },
+    {
+      "paymentId": 5,
+      "paymentTimestamp": "2024-08-05T09:33:11Z",
+      "paymentTotalPrice": 100000,
+      "userId": 1,
+      "productId": 5,
+      "paymentQuantity": 5
+    },
+    {
+      "paymentId": 6,
+      "paymentTimestamp": "2024-08-05T09:33:11Z",
+      "paymentTotalPrice": 8900,
+      "userId": 1,
+      "productId": 6,
+      "paymentQuantity": 1
+    },
+    {
+      "paymentId": 7,
+      "paymentTimestamp": "2024-08-03T03:50:10Z",
+      "paymentTotalPrice": 26000,
+      "userId": 2,
+      "productId": 1,
+      "paymentQuantity": 2
+    },
+    {
+      "paymentId": 8,
+      "paymentTimestamp": "2024-08-11T14:20:00Z",
+      "paymentTotalPrice": 55000,
+      "userId": 2,
+      "productId": 4,
+      "paymentQuantity": 1
+    },
+    {
+      "paymentId": 9,
+      "paymentTimestamp": "2024-08-11T14:20:00Z",
+      "paymentTotalPrice": 9600,
+      "userId": 2,
+      "productId": 5,
+      "paymentQuantity": 3
     }
   ]
 }

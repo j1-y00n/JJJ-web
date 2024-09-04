@@ -1,0 +1,10 @@
+{
+  "ageCategories": [
+    { "ageCategoryId": 1, "ageRange": "0-6" },
+    { "ageCategoryId": 2, "ageRange": "7-12" },
+    { "ageCategoryId": 3, "ageRange": "12-18" },
+    { "ageCategoryId": 4, "ageRange": "19-24" },
+    { "ageCategoryId": 5, "ageRange": "2-3" },
+    { "ageCategoryId": 6, "ageRange": "3세 이상" }
+  ]
+}

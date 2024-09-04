@@ -1,6 +1,0 @@
-{
-  "used_product_images": [
-    { "used_product_image_id": 1, "used_product_id": 1, "image_url": "https://example.com/used_laptop_img1.jpg" },
-    { "used_product_image_id": 2, "used_product_id": 2, "image_url": "https://example.com/used_phone_img1.jpg" }
-  ]
-}

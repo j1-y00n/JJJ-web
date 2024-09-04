@@ -1,18 +1,53 @@
 {
   "carts": [
     {
-      "cart_id": 1,
-      "product_id": 1,
-      "cart_quantity": 2,
-      "cart_total_price": 79.98,
-      "user_id": 1
+      "id": 1,
+      "productId": 1,
+      "cartQuantity": 2,
+      "cartTotalPrice": 10000,
+      "userId": 1
     },
     {
-      "cart_id": 2,
-      "product_id": 2,
-      "cart_quantity": 1,
-      "cart_total_price": 15.99,
-      "user_id": 2
+      "id": 2,
+      "productId": 2,
+      "cartQuantity": 1,
+      "cartTotalPrice": 15000,
+      "userId": 2
+    },
+    {
+      "id": 3,
+      "productId": 3,
+      "cartQuantity": 2,
+      "cartTotalPrice": 20000,
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "productId": 6,
+      "cartQuantity": 1,
+      "cartTotalPrice": 8900,
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "productId": 8,
+      "cartQuantity": 4,
+      "cartTotalPrice": 80000,
+      "userId": 1
+    },
+    {
+      "id": 6,
+      "productId": 10,
+      "cartQuantity": 3,
+      "cartTotalPrice": 30000,
+      "userId": 1
+    },
+    {
+      "id": 7,
+      "productId": 13,
+      "cartQuantity": 1,
+      "cartTotalPrice": 9900,
+      "userId": 1
     }
   ]
 }

@@ -1,0 +1,124 @@
+{
+  "usedProducts": [
+    {
+      "id": 1,
+      "usedProductTitle": "점핑 캥거루",
+      "usedProductPrice": 10000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "점핑 캥거루는 아이들의 균형 감각을 키우는 놀이용품입니다. 사용감이 없습니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2024/08/01/14/40/animal-8937356_1280.jpg",
+      "usedProductQuantity": 3,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "usedProductTitle": "마법사 모자 세트",
+      "usedProductPrice": 15000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "마법사 모자와 지팡이 세트로, 환상적인 놀이를 즐길 수 있습니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2022/05/19/23/54/witch-7208346_1280.png",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": true,
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "usedProductTitle": "무지개 공룡 블록",
+      "usedProductPrice": 20000,
+      "usedProductCondition": "사용감 많음",
+      "usedProductDetail": "다양한 색상의 공룡 블록으로 창의력을 키울 수 있는 장난감입니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2016/11/28/10/48/child-1864718_1280.jpg",
+      "usedProductQuantity": 5,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": true,
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "usedProductTitle": "바다 탐험 잠수함",
+      "usedProductPrice": 12000,
+      "usedProductCondition": "고장/파손 상품",
+      "usedProductDetail": "잠수함 장난감으로, 모터가 고장났지만 부품은 멀쩡합니다. 모터만 수리하면 정상 작동 합니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2022/04/01/22/55/submarine-7105870_1280.png",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "usedProductTitle": "슈퍼 히어로 망토",
+      "usedProductPrice": 8000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "슈퍼 히어로 코스프레를 위한 망토입니다. 사용감이 거의 없는 제품입니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2023/07/22/13/53/ai-generated-8143487_1280.jpg",
+      "usedProductQuantity": 4,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": 6,
+      "usedProductTitle": "레고 경찰차 세트",
+      "usedProductPrice": 25000,
+      "usedProductCondition": "새상품(미사용)",
+      "usedProductDetail": "레고 경찰차 세트로, 박스가 밀봉된 상태로 완벽합니다. 레고 정품입니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2023/04/24/10/37/car-7947765_1280.jpg",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": 7,
+      "usedProductTitle": "달콤한 아이스크림 트럭",
+      "usedProductPrice": 18000,
+      "usedProductCondition": "사용감 많음",
+      "usedProductDetail": "아이스크림 트럭 장난감으로, 내부에 약간의 손상이 있습니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2019/03/17/18/17/ice-cream-4061632_1280.png",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": 8,
+      "usedProductTitle": "공룡 대백과 퍼즐",
+      "usedProductPrice": 14000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "공룡 퍼즐로, 일부 조각에 사용감이 있으나 전체적으로 양호합니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2015/03/01/16/52/puzzle-654957_1280.jpg",
+      "usedProductQuantity": 3,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": 9,
+      "usedProductTitle": "초능력 카드 게임",
+      "usedProductPrice": 7000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "아이들의 집중력과 창의력을 길러주는 카드 게임입니다. 10개의 카드가 들어있습니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2022/02/23/20/25/card-7031432_1280.png",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": true,
+      "userId": 2
+    },
+    {
+      "id": 10,
+      "usedProductTitle": "음악탐험 드럼세트",
+      "usedProductPrice": 30000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "소리에 민감한 아이들을 위한 드럼 세트입니다. 약간의 사용감이 있습니다.",
+      "usedProductThumbnail": "https://cdn.pixabay.com/photo/2023/01/29/00/16/drums-7751985_1280.jpg",
+      "usedProductQuantity": 4,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 2
+    }
+  ]
+}

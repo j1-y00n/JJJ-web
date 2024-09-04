@@ -1,32 +1,46 @@
 {
   "users": [
     {
-      "user_id": 1,
-      "user_login_id": "john_doe",
-      "user_password": "password123",
-      "user_name": "John Doe",
-      "user_phone": "010-1234-5678",
-      "user_email": "john@example.com",
-      "user_address": "서울특별시 강남구",
-      "user_address_detail": "아파트 101호",
-      "user_gender": "male",
-      "user_birth": "1980-01-01",
-      "user_sign_up_date": "2024-08-01T00:00:00Z",
-      "user_withdraw_date": null
+      "id": 1,
+      "userLoginId": "seungju",
+      "userPassword": "seungju123",
+      "userName": "신승주",
+      "userPhone": "010-9999-9999",
+      "userEmail": "shin@example.com",
+      "userAddress": "서울특별시 강남구 가로수길 5",
+      "userAddressDetail": "999동 999호",
+      "userGender": "male",
+      "userBirth": "1993-08-18",
+      "userSignUpDate": "2024-08-18T00:00:00Z",
+      "userWithdrawDate": null
     },
     {
-      "user_id": 2,
-      "user_login_id": "jane_doe",
-      "user_password": "password123",
-      "user_name": "Jane Doe",
-      "user_phone": "010-8765-4321",
-      "user_email": "jane@example.com",
-      "user_address": "부산광역시 해운대구",
-      "user_address_detail": "빌라 202호",
-      "user_gender": "female",
-      "user_birth": "1990-02-02",
-      "user_sign_up_date": "2024-08-02T00:00:00Z",
-      "user_withdraw_date": null
+      "id": 2,
+      "userLoginId": "jiyoon",
+      "userPassword": "jiyoon123",
+      "userName": "변지윤",
+      "userPhone": "010-1111-1111",
+      "userEmail": "yoon@example.com",
+      "userAddress": "부산 해운대구 APEC로 30",
+      "userAddressDetail": "1층",
+      "userGender": "female",
+      "userBirth": "1990-01-01",
+      "userSignUpDate": "2024-07-02T00:00:00Z",
+      "userWithdrawDate": null
+    },
+    {
+      "id": 3,
+      "userLoginId": "yongjae",
+      "userPassword": "yongjae123",
+      "userName": "박용재",
+      "userPhone": "010-5555-5555",
+      "userEmail": "park@example.com",
+      "userAddress": "부산광역시 수영구 수영로 429",
+      "userAddressDetail": "3층",
+      "userGender": "male",
+      "userBirth": "1990-12-31",
+      "userSignUpDate": "2024-08-02T00:00:00Z",
+      "userWithdrawDate": null
     }
   ]
 }

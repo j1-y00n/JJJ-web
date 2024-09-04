@@ -1,6 +1,0 @@
-{
-  "review_images": [
-    { "review_image_id": 1, "review_id": 1, "image_url": "https://example.com/review1_img1.jpg" },
-    { "review_image_id": 2, "review_id": 2, "image_url": "https://example.com/review2_img1.jpg" }
-  ]
-}
