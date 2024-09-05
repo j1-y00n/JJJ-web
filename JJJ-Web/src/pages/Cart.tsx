@@ -13,7 +13,7 @@ import Header from '../components/Header';
 import ModalIsDelete from '../components/ModalIsDelete';
 import { useOpenModal } from '../hooks/useOpenModal';
 import { Cart as CartType, Product } from '../types/type';
-import { getCarts } from '../services/cartServices';
+import { deleteCart, getCarts } from '../services/cartServices';
 import { getProducts } from '../services/productServices';
 
 
@@ -50,12 +50,22 @@ interface CustomProductProps {
   imgClassName?: string;
   titleClassName?: string;
   contextClassName?: string;
-  product?: Product;
+  product: Product;
+  handleDeleteCart?: () => void;
+  handleDeleteWishList?: () => void;
 }
 
-export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName, product }: CustomProductProps) => {
+export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName, product, handleDeleteCart, handleDeleteWishList }: CustomProductProps) => {
   // 삭제 모달
   const isDelete = useOpenModal();
+  
+  const handleDelete = () => {
+    if (handleDeleteCart) {
+      handleDeleteCart();
+    } else if (handleDeleteWishList) {
+      handleDeleteWishList();
+    }
+  };
 
   return (
     <div className={`${styles.list__desc} ${descClassName ? descClassName : ''}`}>
@@ -63,22 +73,25 @@ export const CustomProduct = ({ descClassName, imgClassName, titleClassName, con
         className={styles.btn__delete}
         onClick={isDelete.handleOpenModal}
       >
-        <ClearIcon sx={{ fontSize: '16px' }} />
+        <ClearIcon 
+          sx={{ fontSize: '16px' }} 
+        />
       </IconButton>
       <ModalIsDelete
         isOpen={isDelete.isOpen}
         handleCloseModal={isDelete.handleCloseModal}
+        handleDeleteContent={handleDelete}
       />
       <div className={styles.desc__container}>
         <Checkbox {...label} color='primary' />
         <img 
-          src={product?.productThumbnail} 
-          alt={product?.productTitle} 
+          src={product.productThumbnail} 
+          alt={product.productTitle} 
           className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} 
         />
         <div>
-          <div className={`${styles.title__font} ${titleClassName ? titleClassName : ''}`}>{product?.productTitle}</div>
-          <div className={`${styles.context__font} ${contextClassName ? contextClassName : ''}`}>{product?.productPrice} 원</div>
+          <div className={`${styles.title__font} ${titleClassName ? titleClassName : ''}`}>{product.productTitle}</div>
+          <div className={`${styles.context__font} ${contextClassName ? contextClassName : ''}`}>{product.productPrice} 원</div>
         </div>
       </div>
     </div>
@@ -106,9 +119,22 @@ export default function Cart() {
     fetchProducts();
   },[]);
 
-  const userFilterCart = carts.filter((i) => 
-    i.userId === 1
+  // 로그인된 유저 필터링
+  const userFilterCart = carts.filter((cart) => 
+    cart.userId === 1
   );
+
+  // 장바구니 제품 삭제
+  const handleDeleteCart = async (id: number) => {
+    try {
+      await deleteCart(id);
+      setCarts(userFilterCart.filter((cart) => cart.id != id));
+      alert('SUCCESS cart delete');
+    } catch (error) {
+      console.log(error);
+      alert('FAIL cart delete');
+    }
+  };
 
   // 수량 기능
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
@@ -150,7 +176,9 @@ export default function Cart() {
             className={styles.list__container__inner}
             key={item.id}
           >
-            <CustomProduct product={product} />
+            {product && (
+              <CustomProduct product={product} handleDeleteCart={() => handleDeleteCart(item.id)} />
+            )}
             <div className={styles.list__quantity}>
               <div className={styles.title__font}>상품 주문 수량</div>
               <div>

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-export let temp = '';
-=======
 // src/services/wishListService.ts
 import axios from 'axios';
 import { WishList } from '../types/type';
@@ -10,4 +7,7 @@ export const getWishLists = async (): Promise<WishList[]> => {
   const response = await axios.get(`${LOCALHOST_PORT}/wishLists`);
   return response.data;
 };
->>>>>>> develop
+
+export const deleteWishList = async (id: number): Promise<void> => {
+  await axios.delete(`${LOCALHOST_PORT}/wishLists/${id}`);
+};

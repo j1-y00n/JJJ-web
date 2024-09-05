@@ -3,6 +3,7 @@ import { Modal, Box, Button, Typography } from '@mui/material';
 interface ModalIsDeleteProps {
   isOpen: boolean;
   handleCloseModal: () => void;
+  handleDeleteContent?: () => void;
 }
 
 const modalStyle = {
@@ -23,6 +24,7 @@ const modalStyle = {
 export default function ModalIsDelete({
   isOpen,
   handleCloseModal,
+  handleDeleteContent,
 }: ModalIsDeleteProps) {
   return (
     <Modal
@@ -49,7 +51,15 @@ export default function ModalIsDelete({
             justifyContent: 'center',
           }}
         >
-          <Button onClick={handleCloseModal} sx={{ marginRight: '20px' }}>
+          <Button 
+            onClick={() => {
+              if (handleDeleteContent) {
+                handleDeleteContent();
+                handleCloseModal();
+              }
+            }} 
+            sx={{ marginRight: '20px' }}
+          >
             삭제
           </Button>
           <Button onClick={handleCloseModal}>취소</Button>
