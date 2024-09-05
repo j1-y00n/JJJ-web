@@ -1,6 +1,6 @@
 // Users 테이블
 export interface User {
-  userId: number;
+  id: number;
   userLoginId: string;
   userPassword: string;
   userName: string;
@@ -15,20 +15,37 @@ export interface User {
 }
 
 // Categories 테이블
+export type categoryNameType =
+  | 'gift'
+  | 'intelligence'
+  | 'fiveSenses'
+  | 'emotion'
+  | 'society';
+
 export interface Category {
-  categoryId: number;
-  categoryName: 'gift' | 'intelligence' | 'fiveSenses' | 'emotion' | 'society';
+  id: number;
+  categoryName: categoryNameType;
 }
 
 // AgeCategories 테이블
+export type ageRangeType =
+  | '0-6'
+  | '7-12'
+  | '12-18'
+  | '19-24'
+  | '2-3'
+  | '3세 이상';
+
+export type ExtendedCategoryAgeType = ageRangeType | '모두 보기';
+
 export interface AgeCategory {
-  ageCategoryId: number;
-  ageRange: '0-6' | '7-12' | '12-18' | '19-24' | '2-3' | '3세 이상';
+  id: number;
+  ageRange: ageRangeType;
 }
 
 // Products 테이블
 export interface Product {
-  productId: number;
+  id: number;
   productTitle: string;
   productPrice: number;
   productThumbnail: string;
@@ -53,30 +70,34 @@ export interface ProductAgeCategory {
 
 // ProductImages 테이블
 export interface ProductImage {
-  imageId: number;
+  id: number;
   productId: number;
   imageUrl: string;
 }
 
+export interface ProductWithReviews extends Product {
+  reviewRating: string;
+  reviewCount: number;
+}
+
 // Reviews 테이블
 export interface Review {
-  reviewId: number;
+  id: number;
   reviewContent: string;
-  reviewRating: number; // 1에서 5 사이의 값
+  reviewRating: string;
   productId: number;
   userId: number;
 }
 
-// ReviewImages 테이블
 export interface ReviewImage {
-  reviewImageId: number;
+  id: number;
   reviewId: number;
   imageUrl: string;
 }
 
 // Carts 테이블
 export interface Cart {
-  cartId: number;
+  id: number;
   productId: number;
   cartQuantity: number;
   cartTotalPrice: number;
@@ -85,14 +106,14 @@ export interface Cart {
 
 // WishLists 테이블
 export interface WishList {
-  wishListId: number;
+  id: number;
   productId: number;
   userId: number;
 }
 
 // Payments 테이블
 export interface Payment {
-  paymentId: number;
+  id: number;
   paymentTimestamp: string; // ISO 날짜 문자열
   paymentTotalPrice: number;
   userId: number;
@@ -102,7 +123,7 @@ export interface Payment {
 
 // UsedProducts 테이블
 export interface UsedProduct {
-  usedProductId: number;
+  id: number;
   usedProductTitle: string;
   usedProductPrice: number;
   usedProductCondition: string;
@@ -116,7 +137,7 @@ export interface UsedProduct {
 
 // UsedProductImages 테이블
 export interface UsedProductImage {
-  usedProductImageId: number;
+  id: number;
   usedProductId: number;
   imageUrl: string;
 }

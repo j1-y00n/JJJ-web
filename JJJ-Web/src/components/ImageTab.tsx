@@ -1,13 +1,13 @@
 import styles from '../styles/components/ImageTab.module.css';
 
 interface ImageTabProps {
-  images: string[];
-  currentImg: string;
+  images: (string | undefined)[];
+  currentImg: string | undefined;
   handleImgClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   customStyles?: {
-    detailLeft?: string;
-    detailThumbImg?: string;
-    detailImgs?: string;
+    padding?: string;
+    thumbImgHeight?: string;
+    imgsHeight?: string;
   };
 }
 
@@ -17,21 +17,23 @@ export default function ImageTab({
   handleImgClick,
   customStyles = {},
 }: ImageTabProps) {
+  const { padding, thumbImgHeight, imgsHeight } = customStyles;
   return (
-    <div className={`${styles.detail__left} ${customStyles.detailLeft || ''}`}>
+    <div className={styles.detail__left} style={{ padding }}>
       <img
-        className={`${styles.detail__thumb__img} ${
-          customStyles.detailThumbImg || ''
-        }`}
+        className={styles.detail__thumb__img}
+        style={{ height: thumbImgHeight }}
         src={currentImg}
         alt='img01'
       />
-      <div
-        className={`${styles.detail__imgs} ${customStyles.detailImgs || ''}`}
-        onClick={handleImgClick}
-      >
+      <div className={styles.detail__imgs} onClick={handleImgClick}>
         {images.map((image, index) => (
-          <img key={index} src={image} alt={`img${index}`} />
+          <img
+            key={index}
+            src={image}
+            alt={`img${index}`}
+            style={{ height: imgsHeight }}
+          />
         ))}
       </div>
     </div>

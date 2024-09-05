@@ -12,16 +12,48 @@ import {
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useInput } from '../hooks/useInput';
 import { useOpenModal } from '../hooks/useOpenModal';
 import { ModalCart } from '../components/ModalCart';
 import UploadFile from '../components/UploadFile';
 import ClearIcon from '@mui/icons-material/Clear';
 import ModalIsDelete from '../components/ModalIsDelete';
+import { Payment } from '../types/type';
+import { getPaymentsById } from '../services/paymentServices';
+
+type PaymentGroupType = { [key: string]: Payment[] };
 
 export default function OrderedList() {
-  const { value, handleInputChange, reset } = useInput('');
+  const { value, handleInputChange } = useInput('');
+  const [payments, setPayments] = useState<Payment[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const payments = await getPaymentsById(1);
+      setPayments(payments);
+    };
+    fetchData();
+  }, []);
+
+  const paymentGroups: PaymentGroupType = {};
+  payments.forEach((payment) => {
+    const orderDate = payment.paymentTimestamp;
+    if (!paymentGroups[orderDate]) {
+      paymentGroups[orderDate] = [];
+    }
+    paymentGroups[orderDate].push(payment);
+  });
+
+  console.log(paymentGroups);
+
+  const groupedOrders = Object.keys(paymentGroups).map((timestamp) => ({
+    orderTimestamp: timestamp,
+    payments: paymentGroups[timestamp],
+  }));
+
+  const sortedLatestOrders = [...groupedOrders].reverse();
+  console.log(sortedLatestOrders);
+
   return (
     <div className={styles.ordered__list}>
       <Box
@@ -47,34 +79,58 @@ export default function OrderedList() {
         />
         <Button sx={{ marginLeft: '10px' }}>검색</Button>
       </Box>
-      <Orders />
-      <Orders />
-      <Orders />
+
+      {sortedLatestOrders.map((orders) => (
+        <Orders
+          key={orders.orderTimestamp}
+          orderTimestamp={orders.orderTimestamp}
+          payments={orders.payments}
+        />
+      ))}
     </div>
   );
 }
 
-const Orders = () => {
+interface OrdersProps {
+  orderTimestamp: string;
+  payments: Payment[];
+}
+
+const Orders = ({ orderTimestamp, payments }: OrdersProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
+
+  const totalPrice = payments.reduce(
+    (acc, price) => acc + Number(price.paymentTotalPrice),
+    0
+  );
   return (
     <div className={styles.orders}>
       <div className={styles.order__number}>
-        <span>
-          주문번호 : 1111111 (20204. 08. 23. 17:39 결제) / 총 결제금액 : 00000원
-        </span>
+        <div className={styles.order__info}>
+          <span>주문번호 : 1111111 / </span>
+          <span>주문날짜 : {new Date(orderTimestamp).toLocaleString()} / </span>
+          <span>총 결제금액 : {totalPrice}원</span>
+        </div>
         <IconButton sx={{ padding: '3px' }} onClick={handleOpenModal}>
           <ClearIcon sx={{ fontSize: '16px' }} />
         </IconButton>
         <ModalIsDelete isOpen={isOpen} handleCloseModal={handleCloseModal} />
       </div>
-      <Order />
-      <Order />
-      <Order />
+      {payments.map((order) => (
+        <Order key={order.id} {...order} />
+      ))}
     </div>
   );
 };
 
-const Order = () => {
+const Order = ({
+  id,
+  paymentTimestamp,
+  paymentTotalPrice,
+  userId,
+  productId,
+  paymentQuantity,
+}: Payment) => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -104,8 +160,8 @@ const Order = () => {
       <div className={styles.order__details}>
         <p>스마일 풍선</p>
         <p>2000원</p>
-        <p>수량 : 5개</p>
-        <p>총 상품금액 : 10000원</p>
+        <p>수량 : {paymentQuantity}개</p>
+        <p>총 상품금액 : {paymentTotalPrice}원</p>
       </div>
       <div className={styles.order__buttons}>
         <Button onClick={handleOpenModal} sx={{ marginBottom: '20px' }}>
@@ -114,7 +170,7 @@ const Order = () => {
         <ModalCart
           isOpen={isOpen}
           handleCloseModal={handleCloseModal}
-          cartModalStyles={customPosition}
+          customStyles={customPosition}
         />
         <React.Fragment>
           <Button onClick={handleOpen}>리뷰작성</Button>

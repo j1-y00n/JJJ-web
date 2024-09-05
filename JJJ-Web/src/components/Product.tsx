@@ -3,29 +3,35 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import styles from '../styles/components/Product.module.css';
 
 interface ProductProps {
-  imgSrc: string;
-  title: string;
-  price: number;
-  rating: number;
-  ratingCount: number;
+  productThumbnail: string;
+  productTitle: string;
+  productPrice: number;
+  reviewRating: string;
+  reviewCount: number;
   onClick: () => void;
 }
 
 export function Product({
-  imgSrc,
-  title,
-  price,
-  rating,
-  ratingCount,
+  productThumbnail,
+  productTitle,
+  productPrice,
+  reviewRating,
+  reviewCount,
   onClick,
 }: ProductProps) {
   return (
     <div className={styles.item__container} onClick={onClick}>
-      <img src={imgSrc} alt={title} className={styles.item__img} />
+      <img
+        src={productThumbnail}
+        alt={productTitle}
+        className={styles.item__img}
+      />
       <div className={styles.item__descriptions}>
-        <div className={styles.item__title}>{title}</div>
+        <div className={styles.item__title}>{productTitle}</div>
         <div className={styles.item__infos}>
-          <div className={styles.item__price}>{price.toLocaleString()}원</div>
+          <div className={styles.item__price}>
+            {productPrice.toLocaleString()}원
+          </div>
           <div className={styles.rating__star__container}>
             <div className={styles.stars}>
               {[...Array(5)].map((_, index) => (
@@ -35,14 +41,14 @@ export function Product({
                   sx={{
                     margin: '0 -1.4px',
                     color:
-                      index < rating
+                      index < Number(reviewRating)
                         ? 'var(--color-orange)'
                         : 'var(--color-blue-light)',
                   }}
                 />
               ))}
             </div>
-            <div className={styles.rating__count}>({ratingCount})</div>
+            <div className={styles.rating__count}>({reviewCount})</div>
           </div>
         </div>
       </div>

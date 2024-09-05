@@ -3,12 +3,12 @@ import { Product, ProductImage } from '../types/type';
 import { LOCALHOST_PORT } from '../constants/api';
 
 export const getProducts = async (): Promise<Product[]> => {
-  const response = await axios.get(LOCALHOST_PORT);
+  const response = await axios.get(`${LOCALHOST_PORT}/products`);
   return response.data;
 };
 
 export const getProductById = async (productId: number): Promise<Product> => {
-  const response = await axios.get(`${LOCALHOST_PORT}/${productId}`);
+  const response = await axios.get(`${LOCALHOST_PORT}/products/${productId}`);
   return response.data;
 };
 

@@ -2,10 +2,8 @@ import axios from 'axios';
 import { Review, ReviewImage } from '../types/type';
 import { LOCALHOST_PORT } from '../constants/api';
 
-const API_URL = 'http://localhost:5005/reviews';
-
 export const getReviews = async (): Promise<Review[]> => {
-  const response = await axios.get(LOCALHOST_PORT);
+  const response = await axios.get(`${LOCALHOST_PORT}/reviews`);
   return response.data;
 };
 

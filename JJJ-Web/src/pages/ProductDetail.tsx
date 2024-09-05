@@ -1,5 +1,5 @@
 // 신승주
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/pages/ProductDetail.module.css';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -17,39 +17,84 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { useCounter } from '../hooks/useCounter';
 import useActiveState from '../hooks/useActiveState';
-import img01 from '../assets/images/exam01.jpg';
-import img02 from '../assets/images/exam02.jpg';
-import img03 from '../assets/images/exam03.jpg';
-import img04 from '../assets/images/balloon.jpg';
-import img05 from '../assets/images/boardgame.jpg';
 import ImageTab from '../components/ImageTab';
+import { useOpenModal } from '../hooks/useOpenModal';
+import { ModalCart } from '../components/ModalCart';
+import ModalIsDelete from '../components/ModalIsDelete';
+import {
+  ProductImage,
+  ProductWithReviews,
+  Review,
+  ReviewImage,
+} from '../types/type';
+import { getReviewImages, getReviews } from '../services/reviewServices';
+import { getProductImages } from '../services/productServices';
 // 상품 설명 디테일 사진
 import desc01 from '../assets/images/productDescription/desc01.jpeg';
 import desc02 from '../assets/images/productDescription/desc02.jpeg';
 import desc03 from '../assets/images/productDescription/desc03.jpeg';
 import desc04 from '../assets/images/productDescription/desc04.jpeg';
-import { useOpenModal } from '../hooks/useOpenModal';
-import { ModalCart } from '../components/ModalCart';
-import ModalIsDelete from '../components/ModalIsDelete';
-const images = [img01, img02, img03, img04, img05];
 
 export default function ProductDetail() {
-  const { products } = ProductStore();
   const { productId } = useParams();
-  const selectedProduct = products.find(
-    (product) => Number(product.productId) === Number(productId)
-  );
+
+  const { products, fetchProducts } = ProductStore();
+  const [product, setProduct] = useState<ProductWithReviews>();
+  const [productImages, setProductImages] = useState<ProductImage[]>();
+  const [productReviews, setProductReviews] = useState<Review[]>();
+  const [currentImg, setCurrentImg] = useState('');
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } = useActiveState(true);
   const navigate = useNavigate();
 
-  const [currentImg, setCurrentImg] = useState(img01);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (products.length === 0) {
+          await fetchProducts();
+        }
+        const product = products.find(
+          (product) => String(product.id) === String(productId)
+        );
+        if (product) {
+          setProduct(product);
+
+          const allProductImages = await getProductImages();
+          const productImages = allProductImages.filter(
+            (image) => String(image.productId) === String(productId)
+          );
+          setProductImages(productImages);
+
+          const allReviews = await getReviews();
+          const productReviews = allReviews.filter(
+            (review) => String(review.productId) === String(productId)
+          );
+          setProductReviews(productReviews);
+          console.log(productReviews);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [productId, products]);
+
+  // ImageTab에 들어가는 이미지 코드
+  useEffect(() => {
+    if (product) {
+      setCurrentImg(product.productThumbnail);
+    }
+  }, [product]);
+  const detailImages = productImages?.map((image) => image.imageUrl) || [];
+  const images = [product?.productThumbnail, ...detailImages];
+
   const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const value = e.target as HTMLImageElement;
     if (!value.src) {
       return;
     }
     setCurrentImg(value.src);
+    console.log(value.src);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,6 +119,8 @@ export default function ProductDetail() {
   const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
   const customPosition = { left: 23, top: -10 };
 
+  const handleAddToCart = () => {};
+  if (!product) return <div>No product found</div>;
   return (
     <div className='flex__container'>
       <Header />
@@ -86,9 +133,9 @@ export default function ProductDetail() {
           />
           <div className={styles.detail__right}>
             <div className={styles.product__info}>
-              <div>{selectedProduct?.productTitle} </div>
+              <div>{product?.productTitle} </div>
               <div className={styles.product__price}>
-                {selectedProduct?.productPrice}원
+                {product?.productPrice}원
               </div>
               <div className={styles.product__rating}>
                 <StarRateIcon
@@ -97,8 +144,8 @@ export default function ProductDetail() {
                     fontSize: 'var(--font-size-medium)',
                   }}
                 />
-                <h3>{selectedProduct?.productRating}</h3>
-                <p>({selectedProduct?.productRatingCount})</p>
+                <h3>{product?.reviewRating}</h3>
+                <p>({product?.reviewCount})</p>
               </div>
             </div>
             <div className={styles.detail__actions}>
@@ -136,7 +183,7 @@ export default function ProductDetail() {
                 <ModalCart
                   isOpen={isOpen}
                   handleCloseModal={handleCloseModal}
-                  cartModalStyles={customPosition}
+                  customStyles={customPosition}
                 />
                 <IconButton
                   className='round nest__icons'
@@ -166,7 +213,7 @@ export default function ProductDetail() {
                 <div className={styles.total__price__container}>
                   <span>총 결제 금액 :</span>
                   <span className={styles.product__total__price}>
-                    {selectedProduct && selectedProduct.productPrice * count}원
+                    {product && product.productPrice * count}원
                   </span>
                 </div>
                 <Button
@@ -179,7 +226,7 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
-        <DetailTab />
+        <DetailTab reviews={productReviews} />
       </div>
       <Footer />
     </div>
@@ -191,12 +238,17 @@ const detailDescriptions = [desc01, desc02, desc03, desc04];
 const randomIndex = Math.floor(Math.random() * detailDescriptions.length);
 const randomDescImg = detailDescriptions[randomIndex];
 
-function DetailTab() {
+interface DetailTabProp {
+  reviews: Review[] | undefined;
+}
+
+function DetailTab({ reviews }: DetailTabProp) {
   const [value, setValue] = React.useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
   return (
     <Box
       sx={{
@@ -243,13 +295,15 @@ function DetailTab() {
 
       <CustomTabPanel value={value} index={1}>
         <Box sx={{ width: '100%' }}>
-          <Review />
-          <Review />
-          <Review />
-          {/* 리뷰가 없을 때 */}
-          {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            등록된 리뷰가 없습니다.
-          </Box> */}
+          {reviews && reviews.length > 0 ? (
+            reviews.map((review) => (
+              <ReviewComponent key={review.id} {...review} />
+            ))
+          ) : (
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              등록된 리뷰가 없습니다.
+            </Box>
+          )}
         </Box>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
@@ -263,9 +317,35 @@ function DetailTab() {
   );
 }
 
-function Review() {
-  const userId = 'userId1234';
+function ReviewComponent({
+  id,
+  reviewContent,
+  reviewRating,
+  productId,
+  userId,
+}: Review) {
   // 로그인된 사용자의 리뷰에만 삭제 버튼이 보이도록 해야 함
+
+  const [reviewImages, setReviewImages] = useState<ReviewImage[] | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const reviewImages = await getReviewImages();
+        const productImages = reviewImages.filter(
+          (images) => images.reviewId === Number(id)
+        );
+        setReviewImages(productImages);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  console.log(reviewImages);
+  const images = reviewImages?.map((image) => image.imageUrl);
 
   // 삭제 모달
   const isDelete = useOpenModal();
@@ -296,7 +376,9 @@ function Review() {
               sx={{
                 margin: '0 -1.4px',
                 color:
-                  index < 4 ? 'var(--color-orange)' : 'var(--color-blue-light)',
+                  index < Number(reviewRating)
+                    ? 'var(--color-orange)'
+                    : 'var(--color-blue-light)',
               }}
             />
           ))}
@@ -310,13 +392,7 @@ function Review() {
           ))}
         </div>
       )}
-      <div className={styles.review__description}>
-        이 장난감은 정말 대단한 발견이에요! 잘 만들어졌고, 다채롭고, 아이들에게
-        안전합니다. 우리 아이는 그것을 정말 좋아하고 몇 시간 동안 계속
-        참여합니다. <br />
-        소재는 내구성이 뛰어나고 디자인은 세심해서 걱정할 작은 부품이 없습니다.
-        창의성을 장려하고 청소가 쉽습니다. 활동적인 플레이에 적극 추천합니다!
-      </div>
+      <div className={styles.review__description}>{reviewContent}</div>
     </div>
   );
 }

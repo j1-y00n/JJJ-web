@@ -5,23 +5,64 @@ import styles from '../styles/pages/ProductList.module.css';
 import { useParams } from 'react-router-dom';
 import Filter from '../components/Filter';
 import { Product } from '../components/Product';
-import { CategoryType } from '../types/Product.type';
 import { FilterStore } from '../stores/Filter.store';
 import { navigateProduct } from '../utils/navigateProduct';
 import { ProductStore } from '../stores/Product.store';
 import { filterAndSortProducts } from '../utils/filterAndSortProducts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PaginationNav from '../components/PaginationNav';
 import { usePagination } from '../hooks/usePagination';
-
+import {
+  getCategories,
+  getProductCategories,
+} from '../services/categoryServices';
+import { Category, ProductCategory, categoryNameType } from '../types/type';
 export default function ProductList() {
-  const { products } = ProductStore();
+  const { products, fetchProducts } = ProductStore();
   const { activeAge, activeSorting } = FilterStore();
-  const { categoryId } = useParams<{ categoryId: CategoryType }>();
   const { handleProductClick } = navigateProduct();
-  const categoryFilteredProducts = categoryId
-    ? products.filter((product) => product.productCategory.includes(categoryId))
-    : products;
+  const { categoryName } = useParams<{ categoryName: categoryNameType }>();
+  const [productCategory, setProductCategory] = useState<ProductCategory[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (products.length === 0) {
+          await fetchProducts();
+        }
+        const categories = await getCategories();
+        const productCategoriesData = await getProductCategories();
+        setCategories(categories);
+        setProductCategory(productCategoriesData);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(productCategory);
+
+  const filterCategory = () => {
+    if (categoryName) {
+      const findCategoryId = Number(
+        categories.find((cat) => cat.categoryName === categoryName)?.id
+      );
+      if (findCategoryId) {
+        const filterCategory = productCategory
+          .filter((pc) => pc.categoryId === findCategoryId)
+          .map((pc) => pc.productId);
+
+        return products.filter((product) =>
+          filterCategory.includes(Number(product.id))
+        );
+      }
+    }
+    return products;
+  };
+
+  const categoryFilteredProducts = filterCategory();
 
   const sortedProducts = filterAndSortProducts({
     products: categoryFilteredProducts,
@@ -39,23 +80,26 @@ export default function ProductList() {
       <Filter />
       <section className={styles.productList}>
         {displayedItems.length > 0 ? (
-          displayedItems.map((product) => (
-            <Product
-              key={product.productId}
-              imgSrc={product.productImg}
-              title={product.productTitle}
-              price={product.productPrice}
-              rating={product.productRating}
-              ratingCount={product.productRatingCount}
-              onClick={() => handleProductClick(product.productId, categoryId)}
-            />
-          ))
+          displayedItems.map((product) => {
+            return (
+              <Product
+                key={product.id}
+                productThumbnail={product.productThumbnail}
+                productTitle={product.productTitle}
+                productPrice={product.productPrice}
+                reviewRating={product.reviewRating}
+                reviewCount={product.reviewCount}
+                onClick={() => handleProductClick(product.id)}
+              />
+            );
+          })
         ) : (
           <div className={styles.no__product}>
             <h3>이용 가능한 상품이 없습니다</h3>
           </div>
         )}
       </section>
+
       <PaginationNav
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}

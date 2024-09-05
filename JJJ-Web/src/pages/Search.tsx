@@ -8,16 +8,20 @@ import { useSearchParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { Product } from '../components/Product';
 import { navigateProduct } from '../utils/navigateProduct';
-import { ProductProp } from '../types/TempMockdata';
 import { FilterStore } from '../stores/Filter.store';
 import { filterAndSortProducts } from '../utils/filterAndSortProducts';
+import { ProductWithReviews } from '../types/type';
+import { usePagination } from '../hooks/usePagination';
+import PaginationNav from '../components/PaginationNav';
 
 export default function Search() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
-  const { products } = ProductStore();
+  const { products, fetchProducts } = ProductStore();
   const { activeAge, activeSorting } = FilterStore();
-  const [searchedProducts, setSearchedProducts] = useState<ProductProp[]>([]);
+  const [searchedProducts, setSearchedProducts] = useState<
+    ProductWithReviews[]
+  >([]);
   const { handleProductClick } = navigateProduct();
 
   useEffect(() => {
@@ -27,6 +31,16 @@ export default function Search() {
       );
       setSearchedProducts(filteredProducts);
     }
+    const fetchData = async () => {
+      try {
+        if (products.length === 0) {
+          await fetchProducts();
+        }
+      } catch (error) {
+        console.error('Failed to fetch', error);
+      }
+    };
+    fetchData();
   }, [query, products]);
 
   const sortedProducts = filterAndSortProducts({
@@ -34,6 +48,10 @@ export default function Search() {
     activeAge,
     activeSorting,
   });
+
+  // Pagination
+  const { displayedItems, currentPage, itemsPerPage, paginate, totalItems } =
+    usePagination({ data: sortedProducts, itemsPerPage: 20 });
 
   return (
     <div className='flex__container'>
@@ -47,18 +65,20 @@ export default function Search() {
       </section>
       <Filter />
       <section className={styles.productList}>
-        {sortedProducts.length > 0 ? (
-          sortedProducts.map((product) => (
-            <Product
-              key={product.productId}
-              imgSrc={product.productImg}
-              title={product.productTitle}
-              price={product.productPrice}
-              rating={product.productRating}
-              ratingCount={product.productRatingCount}
-              onClick={() => handleProductClick(product.productId)}
-            />
-          ))
+        {displayedItems.length > 0 ? (
+          displayedItems.map((product) => {
+            return (
+              <Product
+                key={product.id}
+                productThumbnail={product.productThumbnail}
+                productTitle={product.productTitle}
+                productPrice={product.productPrice}
+                reviewRating={product.reviewRating}
+                reviewCount={product.reviewCount}
+                onClick={() => handleProductClick(product.id)}
+              />
+            );
+          })
         ) : (
           <>
             <div className={styles.no__product}>
@@ -67,6 +87,13 @@ export default function Search() {
           </>
         )}
       </section>
+
+      <PaginationNav
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
       <Footer />
     </div>
   );

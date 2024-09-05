@@ -2,10 +2,6 @@ import { Button, IconButton } from '@mui/material';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import styles from '../styles/pages/UsedProductList.module.css';
-import {
-  generateUsedProducts,
-  UsedProductProp,
-} from '../types/TempMockUsedProduct';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -18,14 +14,26 @@ import { ModalCart } from '../components/ModalCart';
 import { useOpenModal } from '../hooks/useOpenModal';
 import ClearIcon from '@mui/icons-material/Clear';
 import ModalIsDelete from '../components/ModalIsDelete';
+import { UsedProduct, UsedProductImage } from '../types/type';
+import {
+  getUsedProductImages,
+  getUsedProducts,
+} from '../services/usedProductServices';
 export default function UsedProductList() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<UsedProductProp[]>([]);
+  const [usedProducts, setUsedProducts] = useState<UsedProduct[]>([]);
 
   useEffect(() => {
-    const generatedProducts = generateUsedProducts();
-    setProducts(generatedProducts);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const usedProducts = await getUsedProducts();
+        setUsedProducts(usedProducts);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [usedProducts]);
 
   return (
     <div className='flex__container'>
@@ -37,12 +45,8 @@ export default function UsedProductList() {
         중고 상품 등록 +
       </Button>
       <div className={styles.products__container}>
-        {products.map((product, index) => (
-          <UsedProduct
-            key={index}
-            {...product}
-            onClick={() => console.log(`${product.usedTitle} clicked!`)}
-          />
+        {usedProducts.map((usedProduct) => (
+          <UsedProductComponent key={usedProduct.id} {...usedProduct} />
         ))}
       </div>
       <Footer />
@@ -50,21 +54,37 @@ export default function UsedProductList() {
   );
 }
 
-interface UsedProductProps extends UsedProductProp {
-  onClick: () => void;
-}
+function UsedProductComponent({
+  id,
+  usedProductTitle,
+  usedProductPrice,
+  usedProductCondition,
+  usedProductDetail,
+  usedProductThumbnail,
+  usedProductQuantity,
+  usedProductIsSold,
+  usedProductTransaction,
+}: UsedProduct) {
+  const [usedProductImages, setUsedProductImages] = useState<string[]>([]);
 
-function UsedProduct({
-  usedImgSrc,
-  usedThumbImg,
-  usedTitle,
-  usedStatus,
-  usedDescription,
-  usedPrice,
-  usedCount,
-  usedMethod,
-  onClick,
-}: UsedProductProps) {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const usedProductImagesArray = await getUsedProductImages();
+        const currentUsedProductImages = usedProductImagesArray.filter(
+          (item) => item.usedProductId === Number(id)
+        );
+        const imageUrls = currentUsedProductImages.map(
+          (images) => images.imageUrl
+        );
+        setUsedProductImages(imageUrls);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
   const { activeState, handleStateChange, handleToggle } =
     useActiveState(false);
   const navigate = useNavigate();
@@ -77,13 +97,12 @@ function UsedProduct({
 
   // 이미지탭 커스텀 CSS
   const customImageTabStyles = {
-    detailLeft: styles.usedProductDetailLeft,
-    detailThumbImg: styles.usedProductThumbImg,
-    detailImgs: styles.usedProductImgs,
-    img: styles.usedProductImg,
+    padding: '0',
+    thumbImgHeight: '246px',
+    imgsHeight: '60px',
   };
 
-  const [currentImg, setCurrentImg] = useState(usedThumbImg);
+  const [currentImg, setCurrentImg] = useState(usedProductThumbnail);
   const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const value = e.target as HTMLImageElement;
     if (!value.src) {
@@ -92,12 +111,11 @@ function UsedProduct({
     setCurrentImg(value.src);
   };
 
-  const userId = 'userId1234';
-
+  if (usedProductIsSold) return null;
   return (
-    <div className={styles.item__container} onClick={onClick}>
+    <div className={styles.item__container}>
       <ImageTab
-        images={[usedThumbImg, ...usedImgSrc]}
+        images={[usedProductThumbnail, ...usedProductImages]}
         currentImg={currentImg}
         handleImgClick={handleImgClick}
         customStyles={customImageTabStyles}
@@ -106,8 +124,8 @@ function UsedProduct({
         <div className={styles.item__infos}>
           <div className={styles.info__container}>
             <div className={styles.item__user}>
-              <div>{userId}</div>
-              {userId && (
+              <div>{id}</div>
+              {id && (
                 <IconButton
                   onClick={isDelete.handleOpenModal}
                   sx={{ padding: '2px' }}
@@ -120,15 +138,19 @@ function UsedProduct({
                 handleCloseModal={isDelete.handleCloseModal}
               />
             </div>
-            <div className={styles.item__title}>{usedTitle}</div>
+            <div className={styles.item__title}>{usedProductTitle}</div>
             <div className={styles.item__price}>
-              {usedPrice.toLocaleString()}원
+              {usedProductPrice.toLocaleString()}원
             </div>
-            <div className={styles.item__status}>{usedStatus}</div>
-            <div className={styles.item__count}>수량: {usedCount}</div>
-            <div className={styles.item__method}>직거래: {usedMethod}</div>
+            <div className={styles.item__status}>{usedProductCondition}</div>
+            <div className={styles.item__count}>
+              수량: {usedProductQuantity}
+            </div>
+            <div className={styles.item__method}>
+              직거래: {usedProductTransaction}
+            </div>
             <div className={styles.item__description}>
-              설명: {usedDescription}
+              설명: {usedProductDetail}
             </div>
           </div>
           <div className={styles.btn__box}>
@@ -136,7 +158,7 @@ function UsedProduct({
             <ModalCart
               isOpen={isOpen}
               handleCloseModal={handleCloseModal}
-              cartModalStyles={customPosition}
+              customStyles={customPosition}
             />
             <IconButton
               className='round nest__icons'

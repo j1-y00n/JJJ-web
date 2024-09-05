@@ -1,10 +1,9 @@
-import { Box, Button } from '@mui/material';
-import { theme } from '../styles/theme';
+import { Button } from '@mui/material';
 import { FilterStore } from '../stores/Filter.store';
-import { CategoryAgeType } from '../types/TempMockdata';
 import styles from '../styles/components/Filter.module.css';
+import { ExtendedCategoryAgeType } from '../types/type';
 interface AgeOption {
-  value: CategoryAgeType;
+  value: ExtendedCategoryAgeType;
   label: string;
 }
 
@@ -16,13 +15,14 @@ export default function Filter() {
     { value: '12-18', label: '12-18개월' },
     { value: '19-24', label: '19-24개월' },
     { value: '2-3', label: '2-3세' },
-    { value: 'over3', label: '3세 이상' },
+    { value: '3세 이상', label: '3세 이상' },
   ];
 
   const sorting: string[] = [
     '최신순',
     '가격높은순',
     '가격낮은순',
+    '판매량순',
     '별점순',
     '리뷰많은순',
   ];
@@ -30,7 +30,7 @@ export default function Filter() {
   const { activeAge, activeSorting, setActiveAge, setActiveSorting } =
     FilterStore();
 
-  const handleAgeClick = (age: CategoryAgeType) => {
+  const handleAgeClick = (age: ExtendedCategoryAgeType) => {
     setActiveAge(age === activeAge ? '모두 보기' : age);
   };
   const handleFilterClick = (filter: string) => {

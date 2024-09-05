@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { CategoryAgeType } from '../types/TempMockdata';
+import { ExtendedCategoryAgeType } from '../types/type';
 
 interface FilterState {
-  activeAge: CategoryAgeType;
+  activeAge: ExtendedCategoryAgeType;
   activeSorting: string | null;
-  setActiveAge: (age: CategoryAgeType) => void;
+  setActiveAge: (age: ExtendedCategoryAgeType) => void;
   setActiveSorting: (filter: string | null) => void;
 }
 

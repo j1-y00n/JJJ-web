@@ -23,7 +23,7 @@ import MuiModal from '@mui/material/Modal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import balloonImg from '../assets/images/balloon.jpg';
 import { useNavigate } from 'react-router-dom';
-import { regexName, regexPayment, regexPhone } from '../regex/regex';
+import { regexName, regexPayment, regexPhone } from '../constants/regex';
 
 export default function Payment() {
   // 구매자 이름

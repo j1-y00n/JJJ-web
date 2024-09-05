@@ -4,7 +4,7 @@ import styles from '../styles/components/ModalCart.module.css';
 interface ModalCartProps {
   isOpen: boolean;
   handleCloseModal: () => void;
-  cartModalStyles: {
+  customStyles: {
     left: number;
     top: number;
   };
@@ -12,7 +12,7 @@ interface ModalCartProps {
 export function ModalCart({
   isOpen,
   handleCloseModal,
-  cartModalStyles,
+  customStyles,
 }: ModalCartProps) {
   if (!isOpen) return null;
   setTimeout(() => {
@@ -21,7 +21,7 @@ export function ModalCart({
 
   return (
     <div className={styles.modal__overlay} onClick={handleCloseModal}>
-      <div className={styles.modal} style={cartModalStyles}>
+      <div className={styles.modal} style={customStyles}>
         <div
           className={styles.modal__content}
           onClick={(e) => e.stopPropagation()}

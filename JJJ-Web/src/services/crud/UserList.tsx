@@ -17,7 +17,7 @@ const UserList: React.FC = () => {
   const handleDelete = async (id: number) => {
     try {
       await deleteUser(id);
-      setUsers(users.filter(user => user.userId !== id));
+      setUsers(users.filter((user) => user.id !== id));
       alert('User successfully deleted');
     } catch (error) {
       console.error(error);
@@ -32,10 +32,10 @@ const UserList: React.FC = () => {
     <div>
       <h2>User List</h2>
       <ul>
-        {users.map(user => (
-          <li key={user.userId}>
+        {users.map((user) => (
+          <li key={user.id}>
             {user.userName} ({user.userEmail})
-            <button onClick={() => handleDelete(user.userId)}>Delete</button>
+            <button onClick={() => handleDelete(user.id)}>Delete</button>
           </li>
         ))}
       </ul>
