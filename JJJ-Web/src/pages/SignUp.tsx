@@ -21,7 +21,7 @@ import {
   regexName,
   regexPassword,
   regexPhone,
-} from '../regex/regex';
+} from '../constants/regex';
 interface SignUpForm {
   id: number;
   userId: string;

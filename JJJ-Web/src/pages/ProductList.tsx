@@ -18,19 +18,15 @@ import {
 } from '../services/categoryServices';
 import { Category, ProductCategory, categoryNameType } from '../types/type';
 export default function ProductList() {
-  const { products, fetchProducts } = ProductStore();
+  const { products } = ProductStore();
   const { activeAge, activeSorting } = FilterStore();
   const { handleProductClick } = navigateProduct();
   const { categoryName } = useParams<{ categoryName: categoryNameType }>();
   const [productCategory, setProductCategory] = useState<ProductCategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (products.length === 0) {
-          await fetchProducts();
-        }
         const categories = await getCategories();
         const productCategoriesData = await getProductCategories();
         setCategories(categories);

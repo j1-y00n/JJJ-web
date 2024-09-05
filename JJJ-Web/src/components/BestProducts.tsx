@@ -5,13 +5,10 @@ import BestReview from '../assets/images/bestReview.png';
 import { useEffect } from 'react';
 import { ProductStore } from '../stores/Product.store';
 import { Product } from './Product';
+import { ReviewStore } from '../stores/Review.store';
 
 export default function BestProducts() {
-  const { products, fetchProducts } = ProductStore();
-
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+  const { products } = ProductStore();
 
   const BestProducts = products
     .sort((a, b) => b.productSalesCount - a.productSalesCount)
