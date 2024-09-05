@@ -1,12 +1,13 @@
 // 변지윤
 // 내 중고상품 목록
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../styles/pages/MyUsedProduct.module.css'
 import { Box, Button, Tab, Tabs } from '@mui/material';
-import exampleImg from '../assets/images/cars.jpg';
 import { wrap } from 'module';
 import { useOpenModal } from '../hooks/useOpenModal';
 import ModalIsDelete from '../components/ModalIsDelete';
+import { UsedProduct } from '../types/type';
+import { getUsedProducts } from '../services/usedProductServices';
 
 
 interface TabPanelProps {
@@ -38,18 +39,22 @@ function a11yProps(index: number) {
   };
 }
 
-const CustomMyUsedItem = () => {
+interface usedProductsProps {
+  usedProducts : UsedProduct;
+}
+
+const CustomMyUsedItem = ({usedProducts}: usedProductsProps) => {
   const isDelete = useOpenModal();
 
   return (
     <div className={styles.myused__container}>
     <div>
-      <img src={exampleImg} alt="장난감이미지" className={styles.myused__img} />
+      <img src={usedProducts.usedProductThumbnail} alt={usedProducts.usedProductTitle} className={styles.myused__img} />
     </div>
     <div className={styles.myused__desc}>
-      <div className={styles.myused__desc__title}>0000장난감</div>
-      <div>00000원</div>
-      <div>1개</div>
+      <div className={styles.myused__desc__title}>{usedProducts.usedProductTitle}</div>
+      <div>{usedProducts.usedProductPrice} 원</div>
+      <div>{usedProducts.usedProductQuantity} 개</div>
     </div>
     <div>
       <Button 
@@ -75,6 +80,23 @@ export default function MyUsedProduct() {
     setValue(newValue);
   };
 
+  const [usedProducts, setUsedProducts] = useState<UsedProduct[]>([]);
+
+  useEffect(() => {
+    const fetchUsedProducts = async () => {
+      const fetchedUsedProducts = await getUsedProducts();
+      const filterUser = fetchedUsedProducts.filter(i => i.userId === 1);
+      setUsedProducts(filterUser);
+    };
+    fetchUsedProducts();
+  },[]);
+
+  // 판매완료 중고상품 IsSold=true
+  const soldProducts = usedProducts.filter(product => product.usedProductIsSold);
+
+  // 판매중 중고상품
+  const unsoldProducts = usedProducts.filter(product => !product.usedProductIsSold);
+
   return (
     <Box sx={{ width: '100%', marginBottom: '40px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -99,16 +121,24 @@ export default function MyUsedProduct() {
       </Box>
       <CustomTabPanel value={value} index={0}>
         {/* 판매중 내용 */}
-        <CustomMyUsedItem />
+
+        {unsoldProducts.map(product => 
+          <div key={product.id}>
+            <CustomMyUsedItem usedProducts={product}/>
+          </div>
+        )}
+
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>
         {/* 판매완료 내용 */}
-        <CustomMyUsedItem />
-        <CustomMyUsedItem />
-        <CustomMyUsedItem />
-        <CustomMyUsedItem />
-        <CustomMyUsedItem />
+
+        {soldProducts.map(product => 
+          <div key={product.id}>
+            <CustomMyUsedItem usedProducts={product}/>
+          </div>
+        )}
+
       </CustomTabPanel>
     </Box>
   );

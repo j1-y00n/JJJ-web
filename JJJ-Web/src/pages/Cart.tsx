@@ -1,9 +1,8 @@
 // 변지윤
 // 장바구니
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import styles from '../styles/pages/Cart.module.css';
 import Footer from '../components/Footer';
-import exampleImg from '../assets/images/cars.jpg';
 import { Checkbox, IconButton, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -13,6 +12,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Header from '../components/Header';
 import ModalIsDelete from '../components/ModalIsDelete';
 import { useOpenModal } from '../hooks/useOpenModal';
+import { Cart as CartType, Product } from '../types/type';
+import { getCarts } from '../services/cartServices';
+import { getProducts } from '../services/productServices';
 
 
 // Select component
@@ -48,9 +50,10 @@ interface CustomProductProps {
   imgClassName?: string;
   titleClassName?: string;
   contextClassName?: string;
+  product?: Product;
 }
 
-export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName }: CustomProductProps) => {
+export const CustomProduct = ({ descClassName, imgClassName, titleClassName, contextClassName, product }: CustomProductProps) => {
   // 삭제 모달
   const isDelete = useOpenModal();
 
@@ -68,10 +71,14 @@ export const CustomProduct = ({ descClassName, imgClassName, titleClassName, con
       />
       <div className={styles.desc__container}>
         <Checkbox {...label} color='primary' />
-        <img src={exampleImg} alt="상품이미지" className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} />
+        <img 
+          src={product?.productThumbnail} 
+          alt={product?.productTitle} 
+          className={`${styles.desc__image} ${imgClassName ? imgClassName : ''}`} 
+        />
         <div>
-          <div className={`${styles.title__font} ${titleClassName ? titleClassName : ''}`}>0000장난감</div>
-          <div className={`${styles.context__font} ${contextClassName ? contextClassName : ''}`}>0000 원</div>
+          <div className={`${styles.title__font} ${titleClassName ? titleClassName : ''}`}>{product?.productTitle}</div>
+          <div className={`${styles.context__font} ${contextClassName ? contextClassName : ''}`}>{product?.productPrice} 원</div>
         </div>
       </div>
     </div>
@@ -83,6 +90,27 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 export default function Cart() {
+  const [carts, setCarts] = useState<CartType[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchCarts = async () => {
+      const fetchedCarts = await getCarts();
+      setCarts(fetchedCarts);
+    };
+    const fetchProducts = async () => {
+      const fetchedProducts = await getProducts();
+      setProducts(fetchedProducts);
+    };
+    fetchCarts();
+    fetchProducts();
+  },[]);
+
+  const userFilterCart = carts.filter((i) => 
+    i.userId === 1
+  );
+
+  // 수량 기능
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -113,9 +141,16 @@ export default function Cart() {
 
         {/* 상품리스트 */}
         <div className={styles.cart__list__container}>
-          <div className={styles.list__container__inner}>
-            <CustomProduct />
 
+        {userFilterCart.map(item => {
+          const product = products.find(p => p.id == item.productId);
+
+          return(
+          <div 
+            className={styles.list__container__inner}
+            key={item.id}
+          >
+            <CustomProduct product={product} />
             <div className={styles.list__quantity}>
               <div className={styles.title__font}>상품 주문 수량</div>
               <div>
@@ -125,7 +160,8 @@ export default function Cart() {
                 <TextField
                   id='outlined'
                   type='text'
-                  value={count}
+                  // value={count}
+                  value={item.cartQuantity}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   InputProps={{
@@ -148,7 +184,7 @@ export default function Cart() {
 
             <div className={styles.list__price}>
               <div className={styles.title__font}>상품금액</div>
-              <div className={styles.context__font}>0000 원</div>
+              <div className={styles.context__font}>{item.cartTotalPrice} 원</div>
             </div>
 
             <div className={styles.list__delivery}>
@@ -156,8 +192,10 @@ export default function Cart() {
               <div className={styles.context__font}>무료</div>
             </div>
           </div>
+          );
+        })};
+
         </div>
-        
       </div>
 
       <div style={{marginBottom: '50px', width: '100%'}}>
