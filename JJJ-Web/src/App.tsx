@@ -15,9 +15,16 @@ import UsedProductList from './pages/UsedProductList';
 import { FixedStore } from './stores/Fixed.store';
 import FloatingActionButtons from './components/FabIcon';
 import ScrollToTop from './utils/scrollToTop';
+import { ProductStore } from './stores/Product.store';
+import { useEffect } from 'react';
 
 function App() {
   const { isFixed } = FixedStore();
+  const { products, fetchProducts } = ProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
   return (
     <div className={`${isFixed ? 'fixed' : ''}`}>
       <FloatingActionButtons />
