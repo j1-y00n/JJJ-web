@@ -19,16 +19,17 @@ export function navigateProduct() {
     };
     fetchData();
   }, []);
+
   const navigate = useNavigate();
 
   const handleProductClick = (productId: number) => {
     const categoryId = productCategories?.find(
-      (pc) => pc.productId === productId
+      (pc) => pc.productId === Number(productId)
     )?.categoryId;
-    const categoryName = category?.find(
-      (c) => c.id === categoryId
-    )?.categoryName;
 
+    const categoryName = category?.find(
+      (c) => Number(c.id) === categoryId
+    )?.categoryName;
     navigate(`/category/${categoryName}/product/${productId}`);
   };
 

@@ -27,18 +27,19 @@ import {
   Review,
   ReviewImage,
 } from '../types/type';
-import { getReviewImages, getReviews } from '../services/reviewServices';
+import { getReviewImages } from '../services/reviewServices';
 import { getProductImages } from '../services/productServices';
 // 상품 설명 디테일 사진
 import desc01 from '../assets/images/productDescription/desc01.jpeg';
 import desc02 from '../assets/images/productDescription/desc02.jpeg';
 import desc03 from '../assets/images/productDescription/desc03.jpeg';
 import desc04 from '../assets/images/productDescription/desc04.jpeg';
+import { ReviewStore } from '../stores/Review.store';
 
 export default function ProductDetail() {
   const { productId } = useParams();
-
   const { products, fetchProducts } = ProductStore();
+  const { reviews } = ReviewStore();
   const [product, setProduct] = useState<ProductWithReviews>();
   const [productImages, setProductImages] = useState<ProductImage[]>();
   const [productReviews, setProductReviews] = useState<Review[]>();
@@ -65,8 +66,7 @@ export default function ProductDetail() {
           );
           setProductImages(productImages);
 
-          const allReviews = await getReviews();
-          const productReviews = allReviews.filter(
+          const productReviews = reviews.filter(
             (review) => String(review.productId) === String(productId)
           );
           setProductReviews(productReviews);

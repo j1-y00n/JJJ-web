@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { getProducts } from '../services/productServices';
 import { ProductWithReviews, Review } from '../types/type';
 import { getReviews } from '../services/reviewServices';
+import { ReviewStore } from './Review.store';
 
 interface ProductState {
   products: ProductWithReviews[];
@@ -14,6 +15,10 @@ export const ProductStore = create<ProductState>((set) => ({
     try {
       const products = await getProducts();
       const reviews = await getReviews();
+
+      // 리뷰스토어에 state를 가져와서 reviews로 업데이트
+      ReviewStore.getState().setReviews(reviews);
+
       const productsWithReviews = products.map((product) => {
         const { reviewRating, reviewCount } = calcReviewCountAndReviewRating(
           product.id,
