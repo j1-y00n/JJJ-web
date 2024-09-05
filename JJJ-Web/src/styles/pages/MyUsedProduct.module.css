@@ -6,7 +6,7 @@
   box-shadow: var(--box-shadow);
   padding: 10px;
   margin: 10px 0;
-  margin-right: 70px;
+  margin-right: 52px;
 }
 .myused__container:nth-child(4n) {
   margin-right: 0;
