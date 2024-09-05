@@ -31,14 +31,12 @@ function App() {
         <Route path='/search/:query?' element={<Search />} />
         <Route path='/payment' element={<Payment />} />
         <Route path='/company' element={<Company />} />
-        <Route path='/category/:categoryId' element={<ProductList />} />
+        <Route path='/category/:categoryName' element={<ProductList />} />
         <Route
-          path='/category/:categoryId/product/:productId'
+          path='/category/:categoryName/product/:productId'
           element={<ProductDetail />}
         />
-        {/* 중고 상품 등록 페이지 */}
         <Route path='/createUsedProduct' element={<CreateUsedProduct />} />
-        {/* 중고 상품 목록 페이지 */}
         <Route path='/UsedProductList' element={<UsedProductList />} />
       </Routes>
     </div>

@@ -15,7 +15,7 @@ export default function PaginationNav({
   paginate,
   currentPage,
 }: PaginationNavProps) {
-  const { activeState, handleStateChange } = useActiveState();
+  const { activeState, handleStateChange } = useActiveState(1);
   const pageNumbers = [];
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const currentPageGroup = Math.ceil(currentPage / 5);

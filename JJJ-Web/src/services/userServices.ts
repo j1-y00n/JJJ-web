@@ -13,7 +13,7 @@ export const getUserById = async (id: number): Promise<User> => {
   return response.data;
 };
 
-export const createUser = async (user: Omit<User, 'userId'>): Promise<User> => {
+export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
   const response = await axios.post(LOCALHOST_PORT, user);
   return response.data;
 };

@@ -1,8 +1,18 @@
-import { CategoryAgeType, ProductProp } from '../types/TempMockdata';
+import { useEffect, useState } from 'react';
+import {
+  ProductWithReviews,
+  ExtendedCategoryAgeType,
+  ProductAgeCategory,
+  AgeCategory,
+} from '../types/type';
+import {
+  getAgeCategories,
+  getProductAgeCategory,
+} from '../services/categoryServices';
 
 interface FilterAndSortParams {
-  products: ProductProp[];
-  activeAge: CategoryAgeType;
+  products: ProductWithReviews[];
+  activeAge: ExtendedCategoryAgeType;
   activeSorting: string | null;
 }
 
@@ -10,28 +20,57 @@ export function filterAndSortProducts({
   products,
   activeAge,
   activeSorting,
-}: FilterAndSortParams): ProductProp[] {
-  const ageFilteredProducts =
-    activeAge === '모두 보기'
-      ? products
-      : products.filter((product) =>
-          product.productCategoryAge.includes(activeAge)
-        );
+}: FilterAndSortParams): ProductWithReviews[] {
+  const [ageCategories, setAgeCategories] = useState<AgeCategory[]>();
+  const [productAgeCategories, setProductAgeCategories] =
+    useState<ProductAgeCategory[]>();
 
-  return [...ageFilteredProducts].sort((a, b) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ageCategories = await getAgeCategories();
+        const productAgeCategory = await getProductAgeCategory();
+        setAgeCategories(ageCategories);
+        setProductAgeCategories(productAgeCategory);
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const ageCategoryId =
+    activeAge === '모두 보기'
+      ? null
+      : ageCategories?.find((ac) => ac.ageRange === activeAge)?.id;
+
+  const ageFilteredProducts = ageCategoryId
+    ? products.filter((product) =>
+        productAgeCategories?.some(
+          (pac) =>
+            pac.productId === product.id && pac.ageCategoryId === ageCategoryId
+        )
+      )
+    : products;
+
+  const sortedProducts = [...ageFilteredProducts].sort((a, b) => {
     switch (activeSorting) {
       case '최신순':
-        return b.productId - a.productId;
+        return b.id - a.id;
       case '가격높은순':
         return b.productPrice - a.productPrice;
       case '가격낮은순':
         return a.productPrice - b.productPrice;
+      case '판매량순':
+        return a.productSalesCount - b.productSalesCount;
       case '별점순':
-        return b.productRating - a.productRating;
+        return Number(b.reviewRating) - Number(a.reviewRating);
       case '리뷰많은순':
-        return b.productRatingCount - a.productRatingCount;
+        return b.reviewCount - a.reviewCount;
       default:
         return 0;
     }
   });
+
+  return sortedProducts;
 }

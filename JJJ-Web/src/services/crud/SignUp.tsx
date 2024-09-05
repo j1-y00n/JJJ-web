@@ -4,7 +4,7 @@ import { createUser } from '../userServices';
 import { User } from '../../types/type';
 
 const SignUp: React.FC = () => {
-  const [user, setUser] = useState<Omit<User, 'userId'>>({
+  const [user, setUser] = useState<Omit<User, 'id'>>({
     userLoginId: '',
     userPassword: '',
     userName: '',
@@ -17,7 +17,9 @@ const SignUp: React.FC = () => {
     userSignUpDate: new Date().toISOString(),
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -36,71 +38,67 @@ const SignUp: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        name="userLoginId"
+        type='text'
+        name='userLoginId'
         value={user.userLoginId}
         onChange={handleChange}
-        placeholder="Login ID"
+        placeholder='Login ID'
       />
       <input
-        type="password"
-        name="userPassword"
+        type='password'
+        name='userPassword'
         value={user.userPassword}
         onChange={handleChange}
-        placeholder="Password"
+        placeholder='Password'
       />
       <input
-        type="text"
-        name="userName"
+        type='text'
+        name='userName'
         value={user.userName}
         onChange={handleChange}
-        placeholder="Name"
+        placeholder='Name'
       />
       <input
-        type="text"
-        name="userPhone"
+        type='text'
+        name='userPhone'
         value={user.userPhone}
         onChange={handleChange}
-        placeholder="Phone"
+        placeholder='Phone'
       />
       <input
-        type="email"
-        name="userEmail"
+        type='email'
+        name='userEmail'
         value={user.userEmail}
         onChange={handleChange}
-        placeholder="Email"
+        placeholder='Email'
       />
       <input
-        type="text"
-        name="userAddress"
+        type='text'
+        name='userAddress'
         value={user.userAddress}
         onChange={handleChange}
-        placeholder="Address"
+        placeholder='Address'
       />
       <input
-        type="text"
-        name="userAddressDetail"
+        type='text'
+        name='userAddressDetail'
         value={user.userAddressDetail}
         onChange={handleChange}
-        placeholder="Address Detail"
+        placeholder='Address Detail'
       />
-      <select
-        name="userGender"
-        value={user.userGender}
-        onChange={handleChange}
-      >
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
+      <select name='userGender' value={user.userGender} onChange={handleChange}>
+        <option value='male'>Male</option>
+        <option value='female'>Female</option>
+        <option value='other'>Other</option>
       </select>
       <input
-        type="date"
-        name="userBirth"
+        type='date'
+        name='userBirth'
         value={user.userBirth}
         onChange={handleChange}
-        placeholder="Birth Date"
+        placeholder='Birth Date'
       />
-      <button type="submit">Sign Up</button>
+      <button type='submit'>Sign Up</button>
     </form>
   );
 };
