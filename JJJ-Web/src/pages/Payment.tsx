@@ -33,6 +33,14 @@ import { productTitles } from '../types/TempMockdata';
 export default function Payment() {
   const location = useLocation();
   let { product, count, totalPrice } = location.state;
+  let {
+    id,
+    usedProductTitle,
+    usedProductPrice,
+    usedProductThumbnail,
+    usedProductQuantity,
+    usedProductTotalPrice,
+  } = location.state;
   console.log(product, count, totalPrice);
   // const [buyProducts, setBuyProducts] = useState<Product[]>([]);
   // useEffect(() => {
@@ -297,14 +305,25 @@ export default function Payment() {
           <div className={styles.info__container}>
             <div className={styles.delivery__products}>
               <div className={styles.total__price}>
-                총 결제금액 : {totalPrice}원
+                총 결제금액 : {totalPrice && totalPrice}
+                {usedProductTotalPrice && usedProductTotalPrice}원
               </div>
               {product && (
                 <DeliveryProduct
                   key={product.productId}
                   {...product}
-                  count={count}
+                  numberOfPurchases={count}
                   totalPrice={totalPrice}
+                />
+              )}
+              {usedProductTitle && (
+                <DeliveryProduct
+                  key={id}
+                  productTitle={usedProductTitle}
+                  productPrice={usedProductPrice}
+                  productThumbnail={usedProductThumbnail}
+                  numberOfPurchases={usedProductQuantity}
+                  totalPrice={usedProductTotalPrice}
                 />
               )}
             </div>
@@ -418,7 +437,29 @@ export default function Payment() {
             결제가 완료 되었습니다
           </Typography>
           <Typography id='modal-modal-description' sx={{ my: 2 }}>
-            총 금액 {totalPrice}원
+            총 금액 {totalPrice && totalPrice}
+            {usedProductTotalPrice && usedProductTotalPrice}원
+          </Typography>
+          <Typography id='modal-modal-description' sx={{ mb: 2 }}>
+            배송지 메모 :
+            {(() => {
+              switch (deliveryMemo) {
+                case '0':
+                  return ' 없음';
+                case '1':
+                  return ' 문 앞';
+                case '2':
+                  return ' 직접 받고 부재 시 문 앞';
+                case '3':
+                  return ' 경비실';
+                case '4':
+                  return ' 택배함';
+                case '5':
+                  return ' ' + customMemo;
+                default:
+                  return '';
+              }
+            })()}
           </Typography>
           <Button onClick={() => navigate('/Mypage')} sx={{ width: '90%' }}>
             주문내역으로 이동
@@ -433,7 +474,7 @@ interface DeliveryProductProps {
   productTitle: string;
   productPrice: number;
   productThumbnail: string;
-  count: number;
+  numberOfPurchases: number;
   totalPrice: number;
 }
 
@@ -441,7 +482,7 @@ const DeliveryProduct = ({
   productTitle,
   productPrice,
   productThumbnail,
-  count,
+  numberOfPurchases,
   totalPrice,
 }: DeliveryProductProps) => {
   return (
@@ -452,7 +493,7 @@ const DeliveryProduct = ({
       <div className={styles.product__details}>
         <p>{productTitle}</p>
         <p>{productPrice}원</p>
-        <p>수량 : {count}개</p>
+        <p>수량 : {numberOfPurchases}개</p>
         <p>총 상품금액 : {totalPrice}원</p>
       </div>
       <div className={styles.product__delivery__price}>
@@ -462,3 +503,8 @@ const DeliveryProduct = ({
     </div>
   );
 };
+
+// 여유 되면 구현 해보고 싶은 내용
+// 제품 구매 페이지에서 수량 조절해서 가격이 조정되게
+// 그리고 수량은 db.json의 데이터 이상으로는 올라갈 수 없게
+// 구매 완료 후 db.json의 수량이 조절되도록
