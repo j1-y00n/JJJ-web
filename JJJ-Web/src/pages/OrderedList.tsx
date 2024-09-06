@@ -62,7 +62,6 @@ export default function OrderedList() {
       }));
 
       const sortedLatestOrders = [...groupedOrders].reverse();
-      console.log(sortedLatestOrders);
       setSortedLatestOrders(sortedLatestOrders);
     };
     fetchData();
@@ -71,9 +70,15 @@ export default function OrderedList() {
   // 주문내역 삭제
   const handleDeletePayments = async (orderId: string) => {
     try {
-      payments.forEach(async (payment) => {
-        await deletePayments(payment.id);
-      });
+      const paymentIdsToDelete =
+        sortedLatestOrders
+          .find((order) => order.orderId === orderId)
+          ?.payments.map((payment) => payment.id) || [];
+
+      for (const id of paymentIdsToDelete) {
+        await deletePayments(id);
+      }
+
       setSortedLatestOrders(
         sortedLatestOrders.filter((orders) => orders.orderId !== orderId)
       );
