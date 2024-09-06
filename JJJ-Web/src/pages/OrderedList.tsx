@@ -19,8 +19,9 @@ import { ModalCart } from '../components/ModalCart';
 import UploadFile from '../components/UploadFile';
 import ClearIcon from '@mui/icons-material/Clear';
 import ModalIsDelete from '../components/ModalIsDelete';
-import { Payment } from '../types/type';
-import { getPaymentsById } from '../services/paymentServices';
+import { Payment, Product } from '../types/type';
+import { getProductById } from '../services/productServices';
+import { getPaymentsByUserId } from '../services/paymentServices';
 
 type PaymentGroupType = { [key: string]: Payment[] };
 
@@ -29,7 +30,7 @@ export default function OrderedList() {
   const [payments, setPayments] = useState<Payment[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const payments = await getPaymentsById(1);
+      const payments = await getPaymentsByUserId(1);
       setPayments(payments);
     };
     fetchData();
@@ -103,11 +104,13 @@ const Orders = ({ orderTimestamp, payments }: OrdersProps) => {
     (acc, price) => acc + Number(price.paymentTotalPrice),
     0
   );
+
+  console.log(payments);
   return (
     <div className={styles.orders}>
       <div className={styles.order__number}>
         <div className={styles.order__info}>
-          <span>주문번호 : 1111111 / </span>
+          <span>주문번호 : {new Date(orderTimestamp).getTime()} / </span>
           <span>주문날짜 : {new Date(orderTimestamp).toLocaleString()} / </span>
           <span>총 결제금액 : {totalPrice}원</span>
         </div>
@@ -131,6 +134,14 @@ const Order = ({
   productId,
   paymentQuantity,
 }: Payment) => {
+  const [product, setProduct] = useState<Product>();
+  useEffect(() => {
+    const fetchData = async () => {
+      const product = await getProductById(productId);
+      setProduct(product);
+    };
+    fetchData();
+  }, [productId]);
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -155,11 +166,11 @@ const Order = ({
   return (
     <div className={styles.order__container}>
       <div className={styles.order__img}>
-        <img src={balloonImg} alt='balloonImg' />
+        <img src={product?.productThumbnail} alt={product?.productTitle} />
       </div>
       <div className={styles.order__details}>
-        <p>스마일 풍선</p>
-        <p>2000원</p>
+        <p>{product?.productTitle}</p>
+        <p>{product?.productPrice}원</p>
         <p>수량 : {paymentQuantity}개</p>
         <p>총 상품금액 : {paymentTotalPrice}원</p>
       </div>
