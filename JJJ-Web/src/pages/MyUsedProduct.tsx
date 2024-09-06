@@ -7,7 +7,7 @@ import { wrap } from 'module';
 import { useOpenModal } from '../hooks/useOpenModal';
 import ModalIsDelete from '../components/ModalIsDelete';
 import { UsedProduct } from '../types/type';
-import { getUsedProducts } from '../services/usedProductServices';
+import { deleteUsedProduct, getUsedProducts } from '../services/usedProductServices';
 
 
 interface TabPanelProps {
@@ -41,9 +41,10 @@ function a11yProps(index: number) {
 
 interface usedProductsProps {
   usedProducts : UsedProduct;
+  handleDeleteMyUsedProduct: () => void;
 }
 
-const CustomMyUsedItem = ({usedProducts}: usedProductsProps) => {
+const CustomMyUsedItem = ({ usedProducts, handleDeleteMyUsedProduct }: usedProductsProps) => {
   const isDelete = useOpenModal();
 
   return (
@@ -66,6 +67,7 @@ const CustomMyUsedItem = ({usedProducts}: usedProductsProps) => {
       <ModalIsDelete
         isOpen={isDelete.isOpen}
         handleCloseModal={isDelete.handleCloseModal}
+        handleDeleteContent={handleDeleteMyUsedProduct}
       />
     </div>
   </div>
@@ -97,6 +99,18 @@ export default function MyUsedProduct() {
   // 판매중 중고상품
   const unsoldProducts = usedProducts.filter(product => !product.usedProductIsSold);
 
+  // 중고상품 삭제
+  const handleDeleteMyUsedProduct = async (id: number) => {
+    try {
+      await deleteUsedProduct(id);
+      setUsedProducts(usedProducts.filter((item) => item.id != id));
+      alert('SUCCESS MyUsedProduct delete');
+    } catch (error) {
+      console.log(error);
+      alert('FAIL MyUsedProduct delete');
+    }
+  };
+
   return (
     <Box sx={{ width: '100%', marginBottom: '40px' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -124,7 +138,10 @@ export default function MyUsedProduct() {
 
         {unsoldProducts.map(product => 
           <div key={product.id}>
-            <CustomMyUsedItem usedProducts={product}/>
+            <CustomMyUsedItem 
+              usedProducts={product}
+              handleDeleteMyUsedProduct={() => handleDeleteMyUsedProduct(product.id)}
+            />
           </div>
         )}
 
@@ -135,7 +152,10 @@ export default function MyUsedProduct() {
 
         {soldProducts.map(product => 
           <div key={product.id}>
-            <CustomMyUsedItem usedProducts={product}/>
+            <CustomMyUsedItem 
+              usedProducts={product}
+              handleDeleteMyUsedProduct={() => handleDeleteMyUsedProduct(product.id)}
+            />
           </div>
         )}
 
