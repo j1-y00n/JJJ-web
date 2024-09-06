@@ -115,6 +115,8 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {};
 
+  const totalPrice = product && product.productPrice * count;
+
   if (!product) return <div>No product found</div>;
   return (
     <div className='flex__container'>
@@ -208,11 +210,15 @@ export default function ProductDetail() {
                 <div className={styles.total__price__container}>
                   <span>총 결제 금액 :</span>
                   <span className={styles.product__total__price}>
-                    {product && product.productPrice * count}원
+                    {totalPrice}원
                   </span>
                 </div>
                 <Button
-                  onClick={() => navigate('/payment')}
+                  onClick={() =>
+                    navigate('/payment', {
+                      state: { product, count, totalPrice },
+                    })
+                  }
                   sx={{ fontSize: 'var(--font-size-regular)' }}
                 >
                   구매하기

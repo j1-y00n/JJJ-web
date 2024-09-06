@@ -78,6 +78,7 @@ export default function OrderedList() {
       for (const id of paymentIdsToDelete) {
         await deletePayments(id);
       }
+      // await Promise.all(paymentIdsToDelete.map((id) => deletePayments(id)));
 
       setSortedLatestOrders(
         sortedLatestOrders.filter((orders) => orders.orderId !== orderId)

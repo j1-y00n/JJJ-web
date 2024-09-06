@@ -1,6 +1,6 @@
 // 신승주
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../styles/pages/Payment.module.css';
 import {
   RadioGroup,
@@ -22,10 +22,39 @@ import Modal from 'react-modal';
 import MuiModal from '@mui/material/Modal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import balloonImg from '../assets/images/balloon.jpg';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { regexName, regexPayment, regexPhone } from '../constants/regex';
+import { getUserById } from '../services/userServices';
+import { Product, User } from '../types/type';
+import axios from 'axios';
+import { LOCALHOST_PORT } from '../constants/api';
+import { productTitles } from '../types/TempMockdata';
 
 export default function Payment() {
+  const location = useLocation();
+  let { product, count, totalPrice } = location.state;
+  console.log(product, count, totalPrice);
+  // const [buyProducts, setBuyProducts] = useState<Product[]>([]);
+  // useEffect(() => {
+  //   if (products && products.length > 0) {
+  //     setBuyProducts(products);
+  //   } else if (product) {
+  //     setBuyProducts([product]);
+  //   }
+  // }, [product, products]);
+
+  // userId 가져옴
+  const userId = 1;
+  const [user, setUser] = useState<User>();
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`${LOCALHOST_PORT}/users/${userId}`);
+      const user = response.data;
+      setUser(user);
+    };
+    fetchData();
+  }, [userId]);
+
   // 구매자 이름
   const { value: name, handleInputChange: nameInputChange } = useInput('');
 
@@ -118,7 +147,7 @@ export default function Payment() {
               className={styles.input}
               type='text'
               placeholder='이름'
-              value={name}
+              value={user?.userName}
               onChange={nameInputChange}
               maxLength={20}
               disabled={true}
@@ -133,7 +162,7 @@ export default function Payment() {
               className={styles.input}
               type='text'
               placeholder='핸드폰 번호'
-              value={name}
+              value={user?.userPhone}
               onChange={nameInputChange}
               maxLength={20}
               disabled={true}
@@ -162,7 +191,7 @@ export default function Payment() {
                 type='text'
                 name='roadAddress'
                 placeholder='도로명주소'
-                // value={formData.address?.roadAddress || ''}
+                value={user?.userAddress}
                 // onChange={handleInputChange}
                 maxLength={20}
                 readOnly
@@ -173,7 +202,7 @@ export default function Payment() {
                 type='text'
                 name='detailAddress'
                 placeholder='상세주소'
-                // value={formData.address?.detailAddress || ''}
+                value={user?.userAddressDetail}
                 // onChange={handleInputChange}
                 // onBlur={handleBlur}
                 maxLength={20}
@@ -267,10 +296,17 @@ export default function Payment() {
           <h1 className={styles.info__title}>배송 상품</h1>
           <div className={styles.info__container}>
             <div className={styles.delivery__products}>
-              <div className={styles.total__price}>총 결제금액 : 00000원</div>
-              <DeliveryProduct />
-              <DeliveryProduct />
-              <DeliveryProduct />
+              <div className={styles.total__price}>
+                총 결제금액 : {totalPrice}원
+              </div>
+              {product && (
+                <DeliveryProduct
+                  key={product.productId}
+                  {...product}
+                  count={count}
+                  totalPrice={totalPrice}
+                />
+              )}
             </div>
           </div>
         </section>
@@ -382,7 +418,7 @@ export default function Payment() {
             결제가 완료 되었습니다
           </Typography>
           <Typography id='modal-modal-description' sx={{ my: 2 }}>
-            총 금액 10000원
+            총 금액 {totalPrice}원
           </Typography>
           <Button onClick={() => navigate('/Mypage')} sx={{ width: '90%' }}>
             주문내역으로 이동
@@ -393,17 +429,31 @@ export default function Payment() {
   );
 }
 
-const DeliveryProduct = () => {
+interface DeliveryProductProps {
+  productTitle: string;
+  productPrice: number;
+  productThumbnail: string;
+  count: number;
+  totalPrice: number;
+}
+
+const DeliveryProduct = ({
+  productTitle,
+  productPrice,
+  productThumbnail,
+  count,
+  totalPrice,
+}: DeliveryProductProps) => {
   return (
     <div className={styles.product__container}>
       <div className={styles.product__img}>
-        <img src={balloonImg} alt='balloonImg' />
+        <img src={productThumbnail} alt={productTitle} />
       </div>
       <div className={styles.product__details}>
-        <p>스마일 풍선</p>
-        <p>2000원</p>
-        <p>수량 : 5개</p>
-        <p>총 상품금액 : 10000원</p>
+        <p>{productTitle}</p>
+        <p>{productPrice}원</p>
+        <p>수량 : {count}개</p>
+        <p>총 상품금액 : {totalPrice}원</p>
       </div>
       <div className={styles.product__delivery__price}>
         <p>배송비</p>
