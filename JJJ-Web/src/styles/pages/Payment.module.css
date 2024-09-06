@@ -28,7 +28,10 @@
 .address__container {
   display: flex;
   flex-direction: column;
-  position: relative;
+}
+
+.address__container .input:not(:last-of-type) {
+  margin-bottom: 5px;
 }
 
 .label {
@@ -66,10 +69,6 @@
 
 .input__card__number:last-of-type {
   margin-right: 0;
-}
-
-.address:not(:last-of-type) {
-  margin-bottom: 5px;
 }
 
 .textarea {

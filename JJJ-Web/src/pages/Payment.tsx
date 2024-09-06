@@ -16,23 +16,21 @@ import {
 } from '@mui/material';
 import { Logo } from '../components/Header';
 import Footer from '../components/Footer';
-import { useInput } from '../hooks/useInput';
-import CloseIcon from '@mui/icons-material/Close';
-import Modal from 'react-modal';
 import MuiModal from '@mui/material/Modal';
-import DaumPostcodeEmbed from 'react-daum-postcode';
-import balloonImg from '../assets/images/balloon.jpg';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { regexName, regexPayment, regexPhone } from '../constants/regex';
+import { regexPayment } from '../constants/regex';
 import { getUserById } from '../services/userServices';
-import { Product, User } from '../types/type';
+import { User } from '../types/type';
 import axios from 'axios';
 import { LOCALHOST_PORT } from '../constants/api';
-import { productTitles } from '../types/TempMockdata';
 
 export default function Payment() {
   const location = useLocation();
+
+  // productDetail.tsx로 부터 받아올 때
   let { product, count, totalPrice } = location.state;
+
+  // usedProductList.tsx로 부터 받아올 때
   let {
     id,
     usedProductTitle,
@@ -41,15 +39,11 @@ export default function Payment() {
     usedProductQuantity,
     usedProductTotalPrice,
   } = location.state;
-  console.log(product, count, totalPrice);
-  // const [buyProducts, setBuyProducts] = useState<Product[]>([]);
-  // useEffect(() => {
-  //   if (products && products.length > 0) {
-  //     setBuyProducts(products);
-  //   } else if (product) {
-  //     setBuyProducts([product]);
-  //   }
-  // }, [product, products]);
+
+  // Cart.tsx로 부터 받아올 때 - (팀원 작업을 기다리는 중)
+
+  // 총 결제 금액
+  let totalPaymentAmount = totalPrice || usedProductTotalPrice;
 
   // userId 가져옴
   const userId = 1;
@@ -62,37 +56,6 @@ export default function Payment() {
     };
     fetchData();
   }, [userId]);
-
-  // 구매자 이름
-  const { value: name, handleInputChange: nameInputChange } = useInput('');
-
-  // 배송 메모
-  const { value: detail, handleInputChange: detailInputChange } = useInput('');
-
-  //! 주소 입력 기능
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const handleSearchtoggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const modalStyles: ReactModal.Styles = {
-    overlay: {
-      backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-
-    content: {
-      width: '500px',
-      height: '600px',
-      margin: 'auto',
-      overflow: 'hidden',
-      padding: '20px',
-      position: 'absolute',
-      borderRadius: '10px',
-      boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.25)',
-      backgroundColor: 'white',
-      justifyContent: 'center',
-    },
-  };
 
   const [deliveryMemo, setDeliveryMemo] = useState('0');
   const [customMemo, setCustomMemo] = useState('');
@@ -147,32 +110,20 @@ export default function Payment() {
         <section className={styles.section__container}>
           <h1 className={styles.info__title}>구매자 정보</h1>
           <div className={styles.info__container}>
-            <label className={styles.label} htmlFor='name'>
-              이름
-            </label>
+            <label className={styles.label}>이름</label>
             <input
-              id='name'
               className={styles.input}
               type='text'
-              placeholder='이름'
               value={user?.userName}
-              onChange={nameInputChange}
-              maxLength={20}
               disabled={true}
-            />{' '}
+            />
           </div>
           <div className={styles.info__container}>
-            <label className={styles.label} htmlFor='phone'>
-              핸드폰 번호
-            </label>
+            <label className={styles.label}>핸드폰 번호</label>
             <input
-              id='phone'
               className={styles.input}
               type='text'
-              placeholder='핸드폰 번호'
               value={user?.userPhone}
-              onChange={nameInputChange}
-              maxLength={20}
               disabled={true}
             />{' '}
           </div>
@@ -183,79 +134,17 @@ export default function Payment() {
             </label>
             <div className={styles.address__container}>
               <input
-                id='address'
-                className={`${styles.input} ${styles.address}`}
+                className={styles.input}
                 type='text'
-                name='zipCode'
-                placeholder='우편번호'
-                // value={formData.address?.zipCode || ''}
-                // onChange={handleInputChange}
-                maxLength={20}
-                readOnly
-                disabled={true}
-              />
-              <input
-                className={`${styles.input} ${styles.address}`}
-                type='text'
-                name='roadAddress'
-                placeholder='도로명주소'
                 value={user?.userAddress}
-                // onChange={handleInputChange}
-                maxLength={20}
-                readOnly
                 disabled={true}
               />
               <input
-                className={`${styles.input} ${styles.address}`}
+                className={styles.input}
                 type='text'
-                name='detailAddress'
-                placeholder='상세주소'
                 value={user?.userAddressDetail}
-                // onChange={handleInputChange}
-                // onBlur={handleBlur}
-                maxLength={20}
-                required
                 disabled={true}
               />
-              <Button
-                onClick={handleSearchtoggle}
-                color='info'
-                disabled={true}
-                sx={{
-                  position: 'absolute',
-                  top: '0px',
-                  right: '-80px',
-                  cursor: 'pointer',
-                  borderRadius: 'var(--border-radius)',
-                  height: '48px',
-                }}
-              >
-                주소찾기
-              </Button>
-              <Modal
-                isOpen={isOpen}
-                style={modalStyles}
-                ariaHideApp={false}
-                onRequestClose={() => setIsOpen(false)}
-              >
-                <div
-                  id='closeBtn'
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'end',
-                    marginBottom: '10px',
-                  }}
-                >
-                  <CloseIcon
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => setIsOpen(false)}
-                  />
-                </div>
-                <DaumPostcodeEmbed
-                  // onComplete={finalInput}
-                  style={{ height: '95%' }}
-                />
-              </Modal>
             </div>
           </div>
 
@@ -294,7 +183,7 @@ export default function Payment() {
                 maxLength={120}
                 required
               ></textarea>
-              <div className={styles.text__length}>{detail.length}/120</div>
+              <div className={styles.text__length}>{customMemo.length}/120</div>
             </div>
           )}
         </section>
@@ -305,9 +194,10 @@ export default function Payment() {
           <div className={styles.info__container}>
             <div className={styles.delivery__products}>
               <div className={styles.total__price}>
-                총 결제금액 : {totalPrice && totalPrice}
-                {usedProductTotalPrice && usedProductTotalPrice}원
+                총 결제금액 : {totalPaymentAmount}원
               </div>
+              {/* 장바구니에서 구매한 경우 */}
+              {/* 제품 상세 페이지에서 구매한 경우 */}
               {product && (
                 <DeliveryProduct
                   key={product.productId}
@@ -316,6 +206,7 @@ export default function Payment() {
                   totalPrice={totalPrice}
                 />
               )}
+              {/* 중고 상품 페이지에서 구매한 경우 */}
               {usedProductTitle && (
                 <DeliveryProduct
                   key={id}
@@ -420,7 +311,7 @@ export default function Payment() {
         <div className={styles.fixed__inner}>
           <div className={styles.fixed__price}>주문 확인, 정보 제공 동의</div>
           <Button className={styles.fixed__order} onClick={handlePayProcess}>
-            10000원 결제하기
+            {totalPaymentAmount}원 결제하기
           </Button>
         </div>
       </div>
@@ -437,8 +328,7 @@ export default function Payment() {
             결제가 완료 되었습니다
           </Typography>
           <Typography id='modal-modal-description' sx={{ my: 2 }}>
-            총 금액 {totalPrice && totalPrice}
-            {usedProductTotalPrice && usedProductTotalPrice}원
+            총 금액 {totalPaymentAmount}원
           </Typography>
           <Typography id='modal-modal-description' sx={{ mb: 2 }}>
             배송지 메모 :
