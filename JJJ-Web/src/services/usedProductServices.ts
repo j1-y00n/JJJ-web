@@ -12,6 +12,10 @@ export const getUsedProductImages = async (): Promise<UsedProductImage[]> => {
   return response.data;
 };
 
+export const deleteUsedProduct = async (id: number): Promise<void> => {
+  await axios.delete(`${LOCALHOST_PORT}/usedProducts/${id}`);
+};
+
 // export const getUsedProductImagesByUsedProductId = async (
 //   usedProductId: number
 // ): Promise<UsedProductImage[]> => {
