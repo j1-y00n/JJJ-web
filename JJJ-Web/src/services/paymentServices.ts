@@ -7,11 +7,17 @@ export const getPayments = async (): Promise<Payment[]> => {
   return response.data;
 };
 
-export const getPaymentsById = async (id: number): Promise<Payment[]> => {
+export const getPaymentsByUserId = async (
+  userId: number
+): Promise<Payment[]> => {
   const response = await axios.get<Payment[]>(`${LOCALHOST_PORT}/payments`);
-  const payments = response.data.filter((payment) => payment.userId === id);
+  const payments = response.data.filter((payment) => payment.userId === userId);
   if (!payments) {
-    throw new Error(`payments with userId ${id} not found`);
+    throw new Error(`payments with userId ${userId} not found`);
   }
   return payments;
+};
+
+export const deletePayments = async (paymentId: number): Promise<void> => {
+  await axios.delete<Payment[]>(`${LOCALHOST_PORT}/payments/${paymentId}`);
 };

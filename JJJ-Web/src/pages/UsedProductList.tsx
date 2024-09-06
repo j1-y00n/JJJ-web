@@ -178,7 +178,19 @@ function UsedProductComponent({
             </IconButton>
             <Button
               color='secondary'
-              onClick={() => navigate('/payment')}
+              onClick={() =>
+                navigate('/payment', {
+                  state: {
+                    id,
+                    usedProductTitle,
+                    usedProductPrice,
+                    usedProductThumbnail,
+                    usedProductQuantity,
+                    usedProductTotalPrice:
+                      usedProductPrice * usedProductQuantity,
+                  },
+                })
+              }
               sx={{ padding: '5px', marginLeft: '20px' }}
             >
               구매하기

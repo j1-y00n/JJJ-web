@@ -27,7 +27,7 @@ import {
   Review,
   ReviewImage,
 } from '../types/type';
-import { getReviewImages } from '../services/reviewServices';
+import { DeleteReview, getReviewImages } from '../services/reviewServices';
 import { getProductImages } from '../services/productServices';
 // 상품 설명 디테일 사진
 import desc01 from '../assets/images/productDescription/desc01.jpeg';
@@ -39,10 +39,10 @@ import { ReviewStore } from '../stores/Review.store';
 export default function ProductDetail() {
   const { productId } = useParams();
   const { products, fetchProducts } = ProductStore();
-  const { reviews } = ReviewStore();
+
   const [product, setProduct] = useState<ProductWithReviews>();
   const [productImages, setProductImages] = useState<ProductImage[]>();
-  const [productReviews, setProductReviews] = useState<Review[]>();
+
   const [currentImg, setCurrentImg] = useState('');
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } = useActiveState(true);
@@ -65,19 +65,13 @@ export default function ProductDetail() {
             (image) => String(image.productId) === String(productId)
           );
           setProductImages(productImages);
-
-          const productReviews = reviews.filter(
-            (review) => String(review.productId) === String(productId)
-          );
-          setProductReviews(productReviews);
-          console.log(productReviews);
         }
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [productId, products]);
+  }, [products]);
 
   // ImageTab에 들어가는 이미지 코드
   useEffect(() => {
@@ -120,6 +114,9 @@ export default function ProductDetail() {
   const customPosition = { left: 23, top: -10 };
 
   const handleAddToCart = () => {};
+
+  const totalPrice = product && product.productPrice * count;
+
   if (!product) return <div>No product found</div>;
   return (
     <div className='flex__container'>
@@ -213,11 +210,15 @@ export default function ProductDetail() {
                 <div className={styles.total__price__container}>
                   <span>총 결제 금액 :</span>
                   <span className={styles.product__total__price}>
-                    {product && product.productPrice * count}원
+                    {totalPrice}원
                   </span>
                 </div>
                 <Button
-                  onClick={() => navigate('/payment')}
+                  onClick={() =>
+                    navigate('/payment', {
+                      state: { product, count, totalPrice },
+                    })
+                  }
                   sx={{ fontSize: 'var(--font-size-regular)' }}
                 >
                   구매하기
@@ -226,7 +227,7 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
-        <DetailTab reviews={productReviews} />
+        <DetailTab productId={productId} />
       </div>
       <Footer />
     </div>
@@ -239,14 +240,37 @@ const randomIndex = Math.floor(Math.random() * detailDescriptions.length);
 const randomDescImg = detailDescriptions[randomIndex];
 
 interface DetailTabProp {
-  reviews: Review[] | undefined;
+  productId: string | undefined;
 }
 
-function DetailTab({ reviews }: DetailTabProp) {
+function DetailTab({ productId }: DetailTabProp) {
   const [value, setValue] = React.useState(0);
+  const { reviews } = ReviewStore();
+  const [productReviews, setProductReviews] = useState<Review[]>([]);
+
+  useEffect(() => {
+    const productReviews = reviews.filter(
+      (review) => String(review.productId) === String(productId)
+    );
+    setProductReviews(productReviews);
+  }, []);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  console.log(productReviews);
+
+  // 리뷰 삭제
+  const handleDeleteReview = async (id: number) => {
+    try {
+      await DeleteReview(id);
+      setProductReviews(productReviews.filter((review) => review.id !== id));
+      alert('SUCCESS review delete');
+    } catch (error) {
+      console.error(error);
+      alert('FAIL review delete');
+    }
   };
 
   return (
@@ -295,9 +319,13 @@ function DetailTab({ reviews }: DetailTabProp) {
 
       <CustomTabPanel value={value} index={1}>
         <Box sx={{ width: '100%' }}>
-          {reviews && reviews.length > 0 ? (
-            reviews.map((review) => (
-              <ReviewComponent key={review.id} {...review} />
+          {productReviews && productReviews.length > 0 ? (
+            productReviews.map((review) => (
+              <ReviewComponent
+                key={review.id}
+                {...review}
+                handleDeleteReview={() => handleDeleteReview(review.id)}
+              />
             ))
           ) : (
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -316,14 +344,21 @@ function DetailTab({ reviews }: DetailTabProp) {
     </Box>
   );
 }
+interface ReviewComponentProps {
+  id: number;
+  reviewContent: string;
+  reviewRating: string;
+  userId: number;
+  handleDeleteReview: () => void;
+}
 
 function ReviewComponent({
   id,
   reviewContent,
   reviewRating,
-  productId,
   userId,
-}: Review) {
+  handleDeleteReview,
+}: ReviewComponentProps) {
   // 로그인된 사용자의 리뷰에만 삭제 버튼이 보이도록 해야 함
 
   const [reviewImages, setReviewImages] = useState<ReviewImage[] | undefined>(
@@ -344,7 +379,6 @@ function ReviewComponent({
     fetchData();
   }, [id]);
 
-  console.log(reviewImages);
   const images = reviewImages?.map((image) => image.imageUrl);
 
   // 삭제 모달
@@ -365,6 +399,7 @@ function ReviewComponent({
         <ModalIsDelete
           isOpen={isDelete.isOpen}
           handleCloseModal={isDelete.handleCloseModal}
+          handleDeleteContent={handleDeleteReview}
         />
       </div>
       <div className={styles.star__date__container}>
@@ -387,8 +422,8 @@ function ReviewComponent({
       </div>
       {images && (
         <div className={styles.review__img__container}>
-          {images.map((image) => (
-            <img src={image} alt='이미지' />
+          {images.map((image, index) => (
+            <img key={index} src={image} alt='이미지' />
           ))}
         </div>
       )}

@@ -7,10 +7,9 @@ export const getReviews = async (): Promise<Review[]> => {
   return response.data;
 };
 
-// export const getReviewId = async (id: number): Promise<Review> => {
-//   const response = await axios.get(`${API_URL}/${id}`);
-//   return response.data;
-// };
+export const DeleteReview = async (id: number): Promise<void> => {
+  await axios.delete(`${LOCALHOST_PORT}/reviews/${id}`);
+};
 
 export const getReviewImages = async (): Promise<ReviewImage[]> => {
   const response = await axios.get(`${LOCALHOST_PORT}/reviewImages`);

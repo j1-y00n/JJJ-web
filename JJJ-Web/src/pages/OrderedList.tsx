@@ -19,40 +19,76 @@ import { ModalCart } from '../components/ModalCart';
 import UploadFile from '../components/UploadFile';
 import ClearIcon from '@mui/icons-material/Clear';
 import ModalIsDelete from '../components/ModalIsDelete';
-import { Payment } from '../types/type';
-import { getPaymentsById } from '../services/paymentServices';
+import { Payment, Product } from '../types/type';
+import { getProductById } from '../services/productServices';
+import {
+  deletePayments,
+  getPaymentsByUserId,
+} from '../services/paymentServices';
 
 type PaymentGroupType = { [key: string]: Payment[] };
+
+interface sortedPaymentsProps {
+  orderId: string;
+  orderTimestamp: string;
+  payments: Payment[];
+}
 
 export default function OrderedList() {
   const { value, handleInputChange } = useInput('');
   const [payments, setPayments] = useState<Payment[]>([]);
+  const [sortedLatestOrders, setSortedLatestOrders] = useState<
+    sortedPaymentsProps[]
+  >([]);
+  const userId = 1;
   useEffect(() => {
     const fetchData = async () => {
-      const payments = await getPaymentsById(1);
+      // 로그인된 유저의 아이디
+      const payments = await getPaymentsByUserId(userId);
       setPayments(payments);
+      const paymentGroups: PaymentGroupType = {};
+      payments.forEach((payment) => {
+        const orderDate = payment.paymentTimestamp;
+        if (!paymentGroups[orderDate]) {
+          paymentGroups[orderDate] = [];
+        }
+        paymentGroups[orderDate].push(payment);
+      });
+
+      const groupedOrders = Object.keys(paymentGroups).map((timestamp) => ({
+        orderId: `${userId}-${new Date(timestamp).getTime()}`,
+        orderTimestamp: new Date(timestamp).toLocaleString(),
+        payments: paymentGroups[timestamp],
+      }));
+
+      const sortedLatestOrders = [...groupedOrders].reverse();
+      setSortedLatestOrders(sortedLatestOrders);
     };
     fetchData();
   }, []);
 
-  const paymentGroups: PaymentGroupType = {};
-  payments.forEach((payment) => {
-    const orderDate = payment.paymentTimestamp;
-    if (!paymentGroups[orderDate]) {
-      paymentGroups[orderDate] = [];
+  // 주문내역 삭제
+  const handleDeletePayments = async (orderId: string) => {
+    try {
+      const paymentIdsToDelete =
+        sortedLatestOrders
+          .find((order) => order.orderId === orderId)
+          ?.payments.map((payment) => payment.id) || [];
+
+      for (const id of paymentIdsToDelete) {
+        await deletePayments(id);
+      }
+      // await Promise.all(paymentIdsToDelete.map((id) => deletePayments(id)));
+
+      setSortedLatestOrders(
+        sortedLatestOrders.filter((orders) => orders.orderId !== orderId)
+      );
+      alert('SUCCESS orders delete');
+    } catch (error) {
+      console.error(error);
+      alert('FAIL orders delete');
     }
-    paymentGroups[orderDate].push(payment);
-  });
-
-  console.log(paymentGroups);
-
-  const groupedOrders = Object.keys(paymentGroups).map((timestamp) => ({
-    orderTimestamp: timestamp,
-    payments: paymentGroups[timestamp],
-  }));
-
-  const sortedLatestOrders = [...groupedOrders].reverse();
-  console.log(sortedLatestOrders);
+  };
 
   return (
     <div className={styles.ordered__list}>
@@ -82,9 +118,11 @@ export default function OrderedList() {
 
       {sortedLatestOrders.map((orders) => (
         <Orders
-          key={orders.orderTimestamp}
+          key={orders.orderId}
+          orderId={orders.orderId}
           orderTimestamp={orders.orderTimestamp}
           payments={orders.payments}
+          handleDeletePayments={() => handleDeletePayments(orders.orderId)}
         />
       ))}
     </div>
@@ -92,29 +130,41 @@ export default function OrderedList() {
 }
 
 interface OrdersProps {
+  orderId: string;
   orderTimestamp: string;
   payments: Payment[];
+  handleDeletePayments: () => void;
 }
 
-const Orders = ({ orderTimestamp, payments }: OrdersProps) => {
+const Orders = ({
+  orderId,
+  orderTimestamp,
+  payments,
+  handleDeletePayments,
+}: OrdersProps) => {
   const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
 
   const totalPrice = payments.reduce(
     (acc, price) => acc + Number(price.paymentTotalPrice),
     0
   );
+
   return (
     <div className={styles.orders}>
       <div className={styles.order__number}>
         <div className={styles.order__info}>
-          <span>주문번호 : 1111111 / </span>
-          <span>주문날짜 : {new Date(orderTimestamp).toLocaleString()} / </span>
+          <span>주문번호 : {orderId} </span>
+          <span>주문날짜 : {orderTimestamp} / </span>
           <span>총 결제금액 : {totalPrice}원</span>
         </div>
         <IconButton sx={{ padding: '3px' }} onClick={handleOpenModal}>
           <ClearIcon sx={{ fontSize: '16px' }} />
         </IconButton>
-        <ModalIsDelete isOpen={isOpen} handleCloseModal={handleCloseModal} />
+        <ModalIsDelete
+          isOpen={isOpen}
+          handleCloseModal={handleCloseModal}
+          handleDeleteContent={handleDeletePayments}
+        />
       </div>
       {payments.map((order) => (
         <Order key={order.id} {...order} />
@@ -131,6 +181,14 @@ const Order = ({
   productId,
   paymentQuantity,
 }: Payment) => {
+  const [product, setProduct] = useState<Product>();
+  useEffect(() => {
+    const fetchData = async () => {
+      const product = await getProductById(productId);
+      setProduct(product);
+    };
+    fetchData();
+  }, [productId]);
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -155,11 +213,11 @@ const Order = ({
   return (
     <div className={styles.order__container}>
       <div className={styles.order__img}>
-        <img src={balloonImg} alt='balloonImg' />
+        <img src={product?.productThumbnail} alt={product?.productTitle} />
       </div>
       <div className={styles.order__details}>
-        <p>스마일 풍선</p>
-        <p>2000원</p>
+        <p>{product?.productTitle}</p>
+        <p>{product?.productPrice}원</p>
         <p>수량 : {paymentQuantity}개</p>
         <p>총 상품금액 : {paymentTotalPrice}원</p>
       </div>
