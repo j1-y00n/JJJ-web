@@ -1,40 +1,76 @@
 // 변지윤
 // 중고 제품 등록
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import styles from '../styles/pages/CreateUsedProduct.module.css';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Footer from '../components/Footer';
-import { useInput } from '../hooks/useInput';
 import { Button, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import { Logo } from '../components/Header';
 import UploadFile from '../components/UploadFile';
+import { UsedProduct } from "../types/type";
+import { createUsedProduct, getUsedProducts } from "../services/usedProductServices";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateUsedProduct() {
-  // 상품상태 radio button
-  const [condition, setCondition] = useState('새상품(미사용)');
+  const navigate = useNavigate();
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleConditionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCondition((event.target as HTMLInputElement).value);
+  const [usedProducts, setUsedProducts] = useState<UsedProduct[]>();
+
+  const [usedProduct, setUsedProduct] = useState<Omit<UsedProduct, 'id'>>({
+    usedProductTitle: '',
+    usedProductPrice: 0,
+    usedProductCondition: '새상품(미사용)',
+    usedProductDetail: '',
+    usedProductThumbnail: 'https://cdn.pixabay.com/photo/2015/04/28/13/35/america-743574_1280.jpg',
+    usedProductQuantity: 1,
+    usedProductTransaction: '가능',
+    usedProductIsSold: false,
+    userId: 1, 
+  });
+
+  useEffect(() => {
+    const fetchUsedProducts = async () => {
+      const fetchedUsedProducts = await getUsedProducts();
+      setUsedProducts(fetchedUsedProducts);
+    };
+    fetchUsedProducts();
+  }, [])
+
+  const getNextId = () => {
+    if (usedProducts && usedProducts.length> 0) {
+      return Number(usedProducts[usedProducts.length - 1].id) + 1;
+    }
+    return Number(1);
   };
 
-  // 직거래 radio button
-  const [transaction, setTransaction] = useState('가능');
-
-  const handleTransactionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTransaction((event.target as HTMLInputElement).value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setUsedProduct({ ...usedProduct, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newUsedProduct = { ...usedProduct, id: getNextId() };
+    try {
+      await createUsedProduct(newUsedProduct);
+      alert('SUCCESS create usedproduct');
+      navigate('/UsedProductList');
+    } catch (error) {
+      console.error(error);
+      alert('FAIL create usedproduct');
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  }
 
   // 상품명
-  // const { value: title, handleInputChange: titleInputChange } = useInput('');
-  const [title, setTitle] = useState('');
-
   const validateTitle = (input: string) => {
     let byteLength = 0;
 
@@ -47,20 +83,19 @@ export default function CreateUsedProduct() {
       }
     }
     return true;
-  }
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
 
     if (validateTitle(input)) {
-      setTitle(input);
+      setUsedProduct({...usedProduct, usedProductTitle: input})
+    } else {
+      alert('상품명은 20자 이내로 입력해주세요')
     }
-  }
+  };
 
   // 설명
-  // const { value: detail, handleInputChange: detailInputChange } = useInput('');
-  const [detail, setDetail] = useState('');
-
   const validateDetail = (input: string) => {
     let byteLength = 0;
 
@@ -73,54 +108,50 @@ export default function CreateUsedProduct() {
       }
     }
     return true;
-  }
+  };
 
   const handleDetailChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const input = e.target.value;
 
     if (validateDetail(input)) {
-      setDetail(input);
+      setUsedProduct({...usedProduct, usedProductDetail: input});
     }
-  }
+  };
 
   const handleDetailKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
     }
-  }
+  };
 
   // 가격(number만 입력가능)
-  const [price, setPrice] = useState<number>(0);
-
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, ''); // 숫자 이외의 값 제거
 
     if (numericValue === '') {
-      setPrice(0); // 빈 문자열일 경우 0으로 설정
+      setUsedProduct({...usedProduct, usedProductPrice: 0}); // 빈 문자열일 경우 0으로 설정
     } else {
-      setPrice(Number(numericValue));
+      setUsedProduct({...usedProduct, usedProductPrice: Number(numericValue)});
     }
   };
 
   // 수량(number만 입력 가능)
-  const [quantity, setQuantity] = useState<number>(1);
-
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, ''); // 숫자 이외의 값 제거
 
     if (numericValue === '') {
-      setQuantity(0); // 빈 문자열일 경우 0으로 설정
+      setUsedProduct({...usedProduct, usedProductQuantity: 1}); // 빈 문자열일 경우 1으로 설정
     } else {
-      setQuantity(Number(numericValue));
+      setUsedProduct({...usedProduct, usedProductQuantity: Number(numericValue)});
     }
   };
 
   // 포커스 잃을 때 유효성 검사
   const handleQuantityBlur = () => {
-    if (quantity < 1) {
-      setQuantity(1); // 숫자가 1보다 작으면 1로 고정
+    if (usedProduct.usedProductQuantity < 1) {
+      setUsedProduct({...usedProduct, usedProductQuantity: 1}); // 숫자가 1보다 작으면 1로 고정
     }
   };
 
@@ -128,8 +159,8 @@ export default function CreateUsedProduct() {
   return (
     <div className='flex__container'>
       <Logo/>
-      <form>
-        {/* <div className={styles.createUsedProduct__header}>중고 상품 등록</div> */}
+      <form ref={formRef} onSubmit={handleSubmit}>
+
           <div className={styles.createUsedProduct__inner}>
             {/* 상품정보 */}
             <div className={styles.create__desc__container}>
@@ -137,7 +168,6 @@ export default function CreateUsedProduct() {
               <div className={styles.desc__inner}>
                 <div className={styles.image__container}>
                   <div className={styles.inner__title}>상품 이미지</div>
-                  {/* <input type='file' /> */}
                   <UploadFile />
                 </div>
                 <div className={styles.name__container}>
@@ -145,13 +175,14 @@ export default function CreateUsedProduct() {
                   <input 
                     type='text' 
                     className={styles.title__input} 
-                    value={title} 
+                    name='usedProductTitle'
+                    value={usedProduct.usedProductTitle}
                     onChange={handleTitleChange} 
                     placeholder='최대 20자'
                     maxLength={20}
                     required
                   />
-                  <div style={{marginTop: '30px', marginLeft: '10px'}}>{title.length}/20</div>
+                  <div style={{marginTop: '30px', marginLeft: '10px'}}>{usedProduct.usedProductTitle.length}/20</div>
                 </div>
                 <div className={styles.condition__container}>
                   <div className={styles.inner__title}>상품 상태</div>
@@ -159,9 +190,9 @@ export default function CreateUsedProduct() {
                   <FormControl>
                     <RadioGroup
                       aria-labelledby='demo-controlled-radio-buttons-group'
-                      name='controlled-radio-buttons-group'
-                      value={condition}
-                      onChange={handleConditionChange}
+                      name="usedProductCondition"
+                      value={usedProduct.usedProductCondition}
+                      onChange={handleChange}
                     >
                       <FormControlLabel
                         value='새상품(미사용)'
@@ -195,16 +226,16 @@ export default function CreateUsedProduct() {
                 <div className={styles.detail__container}>
                   <div className={styles.inner__title}>설명</div>
                   <textarea
-                    name='detailContent'
+                    name="usedProductDetail"
                     className={styles.detail__input}
-                    value={detail}
-                    onChange={handleDetailChange}
+                    value={usedProduct.usedProductDetail}
+                    onChange={handleChange}
                     onKeyDown={handleDetailKeyDown}
                     rows={5}
                     maxLength={120}
                     required
                   ></textarea>
-                  <div style={{marginTop: '90px', marginLeft: '10px'}}>{detail.length}/120</div>
+                  <div style={{marginTop: '90px', marginLeft: '10px'}}>{usedProduct.usedProductDetail.length}/120</div>
                 </div>
               </div>
             </div>
@@ -218,11 +249,14 @@ export default function CreateUsedProduct() {
                   <FormControl sx={{ width: '300px' }} variant="outlined">
                     <OutlinedInput
                       id="outlined-adornment-weight"
-                      endAdornment={<InputAdornment position="end">
-                        <Typography sx={{ color: 'grey' }}>원</Typography>
-                      </InputAdornment>}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <Typography sx={{ color: 'grey' }}>원</Typography>
+                        </InputAdornment>
+                      }
                       aria-describedby="outlined-weight-helper-text"
-                      value={price}
+                      name="usedProductPrice"
+                      value={usedProduct.usedProductPrice}
                       onChange={handlePriceChange}
                       sx={{ height: '48px' }}
                     />
@@ -246,7 +280,8 @@ export default function CreateUsedProduct() {
                       </InputAdornment>}
                       aria-describedby="outlined-weight-helper-text"
                       sx={{ height: '48px' }}
-                      value={quantity}
+                      name="usedProductQuantity"
+                      value={usedProduct.usedProductQuantity}
                       onChange={handleQuantityChange}
                       onBlur={handleQuantityBlur}
                     />
@@ -259,9 +294,9 @@ export default function CreateUsedProduct() {
                     <RadioGroup
                       row
                       aria-labelledby='demo-controlled-radio-buttons-group'
-                      name='controlled-radio-buttons-group'
-                      value={transaction}
-                      onChange={handleTransactionChange}
+                      name="usedProductTransaction"
+                      value={usedProduct.usedProductTransaction}
+                      onChange={handleChange}
                     >
                       <FormControlLabel
                         value='가능'
@@ -288,9 +323,129 @@ export default function CreateUsedProduct() {
       {/* Fixed */}
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
-          <Button className={styles.fixed__create}>등록하기</Button>
+          <Button 
+            type="button" 
+            className={styles.fixed__create}
+            onClick={handleButtonClick}
+          >
+            등록하기
+          </Button>
         </div>
       </div>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { UsedProduct } from "../types/type";
+// import { createUsedProduct, getUsedProducts } from "../services/usedProductServices";
+
+// export default function CreateUsedProduct() {
+//   const [usedProducts, setUsedProducts] = useState<UsedProduct[]>();
+
+//   const [usedProduct, setUsedProduct] = useState<Omit<UsedProduct, 'id'>>({
+//     usedProductTitle: '',
+//     usedProductPrice: 0,
+//     usedProductCondition: '',
+//     usedProductDetail: '',
+//     usedProductThumbnail: 'https://cdn.pixabay.com/photo/2015/04/28/13/35/america-743574_1280.jpg',
+//     usedProductQuantity: 1,
+//     usedProductTransaction: '',
+//     usedProductIsSold: false,
+//     userId: 1, 
+//   });
+
+//   useEffect(() => {
+//     const fetchUsedProducts = async () => {
+//       const fetchedUsedProducts = await getUsedProducts();
+//       setUsedProducts(fetchedUsedProducts);
+//     };
+//     fetchUsedProducts();
+//   }, [])
+
+//   const getNextId = () => {
+//     if (usedProducts && usedProducts.length> 0) {
+//       return Number(usedProducts[usedProducts.length - 1].id) + 1;
+//     }
+//     return Number(1);
+//   };
+
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setUsedProduct({ ...usedProduct, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     const newUsedProduct = { ...usedProduct, id: getNextId() };
+//     try {
+//       await createUsedProduct(newUsedProduct);
+//       alert('SUCCESS create usedproduct');
+//     } catch (error) {
+//       console.error(error);
+//       alert('FAIL create usedproduct');
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input
+//         type='text'
+//         name='usedProductTitle'
+//         value={usedProduct.usedProductTitle}
+//         onChange={handleChange}
+//         placeholder='usedProductTitle'
+//       />
+
+//       <input
+//         type='text'
+//         name='usedProductPrice'
+//         value={usedProduct.usedProductPrice}
+//         onChange={handleChange}
+//         placeholder='usedProductPrice'
+//       />
+
+// <input
+//         type='text'
+//         name='usedProductCondition'
+//         value={usedProduct.usedProductCondition}
+//         onChange={handleChange}
+//         placeholder='usedProductCondition'
+//       />
+
+// <input
+//         type='text'
+//         name='usedProductDetail'
+//         value={usedProduct.usedProductDetail}
+//         onChange={handleChange}
+//         placeholder='usedProductDetail'
+//       />
+
+// <input
+//         type='text'
+//         name='usedProductQuantity'
+//         value={usedProduct.usedProductQuantity}
+//         onChange={handleChange}
+//         placeholder='usedProductQuantity'
+//       />
+
+// <input
+//         type='text'
+//         name='usedProductTransaction'
+//         value={usedProduct.usedProductTransaction}
+//         onChange={handleChange}
+//         placeholder='usedProductTransaction'
+//       />
+
+//       <button type='submit'>생성하기</button>
+
+//     </form>
+//   )
+
+// }
