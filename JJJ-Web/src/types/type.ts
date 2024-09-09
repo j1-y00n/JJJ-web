@@ -84,7 +84,7 @@ export interface ProductWithReviews extends Product {
 export interface Review {
   id: number;
   reviewContent: string;
-  reviewRating: string;
+  reviewRating: number;
   productId: number;
   userId: number;
 }
