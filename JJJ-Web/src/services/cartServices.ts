@@ -11,3 +11,18 @@ export const getCarts = async (): Promise<Cart[]> => {
 export const deleteCart = async (id: number): Promise<void> => {
   await axios.delete(`${LOCALHOST_PORT}/carts/${id}`);
 };
+
+export const createCartProduct = async (
+  cart: Omit<Cart, 'id'>
+): Promise<Cart> => {
+  const response = await axios.post(`${LOCALHOST_PORT}/carts`, cart);
+  return response.data;
+};
+
+export const updateCartProduct = async (
+  id: number,
+  updateCart: Partial<Cart>
+): Promise<Cart> => {
+  const response = await axios.put(`${LOCALHOST_PORT}/carts/${id}`, updateCart);
+  return response.data;
+};

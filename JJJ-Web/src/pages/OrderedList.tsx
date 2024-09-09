@@ -25,6 +25,7 @@ import {
   deletePayments,
   getPaymentsByUserId,
 } from '../services/paymentServices';
+import { createReview, getReviews } from '../services/reviewServices';
 
 type PaymentGroupType = { [key: string]: Payment[] };
 
@@ -204,11 +205,42 @@ const Order = ({
 
   const { value, handleInputChange } = useInput('상세 내용');
 
-  const [valueStars, setValueStars] = useState<number | null>(5);
+  const [valueStars, setValueStars] = useState<number>(5);
 
   // 장바구니 모달
   const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
   const customPosition = { left: 55, top: 10 };
+
+  // 리뷰 작성
+  const handleAddToReview = async () => {
+    try {
+      const reviews = await getReviews();
+      const hasReviewedProduct = reviews.some(
+        (review) => review.userId === userId && review.productId === productId
+      );
+      if (hasReviewedProduct) {
+        alert('이미 해당 제품에 대한 리뷰를 작성하셨습니다.');
+      } else {
+        const getNextId = () => {
+          if (reviews && reviews.length > 0) {
+            return Number(reviews[reviews.length - 1].id) + 1;
+          }
+          return Number(1);
+        };
+        const newReview = {
+          id: getNextId(),
+          reviewContent: value,
+          reviewRating: valueStars,
+          productId: Number(productId),
+          userId,
+        };
+        await createReview(newReview);
+        alert('Added to review');
+      }
+    } catch (error) {
+      console.error('Failed to add to review', error);
+    }
+  };
 
   return (
     <div className={styles.order__container}>
@@ -257,7 +289,7 @@ const Order = ({
                           precision={0.5}
                           value={valueStars}
                           onChange={(event, newValue) => {
-                            setValueStars(newValue);
+                            setValueStars(Number(newValue));
                           }}
                         />
                       </Stack>
@@ -285,7 +317,14 @@ const Order = ({
                   sx={{ my: 2, width: '100%' }}
                 />
               </Box>
-              <Button onClick={handleOpenReview}>리뷰 등록</Button>
+              <Button
+                onClick={() => {
+                  handleAddToReview();
+                  handleOpenReview();
+                }}
+              >
+                리뷰 등록
+              </Button>
             </Box>
           </Modal>
           <Modal

@@ -35,6 +35,11 @@ import desc02 from '../assets/images/productDescription/desc02.jpeg';
 import desc03 from '../assets/images/productDescription/desc03.jpeg';
 import desc04 from '../assets/images/productDescription/desc04.jpeg';
 import { ReviewStore } from '../stores/Review.store';
+import {
+  createCartProduct,
+  getCarts,
+  updateCartProduct,
+} from '../services/cartServices';
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -113,9 +118,47 @@ export default function ProductDetail() {
   const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
   const customPosition = { left: 23, top: -10 };
 
-  const handleAddToCart = () => {};
-
   const totalPrice = product && product.productPrice * count;
+
+  // 장바구니에 제품 추가
+  const handleAddToCart = async (productId: number) => {
+    if (!product) {
+      console.error('제품이 없습니다');
+      return;
+    }
+    try {
+      const carts = await getCarts();
+      const existingCart = carts.find((cart) => cart.productId === productId);
+      if (existingCart) {
+        const updateCart = {
+          ...existingCart,
+          cartQuantity: existingCart.cartQuantity + count,
+          cartTotalPrice: existingCart.cartTotalPrice + (totalPrice || 0),
+        };
+        console.log(updateCart);
+        await updateCartProduct(Number(existingCart.id), updateCart);
+        console.log('여기서 에러가 나옴');
+      } else {
+        const getNextId = () => {
+          if (carts && carts.length > 0) {
+            return Number(carts[carts.length - 1].id) + 1;
+          }
+          return Number(1);
+        };
+        const newCart = {
+          id: getNextId(),
+          productId: Number(productId),
+          cartQuantity: count,
+          cartTotalPrice: totalPrice || 0,
+          userId: 1,
+        };
+        await createCartProduct(newCart);
+      }
+      alert('Added to cart');
+    } catch (error) {
+      console.error('Failed to add to cart', error);
+    }
+  };
 
   if (!product) return <div>No product found</div>;
   return (
@@ -184,7 +227,10 @@ export default function ProductDetail() {
                 />
                 <IconButton
                   className='round nest__icons'
-                  onClick={handleOpenModal}
+                  onClick={() => {
+                    handleAddToCart(Number(product.id));
+                    handleOpenModal();
+                  }}
                   sx={{
                     marginRight: '20px',
                   }}
@@ -347,7 +393,7 @@ function DetailTab({ productId }: DetailTabProp) {
 interface ReviewComponentProps {
   id: number;
   reviewContent: string;
-  reviewRating: string;
+  reviewRating: number;
   userId: number;
   handleDeleteReview: () => void;
 }
@@ -411,7 +457,7 @@ function ReviewComponent({
               sx={{
                 margin: '0 -1.4px',
                 color:
-                  index < Number(reviewRating)
+                  index < reviewRating
                     ? 'var(--color-orange)'
                     : 'var(--color-blue-light)',
               }}
