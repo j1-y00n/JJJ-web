@@ -17,7 +17,7 @@ export default function MyPage() {
         <MyPageLinks />
         <Routes>
           <Route path='/' element={<OrderedList />} />
-          <Route path='editUser' element={<EditUser />} />
+          <Route path='editUser' element={<EditUser userId={2} />} />
           <Route path='wishList' element={<WishList />} />
           <Route path='myUsedProduct' element={<MyUsedProduct />} />
         </Routes>

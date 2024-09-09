@@ -1,8 +1,7 @@
 // 변지윤
 // 회원정보 수정
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../styles/pages/EditUser.module.css'
-import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,13 +12,10 @@ import {  Button,
   Radio,
   RadioGroup
 } from '@mui/material';
-
+import { getUserById, updateUser } from '../services/userServices';
+import { User } from '../types/type';
 
 interface SignUpForm {
-  id: number;
-  // userId: string;
-  // password: string;
-  // passwordCheck: string;
   name: string;
   email: string;
   phone: string;
@@ -42,16 +38,20 @@ interface AddressForm {
   detailAddress: string;
 }
 
+// db.json 연결
+interface UserUpdateProps {
+  userId: number;
+}
 
-export default function EditUser() {
+export default function EditUser({userId}: UserUpdateProps) {
 
+  // db.json 연결 유저 정보 랜더링
+  const [user, setUser] = useState<Partial<User>>({});
+  
   // ------------------회원가입 양식-------------------------------------
-
-  const userIdRef = useRef(1);
 
   // 초기값 설정함으로써 아래에서 반복되는 코드 줄임
   const requiredFormInitialValue = {
-    id: userIdRef.current,
     name: '',
     email: '',
     phone: '',
@@ -92,6 +92,39 @@ export default function EditUser() {
     // birth,
   } = formData;
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const fetchedUser = await getUserById(userId);
+        setUser(fetchedUser);
+
+        // 기존 유저 데이터를 formData에 반영
+        setFormData({
+          name: fetchedUser.userName,
+          email: fetchedUser.userEmail,
+          phone: fetchedUser.userPhone,
+          address: {
+            zipCode: '', // API에서 우편번호를 가져오지 않으면 기본값 설정
+            roadAddress: fetchedUser.userAddress,
+            detailAddress: fetchedUser.userAddressDetail || ''
+          },
+          gender: fetchedUser.userGender || undefined,
+          birth: fetchedUser.userBirth
+            ? {
+                year: fetchedUser.userBirth.slice(0, 4),
+                month: fetchedUser.userBirth.slice(5, 7),
+                day: fetchedUser.userBirth.slice(8, 10)
+              }
+            : undefined
+        });
+      } catch (error) {
+      console.error('Failed to fetch user:', error);
+      }
+    };
+    fetchUser();
+  }, [userId]);
+  console.log(user);
+
 
   const validateName = (name: string): boolean => {
     return /^[a-zA-Z가-힣][a-zA-Z가-힣\s]*[a-zA-Z가-힣]$/.test(name);
@@ -114,9 +147,6 @@ export default function EditUser() {
   };
 
   const errorMessages: Record<string, string> = {
-    userId: '영어(소문자)와 숫자를 혼합하여 4~20자 이내로 작성하세요',
-    password: '영어와 숫자를 혼합하여 8~12자 이내로 작성하세요',
-    passwordCheck: '비밀번호가 일치하지 않습니다',
     name: '유효한 이름을 입력하세요',
     email: '유효한 이메일을 입력하세요',
     phone: '유효한 핸드폰 번호를 입력하세요',
@@ -124,62 +154,12 @@ export default function EditUser() {
     detailAddress: '상세주소를 입력해주세요',
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    let tempErrors = {
-      ...requiredFormInitialValue,
-      address: {
-        zipCode: '',
-        roadAddress: '',
-        detailAddress: '',
-      },
-    };
-
-    let isValid = true;
-
-    if (!name || !validateName(name)) {
-      tempErrors.name = errorMessages.name;
-      isValid = false;
-    }
-
-    if (!email || !validateEmail(email)) {
-      tempErrors.email = errorMessages.email;
-      isValid = false;
-    }
-
-    if (!phone || !validatePhone(phone)) {
-      tempErrors.phone = errorMessages.phone;
-      isValid = false;
-    }
-
-    if (!address.zipCode) {
-      tempErrors.address!.zipCode = errorMessages.zipCode;
-      isValid = false;
-    }
-
-    if (address.zipCode && !address.detailAddress) {
-      tempErrors.address!.detailAddress = errorMessages.detailAddress;
-      isValid = false;
-    }
-
-    setErrors(tempErrors);
-
-    if (isValid) {
-      console.log('회원 수정 데이터: ', formData);
-      alert(`회원 정보가 수정되었습니다!! ${name}님!! `);
-      setFormData(includedOptionalFormInitialValue);
-    }
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
-      const updatedFormData = { ...prevData, [name]: value };
-
       if (name === 'detailAddress') {
         return {
-          ...updatedFormData,
+          ...prevData,
           address: {
             ...prevData.address,
             detailAddress: value,
@@ -187,14 +167,15 @@ export default function EditUser() {
         };
       }
 
-      return updatedFormData;
+      return {
+        ...prevData, [name]: value
+      }
     });
 
     // 에러 메세지가 있는 경우에 실시간 input 검증
     // 올바르게 입력했을 경우 에러 메세지 삭제
     if (validationRules[name]) {
       const isValid = validationRules[name](value);
-
       if (isValid) {
         setErrors((prev) => ({
           ...prev,
@@ -214,6 +195,70 @@ export default function EditUser() {
         ...prev,
         [name]: isValid ? '' : errorMessages[name],
       }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    let tempErrors = {
+      ...requiredFormInitialValue,
+      address: {
+        zipCode: '',
+        roadAddress: '',
+        detailAddress: '',
+      },
+    };
+
+    let isValid = true;
+
+    if (!formData.name || !validateName(name)) {
+      tempErrors.name = errorMessages.name;
+      isValid = false;
+    }
+
+    if (!formData.email || !validateEmail(email)) {
+      tempErrors.email = errorMessages.email;
+      isValid = false;
+    }
+
+    if (!formData.phone || !validatePhone(phone)) {
+      tempErrors.phone = errorMessages.phone;
+      isValid = false;
+    }
+
+    if (!formData.address.zipCode) {
+      tempErrors.address!.zipCode = errorMessages.zipCode;
+      isValid = false;
+    }
+
+    if (address.zipCode && !formData.address.detailAddress) {
+      tempErrors.address!.detailAddress = errorMessages.detailAddress;
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+
+    if (isValid) {
+      try {
+        await updateUser(userId, {
+          ...user,
+          userName: formData.name,
+          userEmail: formData.email,
+          userPhone: formData.phone,
+          userAddress: formData.address.roadAddress,
+          userAddressDetail: formData.address.detailAddress,
+          userGender: formData.gender as "male" | "female" | "other",
+          userBirth: formData.birth ? `${formData.birth.year}-${formData.birth.month}-${formData.birth.day}` : '',
+        });
+        console.log('회원 수정 데이터: ', formData);
+        alert(`회원 정보가 수정되었습니다! ${name}님! `);
+        setFormData(formData);
+        
+      } catch (error) {
+        console.log(error);
+        alert('FAIL update user')
+      }
     }
   };
 
@@ -248,19 +293,19 @@ export default function EditUser() {
   const selectedMonth = birthForm?.month || '선택';
   const selectedDay = birthForm?.day || '선택';
 
-  const years: string[] = ['선택'];
+  const years: string[] = [user.userBirth?.slice(0, 4) as string];
   for (let y = today.getFullYear(); y >= 1930; y--) {
     years.push(y.toString());
   }
 
 
-  const months: string[] = ['선택'];
+  const months: string[] = [user.userBirth?.slice(5, 7) as string];
   for (let m = 1; m <= 12; m++) {
     months.push(m.toString().padStart(2, '0'));
   }
 
   let date = new Date(Number(selectedYear), Number(selectedMonth), 0).getDate();
-  let days: string[] = ['선택'];
+  let days: string[] = [user.userBirth?.slice(8, 10) as string];
   for (let d = 1; d <= date; d++) {
     days.push(d.toString().padStart(2, '0'));
   }
@@ -301,7 +346,6 @@ export default function EditUser() {
       justifyContent: 'center',
     },
   };
-  
 
 
 // ----------------------새로 작성한 코드--------------------------------
@@ -316,7 +360,7 @@ export default function EditUser() {
   const handleCheckSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (password === '1') {
+    if (password === user.userPassword) {
       setIsVerified(true);
     } else {
       alert('비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.')
@@ -352,7 +396,7 @@ export default function EditUser() {
                     className={styles.input}
                     name='name'
                     placeholder='이름'
-                    // value={name}
+                    value={formData.name}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -371,7 +415,7 @@ export default function EditUser() {
                     className={styles.input}
                     name='email'
                     placeholder='example@gmail.com'
-                    value={email}
+                    value={formData.email}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -393,7 +437,7 @@ export default function EditUser() {
                     type='text'
                     name='phone'
                     placeholder='01012345678'
-                    value={phone}
+                    value={formData.phone}
                     onChange={handleInputChange}
                     className={styles.input}
                   />
@@ -439,7 +483,7 @@ export default function EditUser() {
                   <div className={styles.input__box}>
                     <input
                       name='roadAddress'
-                      value={formData.address?.roadAddress || ''}
+                      value={formData.address.roadAddress}
                       placeholder='도로명주소'
                       className={styles.input}
                       onChange={handleInputChange}
@@ -475,7 +519,7 @@ export default function EditUser() {
                   <div className={styles.input__box}>
                     <input
                       name='detailAddress'
-                      value={formData.address?.detailAddress || ''}
+                      value={formData.address.detailAddress}
                       onChange={handleInputChange}
                       className={styles.input}
                       placeholder='상세주소'
@@ -506,7 +550,7 @@ export default function EditUser() {
                 <FormControl>
                   <RadioGroup
                     name='gender'
-                    value={gender || ''}
+                    value={formData.gender || ''}
                     onChange={handleInputChange}
                     sx={{
                       width: '300px',
@@ -530,7 +574,6 @@ export default function EditUser() {
                 </FormControl>
               </div>
             </div>
-
 
             <div className={styles.input__container}>
               <div className={styles.input__wrapper}>
@@ -605,18 +648,12 @@ export default function EditUser() {
             </div>
           </form>
         </div>
-
-
-
       </div>
       ) : (
       // 회원 정보 확인 
       <div>
         <div className={styles.edit__check__title}>회원정보 확인</div>
         <div style={{marginBottom: '30px'}}>정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 입력해주세요</div>
-
-
-
         <div className={styles.login__section}>
           <form className={styles.login__form} onSubmit={handleCheckSubmit}>
             <div className={styles.input__container}>
@@ -629,13 +666,12 @@ export default function EditUser() {
                     type='text'
                     className={styles.input}
                     name='userId'
-                    value='USER_1'
+                    value={user.userLoginId}
                     disabled
                   />
                 </div>
               </div>
             </div>
-
             <div className={styles.input__container}>
               <div className={styles.input__wrapper}>
                 <div className={styles.label__box}>
@@ -652,15 +688,7 @@ export default function EditUser() {
                   />
                 </div>
               </div>
-
-              {/* {errors.userId || errors.password ? (
-                <p className={styles.error}>{errors.userId}</p>
-              ) : (
-                ' '
-              )} */}
             </div>
-
-
             <div className={styles.button__container}>
               <Button
                 type='button'
@@ -684,9 +712,6 @@ export default function EditUser() {
             </div>
           </form>
         </div>
-
-
-        
       </div>
       )}
 

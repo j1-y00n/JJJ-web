@@ -9,7 +9,7 @@ export const getUsers = async (): Promise<User[]> => {
 };
 
 export const getUserById = async (id: number): Promise<User> => {
-  const response = await axios.get(`${LOCALHOST_PORT}/${id}`);
+  const response = await axios.get(`${LOCALHOST_PORT}/users/${id}`);
   return response.data;
 };
 
@@ -22,7 +22,7 @@ export const updateUser = async (
   id: number,
   user: Partial<User>
 ): Promise<User> => {
-  const response = await axios.put(`${LOCALHOST_PORT}/${id}`, user);
+  const response = await axios.put(`${LOCALHOST_PORT}/users/${id}`, user);
   return response.data;
 };
 
