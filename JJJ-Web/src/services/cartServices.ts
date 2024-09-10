@@ -19,10 +19,10 @@ export const createCartProduct = async (
   return response.data;
 };
 
-export const updateCartProduct = async (
-  id: number,
-  updateCart: Partial<Cart>
-): Promise<Cart> => {
-  const response = await axios.put(`${LOCALHOST_PORT}/carts/${id}`, updateCart);
+export const updateCartProduct = async (updateCart: Cart): Promise<Cart> => {
+  const response = await axios.put(
+    `${LOCALHOST_PORT}/carts/${updateCart.id}`,
+    updateCart
+  );
   return response.data;
 };

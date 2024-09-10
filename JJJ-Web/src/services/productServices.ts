@@ -16,3 +16,10 @@ export const getProductImages = async (): Promise<ProductImage[]> => {
   const response = await axios.get(`${LOCALHOST_PORT}/productImages`);
   return response.data;
 };
+
+export const getProductImagesQuery = async (
+  query = ''
+): Promise<ProductImage[]> => {
+  const response = await axios.get(`${LOCALHOST_PORT}/productImages/?${query}`);
+  return response.data;
+};

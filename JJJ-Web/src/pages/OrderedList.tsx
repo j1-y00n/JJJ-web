@@ -25,7 +25,12 @@ import {
   deletePayments,
   getPaymentsByUserId,
 } from '../services/paymentServices';
-import { createReview, getReviews } from '../services/reviewServices';
+import {
+  createReview,
+  getReviewQuery,
+  getReviews,
+} from '../services/reviewServices';
+import { getNextId } from '../services/commonServices';
 
 type PaymentGroupType = { [key: string]: Payment[] };
 
@@ -197,7 +202,7 @@ const Order = ({
   const handleClose = () => setOpen(false);
 
   const [reviewOpen, setReviewOpen] = useState(false);
-  const handleOpenReview = () => {
+  const handleRegisterReview = () => {
     handleClose();
     setReviewOpen(true);
   };
@@ -212,33 +217,33 @@ const Order = ({
   const customPosition = { left: 55, top: 10 };
 
   // 리뷰 작성
+  const handleCheckMyReview = async () => {
+    try {
+      const hasReviewedProduct = await getReviewQuery(
+        `userId=${userId}&productId=${productId}`
+      );
+      if (hasReviewedProduct.length > 0) {
+        alert('해당 제품에 대한 리뷰를 이미 작성하셨습니다.');
+        return;
+      }
+      handleOpen();
+    } catch (error) {
+      console.error('리뷰 작성 버튼 오류');
+    }
+  };
   const handleAddToReview = async () => {
     try {
       const reviews = await getReviews();
-      const hasReviewedProduct = reviews.some(
-        (review) => review.userId === userId && review.productId === productId
-      );
-      if (hasReviewedProduct) {
-        alert('이미 해당 제품에 대한 리뷰를 작성하셨습니다.');
-      } else {
-        const getNextId = () => {
-          if (reviews && reviews.length > 0) {
-            return Number(reviews[reviews.length - 1].id) + 1;
-          }
-          return Number(1);
-        };
-        const newReview = {
-          id: getNextId(),
-          reviewContent: value,
-          reviewRating: valueStars,
-          productId: Number(productId),
-          userId,
-        };
-        await createReview(newReview);
-        alert('Added to review');
-      }
+      const newReview = {
+        id: getNextId(reviews),
+        reviewContent: value,
+        reviewRating: valueStars,
+        productId,
+        userId,
+      };
+      await createReview(newReview);
     } catch (error) {
-      console.error('Failed to add to review', error);
+      console.error('리뷰 추가에 실패했습니다.', error);
     }
   };
 
@@ -263,7 +268,7 @@ const Order = ({
           customStyles={customPosition}
         />
         <React.Fragment>
-          <Button onClick={handleOpen}>리뷰작성</Button>
+          <Button onClick={handleCheckMyReview}>리뷰작성</Button>
           <Modal
             open={open}
             onClose={handleClose}
@@ -320,7 +325,7 @@ const Order = ({
               <Button
                 onClick={() => {
                   handleAddToReview();
-                  handleOpenReview();
+                  handleRegisterReview();
                 }}
               >
                 리뷰 등록

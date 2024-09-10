@@ -28,7 +28,7 @@ import {
   ReviewImage,
 } from '../types/type';
 import { DeleteReview, getReviewImages } from '../services/reviewServices';
-import { getProductImages } from '../services/productServices';
+import { getProductImagesQuery } from '../services/productServices';
 // 상품 설명 디테일 사진
 import desc01 from '../assets/images/productDescription/desc01.jpeg';
 import desc02 from '../assets/images/productDescription/desc02.jpeg';
@@ -40,36 +40,50 @@ import {
   getCarts,
   updateCartProduct,
 } from '../services/cartServices';
+import { getNextId } from '../services/commonServices';
+import {
+  createWishList,
+  deleteWishList,
+  getWishLists,
+  getWishListsQuery,
+} from '../services/wishListServices';
 
 export default function ProductDetail() {
   const { productId } = useParams();
-  const { products, fetchProducts } = ProductStore();
-
+  const { products } = ProductStore();
+  const userId = 1;
   const [product, setProduct] = useState<ProductWithReviews>();
   const [productImages, setProductImages] = useState<ProductImage[]>();
+  const [wishListId, setWishListId] = useState<number | undefined>(undefined);
+  console.log(wishListId);
 
   const [currentImg, setCurrentImg] = useState('');
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
-  const { activeState, handleStateChange, handleToggle } = useActiveState(true);
+  const { activeState, handleStateChange, handleToggle } =
+    useActiveState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (products.length === 0) {
-          await fetchProducts();
-        }
         const product = products.find(
           (product) => String(product.id) === String(productId)
         );
         if (product) {
           setProduct(product);
+        }
 
-          const allProductImages = await getProductImages();
-          const productImages = allProductImages.filter(
-            (image) => String(image.productId) === String(productId)
-          );
-          setProductImages(productImages);
+        const productImages = await getProductImagesQuery(
+          `productId=${productId}`
+        );
+        setProductImages(productImages);
+        const isProductInWishlist = await getWishListsQuery(
+          `userId=${userId}&productId=${productId}`
+        );
+        if (isProductInWishlist.length > 0) {
+          handleStateChange(true);
+          const wishListId = isProductInWishlist[0].id;
+          setWishListId(wishListId);
         }
       } catch (error) {
         console.error(error);
@@ -135,28 +149,42 @@ export default function ProductDetail() {
           cartQuantity: existingCart.cartQuantity + count,
           cartTotalPrice: existingCart.cartTotalPrice + (totalPrice || 0),
         };
-        console.log(updateCart);
-        await updateCartProduct(Number(existingCart.id), updateCart);
-        console.log('여기서 에러가 나옴');
+        await updateCartProduct(updateCart);
       } else {
-        const getNextId = () => {
-          if (carts && carts.length > 0) {
-            return Number(carts[carts.length - 1].id) + 1;
-          }
-          return Number(1);
-        };
         const newCart = {
-          id: getNextId(),
-          productId: Number(productId),
+          id: getNextId(carts),
+          productId,
           cartQuantity: count,
           cartTotalPrice: totalPrice || 0,
-          userId: 1,
+          userId,
         };
         await createCartProduct(newCart);
       }
       alert('Added to cart');
     } catch (error) {
       console.error('Failed to add to cart', error);
+    }
+  };
+
+  // 찜 목록에 추가 및 삭제가 토글로 작동함
+  const handleUpdateWishLists = async (productId: number) => {
+    try {
+      if (wishListId) {
+        await deleteWishList(wishListId);
+        setWishListId(undefined);
+      } else {
+        const wishLists = await getWishLists();
+        const newWishList = {
+          id: getNextId(wishLists),
+          productId,
+          userId,
+        };
+        await createWishList(newWishList);
+        setWishListId(Number(newWishList.id));
+      }
+      handleToggle();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -240,7 +268,7 @@ export default function ProductDetail() {
                 </IconButton>
                 <IconButton
                   className='round nest__icons'
-                  onClick={handleToggle}
+                  onClick={() => handleUpdateWishLists(product.id)}
                 >
                   <FavoriteBorderIcon className='default font__large' />
                   <FavoriteIcon
@@ -304,8 +332,6 @@ function DetailTab({ productId }: DetailTabProp) {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  console.log(productReviews);
 
   // 리뷰 삭제
   const handleDeleteReview = async (id: number) => {
