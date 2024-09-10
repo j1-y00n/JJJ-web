@@ -141,3 +141,9 @@ export interface UsedProductImage {
   usedProductId: number;
   imageUrl: string;
 }
+
+// Slider Images
+export interface SliderImages {
+  id: string;
+  imageUrl: string;
+}

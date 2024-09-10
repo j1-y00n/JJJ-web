@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Product, ProductImage } from '../types/type';
+import { Product, ProductImage, SliderImages } from '../types/type';
 import { LOCALHOST_PORT } from '../constants/api';
 
 export const getProducts = async (): Promise<Product[]> => {
@@ -21,5 +21,10 @@ export const getProductImagesQuery = async (
   query = ''
 ): Promise<ProductImage[]> => {
   const response = await axios.get(`${LOCALHOST_PORT}/productImages/?${query}`);
+  return response.data;
+};
+
+export const getSliderImages = async (): Promise<SliderImages[]> => {
+  const response = await axios.get(`${LOCALHOST_PORT}/sliderImages`);
   return response.data;
 };
