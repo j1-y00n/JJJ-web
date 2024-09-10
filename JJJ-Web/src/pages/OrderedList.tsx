@@ -22,7 +22,7 @@ import ModalIsDelete from '../components/ModalIsDelete';
 import { Payment, Product } from '../types/type';
 import { getProductById } from '../services/productServices';
 import {
-  deletePayments,
+  deletePayment,
   getPaymentsByUserId,
 } from '../services/paymentServices';
 import {
@@ -82,9 +82,9 @@ export default function OrderedList() {
           ?.payments.map((payment) => payment.id) || [];
 
       for (const id of paymentIdsToDelete) {
-        await deletePayments(id);
+        await deletePayment(id);
       }
-      // await Promise.all(paymentIdsToDelete.map((id) => deletePayments(id)));
+      // await Promise.all(paymentIdsToDelete.map((id) => deletePayment(id)));
 
       setSortedLatestOrders(
         sortedLatestOrders.filter((orders) => orders.orderId !== orderId)
