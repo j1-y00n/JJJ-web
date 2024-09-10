@@ -35,7 +35,7 @@ export const updateUsedProduct = async (
   id: number,
   usedProduct: Partial<UsedProduct>
 ): Promise<UsedProduct> => {
-  const response = await axios.put(
+  const response = await axios.patch(
     `${LOCALHOST_PORT}/usedProducts/${id}`,
     usedProduct
   );

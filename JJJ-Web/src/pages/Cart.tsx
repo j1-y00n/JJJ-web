@@ -13,7 +13,7 @@ import Header from '../components/Header';
 import ModalIsDelete from '../components/ModalIsDelete';
 import { useOpenModal } from '../hooks/useOpenModal';
 import { Cart as CartType, Product } from '../types/type';
-import { deleteCart, getCarts } from '../services/cartServices';
+import { deleteCart, getCartById, getCarts, updateCartProduct } from '../services/cartServices';
 import { getProducts } from '../services/productServices';
 import { useSelectableList } from '../hooks/useSelectableList';
 
@@ -141,7 +141,7 @@ export default function Cart() {
     fetchCarts();
     fetchProducts();
   }, []);
-
+  
   const userFilterCart = carts.filter((cart) => cart.userId === 1);
 
   // deleteItems 함수를 수정하여 선택된 항목들을 삭제
@@ -172,26 +172,54 @@ export default function Cart() {
 
   const allSelected = userFilterCart.length > 0 && selectedIds.size === userFilterCart.length;
 
-
   // 수량 기능
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, cartId: number, product: Product) => {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, ''); // 숫자 이외의 값 제거
-
-    if (numericValue === '') {
-      setCounter(0); // 빈 문자열일 경우 0으로 설정
-    } else {
-      setCounter(Number(numericValue));
-    }
-  };
-
+    const newQuantity = numericValue === '' ? 1 : Number(numericValue);
+    handleQuantityChange(cartId, newQuantity, product);
+    };
+  
   // 포커스 잃을 때 유효성 검사
-  const handleBlur = () => {
-    if (count < 1) {
-      setCounter(1); // 숫자가 1보다 작으면 1로 고정
+  const handleBlur = (
+    itemQuantity: number,
+    cartId: number,
+    product: Product
+  ) => {
+    if (itemQuantity < 1) {
+      handleQuantityChange(cartId, 1, product); // 수량을 1로 고정
     }
   };
+
+  // 수량 변경 함수
+  const handleQuantityChange = async (cartId: number, newQuantity: number, product:Product) => {
+    
+    const existingCart = carts.find((cart) => cart.id == cartId);
+    if (!existingCart) return;
+
+    const totalPrice = product && product.productPrice * newQuantity;
+  
+    try {
+      const updateCart = {
+        ...existingCart,
+        cartQuantity: newQuantity,
+        cartTotalPrice: totalPrice,
+      };
+      await updateCartProduct(updateCart, Number(existingCart.id));
+
+      // 장바구니 상태 업데이트
+      setCarts(prevCarts =>
+        prevCarts.map(cart =>
+          cart.id === cartId ? { ...cart, cartQuantity: newQuantity, cartTotalPrice: totalPrice } : cart
+        )
+      );
+    } catch (error) {
+      console.error('FAIL to update cart quantity', error);
+    }
+  };
+
 
   return (
     <div className='flex__container'>
@@ -212,32 +240,39 @@ export default function Cart() {
         {userFilterCart.map(item => {
             const product = products.find(p => Number(p.id) === Number(item.productId));
 
+            if (!product) {
+              return;
+            }
           return(
           <div 
             className={styles.list__container__inner}
             key={item.id}
           >
-            {product && (
-              <CustomProduct 
-                product={product} 
-                handleDeleteCart={() => deleteItems([item.id])}
-                isChecked={selectedIds.has(item.id)}
-                handleCheck={() => handleCheck(item.id)}
-              />
-            )}
+            
+            <CustomProduct 
+              product={product} 
+              handleDeleteCart={() => deleteItems([item.id])}
+              isChecked={selectedIds.has(item.id)}
+              handleCheck={() => handleCheck(item.id)}
+            />
+
             <div className={styles.list__quantity}>
               <div className={styles.title__font}>상품 주문 수량</div>
               <div>
-                <IconButton className={styles.btn__quantity} onClick={decreaseCounter}>
+                <IconButton 
+                  className={styles.btn__quantity}
+                  onClick={() => handleQuantityChange(item.id, Math.max(item.cartQuantity - 1, 1), product)}
+                >
                   <RemoveIcon sx={{ fontSize: '18px' }} />
                 </IconButton>
                 <TextField
                   id='outlined'
                   type='text'
-                  // value={count}
                   value={item.cartQuantity}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>, item.id, product)}
+                  onBlur={() =>
+                    handleBlur(item.cartQuantity, item.id, product)
+                  }
                   InputProps={{
                     sx: {
                       padding: '0 !important',
@@ -250,7 +285,10 @@ export default function Cart() {
                     },
                   }}
                 />
-                <IconButton className={styles.btn__quantity} onClick={increaseCounter}>
+                <IconButton
+                  className={styles.btn__quantity}
+                  onClick={() => handleQuantityChange(item.id, item.cartQuantity + 1, product)}
+                >
                   <AddIcon sx={{ fontSize: '18px' }} />
                 </IconButton>
               </div>
@@ -258,13 +296,15 @@ export default function Cart() {
 
             <div className={styles.list__price}>
               <div className={styles.title__font}>상품금액</div>
-              <div className={styles.context__font}>{item.cartTotalPrice} 원</div>
+              <div className={styles.context__font}>{product && product.productPrice * item.cartQuantity} 원</div>
             </div>
 
             <div className={styles.list__delivery}>
               <div className={styles.title__font}>배송비</div>
               <div className={styles.context__font}>무료</div>
             </div>
+
+            
           </div>
           );
         })}
