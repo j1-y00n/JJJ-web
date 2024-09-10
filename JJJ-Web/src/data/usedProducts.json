@@ -1,7 +1,7 @@
 {
   "usedProducts": [
     {
-      "id": 1,
+      "id": "1",
       "usedProductTitle": "점핑 캥거루",
       "usedProductPrice": 10000,
       "usedProductCondition": "사용감 없음",
@@ -13,7 +13,7 @@
       "userId": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "usedProductTitle": "마법사 모자 세트",
       "usedProductPrice": 15000,
       "usedProductCondition": "사용감 적음",
@@ -25,7 +25,7 @@
       "userId": 1
     },
     {
-      "id": 3,
+      "id": "3",
       "usedProductTitle": "무지개 공룡 블록",
       "usedProductPrice": 20000,
       "usedProductCondition": "사용감 많음",
@@ -37,7 +37,7 @@
       "userId": 1
     },
     {
-      "id": 4,
+      "id": "4",
       "usedProductTitle": "바다 탐험 잠수함",
       "usedProductPrice": 12000,
       "usedProductCondition": "고장/파손 상품",
@@ -49,7 +49,7 @@
       "userId": 1
     },
     {
-      "id": 5,
+      "id": "5",
       "usedProductTitle": "슈퍼 히어로 망토",
       "usedProductPrice": 8000,
       "usedProductCondition": "사용감 없음",
@@ -61,7 +61,7 @@
       "userId": 1
     },
     {
-      "id": 6,
+      "id": "6",
       "usedProductTitle": "레고 경찰차 세트",
       "usedProductPrice": 25000,
       "usedProductCondition": "새상품(미사용)",
@@ -73,7 +73,7 @@
       "userId": 1
     },
     {
-      "id": 7,
+      "id": "7",
       "usedProductTitle": "달콤한 아이스크림 트럭",
       "usedProductPrice": 18000,
       "usedProductCondition": "사용감 많음",
@@ -85,7 +85,7 @@
       "userId": 1
     },
     {
-      "id": 8,
+      "id": "8",
       "usedProductTitle": "공룡 대백과 퍼즐",
       "usedProductPrice": 14000,
       "usedProductCondition": "사용감 적음",
@@ -97,7 +97,7 @@
       "userId": 1
     },
     {
-      "id": 9,
+      "id": "9",
       "usedProductTitle": "초능력 카드 게임",
       "usedProductPrice": 7000,
       "usedProductCondition": "사용감 없음",
@@ -109,7 +109,7 @@
       "userId": 2
     },
     {
-      "id": 10,
+      "id": "10",
       "usedProductTitle": "음악탐험 드럼세트",
       "usedProductPrice": 30000,
       "usedProductCondition": "사용감 적음",

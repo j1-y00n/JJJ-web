@@ -1,20 +1,21 @@
 import styles from '../styles/components/Slider.module.css';
 import React, { useState, useEffect, useRef } from 'react';
-import SlidersampleA from '../assets/images/dollsTh.jpg';
-import SlidersampleB from '../assets/images/robotTh.jpg';
-import SlidersampleC from '../assets/images/ducksTh.jpg';
-import SlidersampleD from '../assets/images/cars.jpg';
-import SlidersampleE from '../assets/images/boardgameTh.jpg';
-import SlidersampleF from '../assets/images/childroomTh.jpg';
+// import SlidersampleA from '../assets/images/dollsTh.jpg';
+// import SlidersampleB from '../assets/images/robotTh.jpg';
+// import SlidersampleC from '../assets/images/ducksTh.jpg';
+// import SlidersampleD from '../assets/images/cars.jpg';
+// import SlidersampleE from '../assets/images/boardgameTh.jpg';
+// import SlidersampleF from '../assets/images/childroomTh.jpg';
+import { getSliderImages } from '../services/productServices';
 
-const Aimages: string[] = [
-  SlidersampleA,
-  SlidersampleB,
-  SlidersampleC,
-  SlidersampleD,
-  SlidersampleE,
-  SlidersampleF,
-];
+// const sliderImages: string[] = [
+//   SlidersampleA,
+//   SlidersampleB,
+//   SlidersampleC,
+//   SlidersampleD,
+//   SlidersampleE,
+//   SlidersampleF,
+// ];
 
 const ImageSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -22,12 +23,25 @@ const ImageSlider = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [sliderImages, setSliderImages] = useState<string[]>([]);
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const sliderImages = await getSliderImages();
+        setSliderImages(sliderImages.map((image) => image.imageUrl));
+      };
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   const handleTransitionEnd = () => {
     setIsTransitioning(false);
 
     if (currentIndex === 0) {
-      setCurrentIndex(Aimages.length);
-    } else if (currentIndex === Aimages.length + 1) {
+      setCurrentIndex(sliderImages.length);
+    } else if (currentIndex === sliderImages.length + 1) {
       setCurrentIndex(1);
     }
   };
@@ -35,7 +49,7 @@ const ImageSlider = () => {
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
       handleNextClick();
-    }, 2000);
+    }, 3500);
   };
 
   const stopAutoSlide = () => {
@@ -107,19 +121,19 @@ const ImageSlider = () => {
       >
         <div className={styles.slide}>
           <img
-            src={Aimages[Aimages.length - 1]}
-            alt={`Slide ${Aimages.length - 1}`}
+            src={sliderImages[sliderImages.length - 1]}
+            alt={`Slide ${sliderImages.length - 1}`}
           />
         </div>
 
-        {Aimages.map((image, index) => (
+        {sliderImages.map((image, index) => (
           <div key={index} className={styles.slide}>
             <img src={image} alt={`Slide ${index}`} />
           </div>
         ))}
 
         <div className={styles.slide}>
-          <img src={Aimages[0]} alt='Slide 0' />
+          <img src={sliderImages[0]} alt='Slide 0' />
         </div>
       </div>
       <button className={styles.prev} onClick={handlePrevClick}>

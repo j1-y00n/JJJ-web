@@ -1,0 +1,44 @@
+{
+  "sliderImages": [
+    {
+      "id": "1",
+      "imageUrl": "https://cdn.pixabay.com/photo/2017/02/12/16/19/autos-2060420_1280.jpg"
+    },
+    {
+      "id": "2",
+      "imageUrl": "https://cdn.pixabay.com/photo/2015/11/15/21/31/lego-1044891_1280.jpg"
+    },
+    {
+      "id": "3",
+      "imageUrl": "https://cdn.pixabay.com/photo/2016/08/24/16/20/books-1617327_1280.jpg"
+    },
+    {
+      "id": "4",
+      "imageUrl": "https://cdn.pixabay.com/photo/2018/02/16/19/25/soft-toys-3158361_1280.jpg"
+    },
+    {
+      "id": "5",
+      "imageUrl": "https://cdn.pixabay.com/photo/2015/11/26/17/58/toys-1064261_1280.jpg"
+    },
+    {
+      "id": "6",
+      "imageUrl": "https://cdn.pixabay.com/photo/2016/10/15/21/50/play-stone-1743645_1280.jpg"
+    },
+    {
+      "id": "7",
+      "imageUrl": "https://cdn.pixabay.com/photo/2015/10/25/14/43/bucket-1005891_1280.jpg"
+    },
+    {
+      "id": "8",
+      "imageUrl": "https://cdn.pixabay.com/photo/2015/12/03/15/19/christmas-1075121_1280.jpg"
+    },
+    {
+      "id": "9",
+      "imageUrl": "https://cdn.pixabay.com/photo/2020/12/09/11/19/toys-5817158_1280.jpg"
+    },
+    {
+      "id": "10",
+      "imageUrl": "https://cdn.pixabay.com/photo/2016/01/06/16/57/different-nationalities-1124478_1280.jpg"
+    }
+  ]
+}

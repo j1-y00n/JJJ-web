@@ -1,9 +1,24 @@
 {
   "categories": [
-    { "categoryId": 1, "categoryName": "gift" },
-    { "categoryId": 2, "categoryName": "intelligence" },
-    { "categoryId": 3, "categoryName": "fiveSenses" },
-    { "categoryId": 4, "categoryName": "emotion" },
-    { "categoryId": 5, "categoryName": "society" }
+    {
+      "id": "1",
+      "categoryName": "gift"
+    },
+    {
+      "id": "2",
+      "categoryName": "intelligence"
+    },
+    {
+      "id": "3",
+      "categoryName": "fiveSenses"
+    },
+    {
+      "id": "4",
+      "categoryName": "emotion"
+    },
+    {
+      "id": "5",
+      "categoryName": "society"
+    }
   ]
 }
