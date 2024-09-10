@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "userLoginId": "seungju",
       "userPassword": "seungju123",
       "userName": "신승주",
@@ -15,7 +15,7 @@
       "userWithdrawDate": null
     },
     {
-      "id": 2,
+      "id": "2",
       "userLoginId": "jiyoon",
       "userPassword": "jiyoon123",
       "userName": "변지윤",
@@ -29,7 +29,7 @@
       "userWithdrawDate": null
     },
     {
-      "id": 3,
+      "id": "3",
       "userLoginId": "yongjae",
       "userPassword": "yongjae123",
       "userName": "박용재",

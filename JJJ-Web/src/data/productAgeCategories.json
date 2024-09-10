@@ -1,14 +1,54 @@
 {
   "productAgeCategories": [
-    { "id": 1, "productId": 1, "ageCategoryId": 6 },
-    { "id": 2, "productId": 2, "ageCategoryId": 2 },
-    { "id": 3, "productId": 3, "ageCategoryId": 1 },
-    { "id": 4, "productId": 4, "ageCategoryId": 3 },
-    { "id": 5, "productId": 5, "ageCategoryId": 6 },
-    { "id": 6, "productId": 6, "ageCategoryId": 5 },
-    { "id": 7, "productId": 7, "ageCategoryId": 4 },
-    { "id": 8, "productId": 8, "ageCategoryId": 1 },
-    { "id": 9, "productId": 9, "ageCategoryId": 1 },
-    { "id": 10, "productId": 10, "ageCategoryId": 4 }
+    {
+      "id": "1",
+      "productId": 1,
+      "ageCategoryId": 6
+    },
+    {
+      "id": "2",
+      "productId": 2,
+      "ageCategoryId": 2
+    },
+    {
+      "id": "3",
+      "productId": 3,
+      "ageCategoryId": 1
+    },
+    {
+      "id": "4",
+      "productId": 4,
+      "ageCategoryId": 3
+    },
+    {
+      "id": "5",
+      "productId": 5,
+      "ageCategoryId": 6
+    },
+    {
+      "id": "6",
+      "productId": 6,
+      "ageCategoryId": 5
+    },
+    {
+      "id": "7",
+      "productId": 7,
+      "ageCategoryId": 4
+    },
+    {
+      "id": "8",
+      "productId": 8,
+      "ageCategoryId": 1
+    },
+    {
+      "id": "9",
+      "productId": 9,
+      "ageCategoryId": 1
+    },
+    {
+      "id": "10",
+      "productId": 10,
+      "ageCategoryId": 4
+    }
   ]
 }
