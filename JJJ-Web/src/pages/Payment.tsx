@@ -13,16 +13,20 @@ import {
   Box,
   SelectChangeEvent,
   Typography,
+  Modal,
 } from '@mui/material';
 import { Logo } from '../components/Header';
 import Footer from '../components/Footer';
-import MuiModal from '@mui/material/Modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { regexPayment } from '../constants/regex';
 import { getUserById } from '../services/userServices';
 import { User } from '../types/type';
-import axios from 'axios';
-import { LOCALHOST_PORT } from '../constants/api';
+import { createPayment, getPayments } from '../services/paymentServices';
+import { getNextId } from '../services/commonServices';
+import {
+  getUsedProductById,
+  updateUsedProduct,
+} from '../services/usedProductServices';
 
 export default function Payment() {
   const location = useLocation();
@@ -32,7 +36,7 @@ export default function Payment() {
 
   // usedProductList.tsx로 부터 받아올 때
   let {
-    id,
+    id: usedProductId,
     usedProductTitle,
     usedProductPrice,
     usedProductThumbnail,
@@ -50,9 +54,12 @@ export default function Payment() {
   const [user, setUser] = useState<User>();
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${LOCALHOST_PORT}/users/${userId}`);
-      const user = response.data;
-      setUser(user);
+      try {
+        const user = await getUserById(userId);
+        setUser(user);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, [userId]);
@@ -74,15 +81,6 @@ export default function Payment() {
       setCardNumber(updatedCardNumber);
     };
 
-  // 결제하기 버튼 클릭
-  const [isPay, setIsPay] = useState<boolean>(false);
-  const handlePayProcess = () => setIsPay(true);
-  const handlePayDone = () => {
-    setIsPay(false);
-    navigate('/myPage');
-  };
-  const navigate = useNavigate();
-
   // 정규식
 
   const validatePayment = (cardNumber: string[]): boolean => {
@@ -95,12 +93,56 @@ export default function Payment() {
     payment: '결제 수단을 선택해주세요',
   };
 
+  // 결제하기 버튼 클릭
+  const [isGoingToPay, setIsGoingToPay] = useState<boolean>(false);
+  const handleClosePayModal = () => {
+    setIsGoingToPay(false);
+  };
+  const [isPay, setIsPay] = useState<boolean>(false);
   const [errors, setErrors] = useState('');
+  const handlePayProcess = () => setIsPay(true);
+  const handlePayDone = () => {
+    setIsPay(false);
+    navigate('/myPage');
+  };
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let tempErrors = '';
     let isValid = true;
+    try {
+      // 디테일 페이지 경로를 통해 구매
+      if (product) {
+        const payments = await getPayments();
+        const newPayment = {
+          id: getNextId(payments),
+          paymentTimestamp: new Date().toISOString().slice(0, -5) + 'Z',
+          paymentTotalPrice: Number(totalPrice),
+          userId,
+          productId: Number(product.id),
+          paymentQuantity: Number(count),
+        };
+        await createPayment(newPayment);
+      }
+
+      // 중고 상품에서 구매
+      // 주문 내역에 포함은 안됨
+      // 판매 유저의 상품이 판매중 -> 판매 완료로 수정됨
+      if (usedProductId) {
+        const makeUsedProductAsSold = {
+          usedProductIsSold: true,
+        };
+        await updateUsedProduct(usedProductId, makeUsedProductAsSold);
+      }
+
+      // 카트에서 구매 - 코드 작성해야 함
+
+      handleClosePayModal();
+      handlePayProcess();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -209,7 +251,7 @@ export default function Payment() {
               {/* 중고 상품 페이지에서 구매한 경우 */}
               {usedProductTitle && (
                 <DeliveryProduct
-                  key={id}
+                  key={usedProductId}
                   productTitle={usedProductTitle}
                   productPrice={usedProductPrice}
                   productThumbnail={usedProductThumbnail}
@@ -310,14 +352,50 @@ export default function Payment() {
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
           <div className={styles.fixed__price}>주문 확인, 정보 제공 동의</div>
-          <Button className={styles.fixed__order} onClick={handlePayProcess}>
+          <Button
+            className={styles.fixed__order}
+            onClick={() => setIsGoingToPay(true)}
+          >
             {totalPaymentAmount}원 결제하기
           </Button>
         </div>
       </div>
 
-      {/* 모달 */}
-      <MuiModal
+      {/* 결제 완료 전 모달 */}
+      {/* 리팩토링 대상 */}
+      <Modal
+        open={isGoingToPay}
+        onClose={handleClosePayModal}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box className={styles.modal__inner}>
+          <Typography id='modal-modal-title' variant='h6' component='h2'>
+            정말로 결제하시겠습니까?
+          </Typography>
+          <Typography
+            id='modal-modal-description'
+            sx={{ my: 2, color: 'var(--color-red)' }}
+          >
+            결제 후 환불이 불가능합니다.
+          </Typography>
+
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Button onClick={handleSubmit} sx={{ marginRight: '20px' }}>
+              결제
+            </Button>
+            <Button onClick={handleClosePayModal}>취소</Button>
+          </Box>
+        </Box>
+      </Modal>
+      {/* 결제 완료 후 모달 */}
+      <Modal
         open={isPay}
         onClose={handlePayDone}
         aria-labelledby='modal-modal-title'
@@ -355,7 +433,7 @@ export default function Payment() {
             주문내역으로 이동
           </Button>
         </Box>
-      </MuiModal>
+      </Modal>
     </div>
   );
 }

@@ -16,6 +16,13 @@ export const getReviewImages = async (): Promise<ReviewImage[]> => {
   return response.data;
 };
 
-export const createReview = async (review: Review): Promise<void> => {
+export const createReview = async (
+  review: Omit<Review, 'id'>
+): Promise<void> => {
   await axios.post(`${LOCALHOST_PORT}/reviews`, review);
+};
+
+export const getReviewQuery = async (query = ''): Promise<Review[]> => {
+  const response = await axios.get(`${LOCALHOST_PORT}/reviews/?${query}`);
+  return response.data;
 };
