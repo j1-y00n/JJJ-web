@@ -42,7 +42,7 @@ export default function CreateUsedProduct() {
 
   const getNextId = () => {
     if (usedProducts && usedProducts.length> 0) {
-      return Number(usedProducts[usedProducts.length - 1].id) + 1;
+      return String(Number(usedProducts[usedProducts.length - 1].id) + 1);
     }
     return Number(1);
   };

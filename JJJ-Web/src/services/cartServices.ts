@@ -20,9 +20,19 @@ export const createCartProduct = async (
 };
 
 export const updateCartProduct = async (
-  id: number,
-  updateCart: Partial<Cart>
+  updateCart: Cart | Partial<Cart>,
+  id?: number
 ): Promise<Cart> => {
-  const response = await axios.put(`${LOCALHOST_PORT}/carts/${id}`, updateCart);
+  const cartId = id ?? updateCart.id; // id가 없으면 updateCart에서 id 추출
+  if (!cartId) {
+    throw new Error("Cart ID is required.");
+  }
+
+  const response = await axios.put(`${LOCALHOST_PORT}/carts/${cartId}`, updateCart);
+  return response.data;
+};
+
+export const getCartById = async (id: number): Promise<Cart> => {
+  const response = await axios.get(`${LOCALHOST_PORT}/carts/${id}`);
   return response.data;
 };
