@@ -50,7 +50,7 @@ export default function CreateUsedProduct() {
   }, []);
 
   const getNextId = () => {
-    if (usedProducts && usedProducts.length> 0) {
+    if (usedProducts && usedProducts.length > 0) {
       return String(Number(usedProducts[usedProducts.length - 1].id) + 1);
     }
     return '1';
@@ -181,11 +181,11 @@ export default function CreateUsedProduct() {
           <div className={styles.create__desc__container}>
             <div className={styles.container__title}>중고상품정보</div>
             <div className={styles.desc__inner}>
-              <div className={styles.info__container}>
+              <div className={styles.image__container}>
                 <div className={styles.inner__title}>상품 이미지</div>
                 <UploadFile />
               </div>
-              <div className={styles.info__container}>
+              <div className={styles.name__container}>
                 <div className={`${styles.inner__title} ${styles.inner__flex}`}>
                   상품명
                 </div>
