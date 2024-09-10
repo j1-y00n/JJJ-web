@@ -64,9 +64,12 @@ function UsedProductComponent({
   usedProductQuantity,
   usedProductIsSold,
   usedProductTransaction,
+  userId,
 }: UsedProduct) {
   const [usedProductImages, setUsedProductImages] = useState<string[]>([]);
 
+  // userId 변수명 겹쳐서 loginUserId로 처리 나중에 수정
+  const loginUserId = 2;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -111,6 +114,22 @@ function UsedProductComponent({
     setCurrentImg(value.src);
   };
 
+  const checkIfMyProductThenNav = () => {
+    if (loginUserId === userId) {
+      alert('내가 올린 상품입니다.');
+      return;
+    }
+    navigate('/payment', {
+      state: {
+        id,
+        usedProductTitle,
+        usedProductPrice,
+        usedProductThumbnail,
+        usedProductQuantity,
+        usedProductTotalPrice: usedProductPrice * usedProductQuantity,
+      },
+    });
+  };
   if (usedProductIsSold) return null;
   return (
     <div className={styles.item__container}>
@@ -178,19 +197,7 @@ function UsedProductComponent({
             </IconButton>
             <Button
               color='secondary'
-              onClick={() =>
-                navigate('/payment', {
-                  state: {
-                    id,
-                    usedProductTitle,
-                    usedProductPrice,
-                    usedProductThumbnail,
-                    usedProductQuantity,
-                    usedProductTotalPrice:
-                      usedProductPrice * usedProductQuantity,
-                  },
-                })
-              }
+              onClick={checkIfMyProductThenNav}
               sx={{ padding: '5px', marginLeft: '20px' }}
             >
               구매하기

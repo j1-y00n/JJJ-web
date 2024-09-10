@@ -18,6 +18,16 @@ export const getPaymentsByUserId = async (
   return payments;
 };
 
-export const deletePayments = async (paymentId: number): Promise<void> => {
+export const deletePayment = async (paymentId: number): Promise<void> => {
   await axios.delete<Payment[]>(`${LOCALHOST_PORT}/payments/${paymentId}`);
+};
+
+export const createPayment = async (
+  payment: Omit<Payment, 'id'>
+): Promise<Payment> => {
+  const response = await axios.post<Payment>(
+    `${LOCALHOST_PORT}/payments`,
+    payment
+  );
+  return response.data;
 };
