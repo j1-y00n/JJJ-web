@@ -1,85 +1,76 @@
 {
   "payments": [
     {
-      "paymentId": "1",
+      "id": "1",
       "paymentTimestamp": "2024-08-01T12:10:30Z",
       "paymentTotalPrice": 10000,
       "userId": 1,
       "productId": 1,
-      "paymentQuantity": 1,
-      "id": "87c6"
+      "paymentQuantity": 1
     },
     {
-      "paymentId": "2",
+      "id": "2",
       "paymentTimestamp": "2024-08-02T15:22:00Z",
       "paymentTotalPrice": 12000,
       "userId": 1,
       "productId": 2,
-      "paymentQuantity": 2,
-      "id": "8f98"
+      "paymentQuantity": 2
     },
     {
-      "paymentId": "3",
+      "id": "3",
       "paymentTimestamp": "2024-08-05T09:33:11Z",
       "paymentTotalPrice": 19000,
       "userId": 1,
       "productId": 1,
-      "paymentQuantity": 1,
-      "id": "cf63"
+      "paymentQuantity": 1
     },
     {
-      "paymentId": "4",
+      "id": "4",
       "paymentTimestamp": "2024-08-05T09:33:11Z",
       "paymentTotalPrice": 30000,
       "userId": 1,
       "productId": 3,
-      "paymentQuantity": 2,
-      "id": "259c"
+      "paymentQuantity": 2
     },
     {
-      "paymentId": "5",
+      "id": "5",
       "paymentTimestamp": "2024-08-05T09:33:11Z",
       "paymentTotalPrice": 100000,
       "userId": 1,
       "productId": 5,
-      "paymentQuantity": 5,
-      "id": "154d"
+      "paymentQuantity": 5
     },
     {
-      "paymentId": "6",
+      "id": "6",
       "paymentTimestamp": "2024-08-05T09:33:11Z",
       "paymentTotalPrice": 8900,
       "userId": 1,
       "productId": 6,
-      "paymentQuantity": 1,
-      "id": "292f"
+      "paymentQuantity": 1
     },
     {
-      "paymentId": "7",
+      "id": "7",
       "paymentTimestamp": "2024-08-03T03:50:10Z",
       "paymentTotalPrice": 26000,
       "userId": 2,
       "productId": 1,
-      "paymentQuantity": 2,
-      "id": "a838"
+      "paymentQuantity": 2
     },
     {
-      "paymentId": "8",
+      "id": "8",
       "paymentTimestamp": "2024-08-11T14:20:00Z",
       "paymentTotalPrice": 55000,
       "userId": 2,
       "productId": 4,
-      "paymentQuantity": 1,
-      "id": "0583"
+      "paymentQuantity": 1
     },
     {
-      "paymentId": "9",
+      "id": "9",
       "paymentTimestamp": "2024-08-11T14:20:00Z",
       "paymentTotalPrice": 9600,
       "userId": 2,
       "productId": 5,
-      "paymentQuantity": 3,
-      "id": "c9d1"
+      "paymentQuantity": 3
     }
   ]
 }
