@@ -4,7 +4,7 @@ import { User } from '../types/type';
 import { LOCALHOST_PORT } from '../constants/api';
 
 export const getUsers = async (): Promise<User[]> => {
-  const response = await axios.get(LOCALHOST_PORT);
+  const response = await axios.get(`${LOCALHOST_PORT}/users`);
   return response.data;
 };
 
@@ -14,7 +14,7 @@ export const getUserById = async (id: number): Promise<User> => {
 };
 
 export const createUser = async (user: Omit<User, 'id'>): Promise<User> => {
-  const response = await axios.post(LOCALHOST_PORT, user);
+  const response = await axios.post(`${LOCALHOST_PORT}/users`, user);
   return response.data;
 };
 

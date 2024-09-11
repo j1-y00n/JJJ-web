@@ -1,17 +1,18 @@
 // Users 테이블
 export interface User {
-  id: number;
+  id: string;
   userLoginId: string;
   userPassword: string;
   userName: string;
-  userPhone: string;
   userEmail: string;
+  userPhone: string;
+  userZipCode?: string;
   userAddress: string;
-  userAddressDetail?: string; // 선택적 필드
-  userGender: 'male' | 'female' | 'other';
-  userBirth?: string; // 선택적 필드 (ISO 날짜 문자열)
+  userAddressDetail: string;
+  userGender?: null | 'male' | 'female';
+  userBirth?: null | string;
   userSignUpDate: string; // ISO 날짜 문자열
-  userWithdrawDate?: string; // 선택적 필드 (ISO 날짜 문자열)
+  userWithdrawDate?: null | string; // (ISO 날짜 문자열)
 }
 
 // Categories 테이블
@@ -50,7 +51,7 @@ export interface Product {
   productPrice: number;
   productThumbnail: string;
   productStock: number;
-  productSalesPrice?: number; // 선택적 필드
+  productSalesPrice?: number;
   productSalesCount: number;
 }
 
@@ -75,6 +76,7 @@ export interface ProductImage {
   imageUrl: string;
 }
 
+// Product 렌더링 쉽게하기 위해 추가
 export interface ProductWithReviews extends Product {
   reviewRating: string;
   reviewCount: number;
