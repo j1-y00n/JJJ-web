@@ -36,7 +36,7 @@ export default function Payment() {
 
   // usedProductList.tsx로 부터 받아올 때
   let {
-    id: usedProductId,
+    usedProductId,
     usedProductTitle,
     usedProductPrice,
     usedProductThumbnail,
@@ -48,7 +48,6 @@ export default function Payment() {
 
   // 총 결제 금액
   let totalPaymentAmount = totalPrice || usedProductTotalPrice;
-
   // userId 가져옴
   const userId = 1;
   const [user, setUser] = useState<User>();
@@ -103,9 +102,16 @@ export default function Payment() {
   const handlePayProcess = () => setIsPay(true);
   const handlePayDone = () => {
     setIsPay(false);
-    navigate('/myPage');
+    handleWhereToGo();
   };
   const navigate = useNavigate();
+  const handleWhereToGo = () => {
+    if (product) {
+      navigate('/myPage');
+    } else if (usedProductId) {
+      navigate('/usedProductList');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -429,7 +435,7 @@ export default function Payment() {
               }
             })()}
           </Typography>
-          <Button onClick={() => navigate('/Mypage')} sx={{ width: '90%' }}>
+          <Button onClick={handleWhereToGo} sx={{ width: '90%' }}>
             주문내역으로 이동
           </Button>
         </Box>
