@@ -10,9 +10,10 @@ const SignUp: React.FC = () => {
     userName: '',
     userPhone: '',
     userEmail: '',
+    userZipCode: '',
     userAddress: '',
     userAddressDetail: '',
-    userGender: 'other',
+    userGender: 'female',
     userBirth: '',
     userSignUpDate: new Date().toISOString(),
   });
@@ -86,7 +87,7 @@ const SignUp: React.FC = () => {
         onChange={handleChange}
         placeholder='Address Detail'
       />
-      <select name='userGender' value={user.userGender} onChange={handleChange}>
+      <select name='userGender' onChange={handleChange}>
         <option value='male'>Male</option>
         <option value='female'>Female</option>
         <option value='other'>Other</option>
@@ -94,7 +95,6 @@ const SignUp: React.FC = () => {
       <input
         type='date'
         name='userBirth'
-        value={user.userBirth}
         onChange={handleChange}
         placeholder='Birth Date'
       />

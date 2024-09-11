@@ -1,20 +1,20 @@
 // 박용재
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/pages/SignUp.module.css';
+import Modal from 'react-modal';
+import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
+import CloseIcon from '@mui/icons-material/Close';
 import {
+  Box,
   Button,
   FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
 } from '@mui/material';
-
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Header';
-import Modal from 'react-modal';
-import DaumPostcodeEmbed from 'react-daum-postcode';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   regexEmail,
   regexId,
@@ -22,220 +22,188 @@ import {
   regexPassword,
   regexPhone,
 } from '../constants/regex';
-interface SignUpForm {
-  id: number;
-  userId: string;
-  password: string;
+import { User } from '../types/type';
+import { createUser, getUsers } from '../services/userServices';
+import { getNextId } from '../services/commonServices';
+
+interface UserForm extends Omit<User, 'id'> {
   passwordCheck: string;
-  name: string;
-  email: string;
-  phone: string;
-  address: AddressForm;
-  gender?: string | undefined;
-  birth?: BirthForm | undefined;
 }
 
-interface BirthForm {
-  year: string;
-  month: string;
-  day: string;
+interface ErrorForm {
+  userLoginId: string;
+  userPassword: string;
+  passwordCheck: string;
+  userName: string;
+  userPhone: string;
+  userEmail: string;
+  userAddress: string;
+  userAddressDetail: string;
 }
 
-interface AddressForm {
-  zipCode: string;
-  roadAddress: string;
-  detailAddress: string;
-}
+const initialUser: UserForm = {
+  userLoginId: '',
+  userPassword: '',
+  passwordCheck: '',
+  userName: '',
+  userEmail: '',
+  userPhone: '',
+  userZipCode: '',
+  userAddress: '',
+  userAddressDetail: '',
+  userGender: null,
+  userBirth: null,
+  userSignUpDate: '',
+  userWithdrawDate: null,
+};
+
+const initialError: ErrorForm = {
+  userLoginId: '',
+  userPassword: '',
+  passwordCheck: '',
+  userName: '',
+  userEmail: '',
+  userPhone: '',
+  userAddress: '',
+  userAddressDetail: '',
+};
 
 export default function SignUp() {
-  const userIdRef = useRef(1);
+  const [user, setUser] = useState<UserForm>(initialUser);
+  let {
+    userLoginId,
+    userPassword,
+    passwordCheck,
+    userName,
+    userEmail,
+    userPhone,
+    userZipCode,
+    userAddress,
+    userAddressDetail,
+    userGender,
+    userBirth,
+    userWithdrawDate,
+  } = user;
   const navigate = useNavigate();
 
-  const requiredFormInitialValue = {
-    id: userIdRef.current,
-    userId: '',
-    password: '',
-    passwordCheck: '',
-    name: '',
-    email: '',
-    phone: '',
-    address: {
-      zipCode: '',
-      roadAddress: '',
-      detailAddress: '',
-    },
-  };
-
-  const includedOptionalFormInitialValue = {
-    ...requiredFormInitialValue,
-    gender: undefined,
-    birth: undefined,
-  };
-
-  const [formData, setFormData] = useState<SignUpForm>(
-    includedOptionalFormInitialValue
-  );
-
-  const [errors, setErrors] = useState<SignUpForm>({
-    ...requiredFormInitialValue,
-    address: {
-      zipCode: '',
-      roadAddress: '',
-      detailAddress: '',
-    },
-  });
-
-  const {
-    userId,
-    password,
-    passwordCheck,
-    name,
-    email,
-    phone,
-    gender,
-    address,
-    // birth,
-  } = formData;
+  const [errors, setErrors] = useState<ErrorForm>(initialError);
 
   // 정규식을 이용한 검증
-  const validateId = (userId: string): boolean => {
-    return regexId.test(userId);
+  const validateId = (userLoginId: string): boolean => {
+    return regexId.test(userLoginId);
   };
 
-  const validatePassword = (password: string): boolean => {
-    return regexPassword.test(password);
+  const validatePassword = (userPassword: string): boolean => {
+    return regexPassword.test(userPassword);
   };
 
   const checkingPassword = (passwordCheck: string): boolean => {
-    return password === passwordCheck ? true : false;
+    return userPassword === passwordCheck ? true : false;
   };
 
-  const validateName = (name: string): boolean => {
-    return regexName.test(name);
+  const validateName = (userName: string): boolean => {
+    return regexName.test(userName);
   };
 
-  const validateEmail = (email: string): boolean => {
-    return regexEmail.test(email);
+  const validateEmail = (userEmail: string): boolean => {
+    return regexEmail.test(userEmail);
   };
 
-  const validatePhone = (phone: string): boolean => {
-    return regexPhone.test(phone);
+  const validatePhone = (userPhone: string): boolean => {
+    return regexPhone.test(userPhone);
   };
 
-  const validationRules: Record<string, (value: string) => boolean> = {
-    userId: (value: string) => validateId(value),
-    password: (value: string) => validatePassword(value),
+  const validationRules = {
+    userLoginId: (value: string) => validateId(value),
+    userPassword: (value: string) => validatePassword(value),
     passwordCheck: (value: string) => checkingPassword(value),
-    name: (value: string) => validateName(value),
-    email: (value: string) => validateEmail(value),
-    phone: (value: string) => validatePhone(value),
-    zipCode: (value: string) => !!value,
-    detailAddress: (value: string) => !!value,
+    userName: (value: string) => validateName(value),
+    userEmail: (value: string) => validateEmail(value),
+    userPhone: (value: string) => validatePhone(value),
+    userAddress: (value: string) => !!value,
+    userAddressDetail: (value: string) => !!value,
   };
 
   const errorMessages: Record<string, string> = {
-    userId: '영어(소문자)와 숫자를 혼합하여 4~20자 이내로 작성하세요',
-    password: '영어와 숫자를 혼합하여 8~12자 이내로 작성하세요',
+    userLoginId: '영어(소문자)와 숫자를 혼합하여 4~20자 이내로 작성하세요',
+    userPassword: '영어와 숫자를 혼합하여 8~12자 이내로 작성하세요',
     passwordCheck: '비밀번호가 일치하지 않습니다',
-    name: '유효한 이름을 입력하세요',
-    email: '유효한 이메일을 입력하세요',
-    phone: '유효한 핸드폰 번호를 입력하세요',
-    zipCode: '주소찾기 버튼을 눌러주세요',
-    detailAddress: '상세주소를 입력해주세요',
+    userName: '유효한 이름을 입력하세요',
+    userEmail: '유효한 이메일을 입력하세요',
+    userPhone: '유효한 핸드폰 번호를 입력하세요',
+    userAddress: '주소찾기 버튼을 눌러주세요',
+    userAddressDetail: '상세주소를 입력해주세요',
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // 회원가입 버튼 클릭시 / input 검증 및 회원 추가
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 회원가입 버튼 클릭시 input 검증
-    let tempErrors = {
-      ...requiredFormInitialValue,
-      address: {
-        zipCode: '',
-        roadAddress: '',
-        detailAddress: '',
-      },
-    };
-
+    let tempErrors: ErrorForm = { ...initialError };
+    console.log(tempErrors);
     let isValid = true;
 
-    if (!userId || !validateId(userId)) {
-      tempErrors.userId = errorMessages.userId;
-      isValid = false;
-    }
+    Object.keys(validationRules).forEach((key) => {
+      const fieldKey = key as keyof ErrorForm;
+      const value = user[fieldKey] as string;
+      const validate = validationRules[fieldKey];
 
-    if (!password || !validatePassword(password)) {
-      tempErrors.password = errorMessages.password;
-      isValid = false;
-    }
-
-    if (!checkingPassword(passwordCheck)) {
-      tempErrors.passwordCheck = errorMessages.passwordCheck;
-      isValid = false;
-    }
-
-    if (!name || !validateName(name)) {
-      tempErrors.name = errorMessages.name;
-      isValid = false;
-    }
-
-    if (!email || !validateEmail(email)) {
-      tempErrors.email = errorMessages.email;
-      isValid = false;
-    }
-
-    if (!phone || !validatePhone(phone)) {
-      tempErrors.phone = errorMessages.phone;
-      isValid = false;
-    }
-
-    if (!address.zipCode) {
-      tempErrors.address!.zipCode = errorMessages.zipCode;
-      isValid = false;
-    }
-
-    if (address.zipCode && !address.detailAddress) {
-      tempErrors.address!.detailAddress = errorMessages.detailAddress;
-      isValid = false;
-    }
-
+      if (validate) {
+        const isValidField = validate(value);
+        if (!isValidField) {
+          tempErrors[fieldKey] = errorMessages[fieldKey] || '';
+          isValid = false;
+        } else {
+          tempErrors[fieldKey] = '';
+        }
+      }
+    });
     setErrors(tempErrors);
 
     if (isValid) {
-      console.log('회원 가입 데이터: ', formData);
-      alert(`회원 가입을 축하합니다!! ${name}님!! `);
-      setFormData(includedOptionalFormInitialValue);
-      navigate('/');
+      const users = await getUsers();
+      const newUser = {
+        id: getNextId(users),
+        userLoginId,
+        userPassword,
+        userName,
+        userEmail,
+        userPhone,
+        userAddress,
+        userAddressDetail,
+        userGender,
+        userBirth,
+        userSignUpDate: new Date().toISOString().slice(0, -5) + 'Z',
+        userWithdrawDate,
+      };
+      console.log(newUser);
+      await createUser(newUser);
+      console.log('회원 가입 데이터: ', newUser);
+
+      alert(`회원 가입을 축하합니다!! ${userLoginId}님!! 로그인 하여 주세요`);
+
+      setUser(initialUser);
+      navigate('/signIn');
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedFormData = { ...prevData, [name]: value };
+    setUser({ ...user, [name]: value });
 
-      if (name === 'detailAddress') {
-        return {
-          ...updatedFormData,
-          address: {
-            ...prevData.address,
-            detailAddress: value,
-          },
-        };
-      }
-
-      return updatedFormData;
-    });
-
-    // 에러 메세지가 있는 경우에 실시간 input 검증
+    // 에러 메세지가 있는 경우에만 작동
+    // 실시간 input 검증
     // 올바르게 입력했을 경우 에러 메세지 삭제
-    if (validationRules[name]) {
-      const isValid = validationRules[name](value);
+    if (name in validationRules) {
+      const key = name as keyof typeof validationRules;
 
-      if (isValid) {
+      if (errors[key]) {
+        const isValid = validationRules[key](value as string);
         setErrors((prev) => ({
           ...prev,
-          [name]: isValid && '',
+          [name]: isValid ? '' : errorMessages[name] || '',
         }));
       }
     }
@@ -244,46 +212,39 @@ export default function SignUp() {
   // input창에서 focus 잃을 때 input 검증
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (validationRules[name]) {
-      const isValid = validationRules[name](value);
-
+    if (name in validationRules) {
+      const key = name as keyof typeof validationRules;
+      const isValid = validationRules[key](value as string);
       setErrors((prev) => ({
         ...prev,
-        [name]: isValid ? '' : errorMessages[name],
+        [name]: isValid ? '' : errorMessages[name] || '',
       }));
     }
   };
 
   //! 생일 입력 기능
   const today = new Date();
-  const [birthForm, setBirthForm] = useState<BirthForm | undefined>(undefined);
+  const handleDateChange = (field: 'year' | 'month' | 'day', value: string) => {
+    const year = userBirth?.slice(0, 4) || '';
+    const month = userBirth?.slice(5, 7) || '';
+    const day = userBirth?.slice(8, 10) || '';
 
-  const updateBirthForm = (field: 'year' | 'month' | 'day', value: string) => {
-    setBirthForm((prev) => {
-      const updatedForm = {
-        ...prev,
-        [field]: value,
-      } as BirthForm;
-      if (
-        updatedForm.year === '선택' ||
-        updatedForm.month === '선택' ||
-        updatedForm.day === '선택'
-      ) {
-        return undefined;
-      }
+    const newDate =
+      field === 'year'
+        ? `${value}-${month}-${day}`
+        : field === 'month'
+        ? `${year}-${value}-${day}`
+        : `${year}-${month}-${value}`;
 
-      setFormData((prevData) => ({
-        ...prevData,
-        birth: updatedForm,
-      }));
-
-      return updatedForm;
-    });
+    setUser((prev) => ({
+      ...prev,
+      userBirth: newDate,
+    }));
   };
 
-  const selectedYear = birthForm?.year || '선택';
-  const selectedMonth = birthForm?.month || '선택';
-  const selectedDay = birthForm?.day || '선택';
+  const selectedYear = userBirth?.slice(0, 4) || '선택';
+  const selectedMonth = userBirth?.slice(5, 7) || '선택';
+  const selectedDay = userBirth?.slice(8, 10) || '선택';
 
   const years: string[] = ['선택'];
   for (let y = today.getFullYear(); y >= 1930; y--) {
@@ -302,40 +263,17 @@ export default function SignUp() {
   }
 
   //! 주소 입력 기능
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const handleSearchtoggle = () => {
-    setIsOpen(!isOpen);
+  const [isFindModalOpen, setIsFindModalOpen] = useState<boolean>(false);
+  const handleSearchAddress = () => {
+    setIsFindModalOpen(!isFindModalOpen);
   };
-  const finalInput = (data: any) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      address: {
-        ...prevData.address,
-        zipCode: data.zonecode,
-        roadAddress: data.roadAddress,
-        detailAddress: prevData.address?.detailAddress || '',
-      },
-    }));
-    setIsOpen(false);
-  };
-
-  const modalStyles: ReactModal.Styles = {
-    overlay: {
-      backgroundColor: 'rgba(0,0,0,0.5)',
-    },
-
-    content: {
-      width: '500px',
-      height: '600px',
-      margin: 'auto',
-      overflow: 'hidden',
-      padding: '20px',
-      position: 'absolute',
-      borderRadius: '10px',
-      boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.25)',
-      backgroundColor: 'white',
-      justifyContent: 'center',
-    },
+  const handleComplete = (data: Address) => {
+    setUser({
+      ...user,
+      userZipCode: data.zonecode,
+      userAddress: data.address,
+    });
+    setIsFindModalOpen(false);
   };
 
   return (
@@ -352,11 +290,11 @@ export default function SignUp() {
                 <input
                   className={styles.input}
                   type='text'
-                  name='userId'
+                  name='userLoginId'
                   minLength={4}
                   maxLength={20}
                   placeholder='소문자와 숫자를 혼합하여 4~20자 이내'
-                  value={userId.toLowerCase()}
+                  value={userLoginId.toLowerCase()}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                 />
@@ -373,8 +311,8 @@ export default function SignUp() {
                 중복 확인
               </Button>
             </div>
-            {errors.userId ? (
-              <p className={styles.error}>{errors.userId}</p>
+            {errors.userLoginId ? (
+              <p className={styles.error}>{errors.userLoginId}</p>
             ) : (
               ' '
             )}
@@ -389,18 +327,18 @@ export default function SignUp() {
                 <input
                   className={styles.input}
                   type='text'
-                  name='password'
+                  name='userPassword'
                   minLength={8}
                   maxLength={12}
                   placeholder='8 ~ 12자의 영문과 숫자 조합'
-                  value={password}
+                  value={userPassword}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                 />
               </div>
             </div>
-            {errors.password ? (
-              <p className={styles.error}>{errors.password}</p>
+            {errors.userPassword ? (
+              <p className={styles.error}>{errors.userPassword}</p>
             ) : (
               ' '
             )}
@@ -441,16 +379,20 @@ export default function SignUp() {
                 <input
                   className={styles.input}
                   type='text'
-                  name='name'
+                  name='userName'
                   maxLength={20}
                   placeholder='이름 - 한글 및 영어만 허용'
-                  value={name}
+                  value={userName}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                 />
               </div>
             </div>
-            {errors.name ? <p className={styles.error}>{errors.name}</p> : ' '}
+            {errors.userName ? (
+              <p className={styles.error}>{errors.userName}</p>
+            ) : (
+              ' '
+            )}
           </div>
 
           <div className={styles.input__container}>
@@ -462,17 +404,17 @@ export default function SignUp() {
                 <input
                   type='text'
                   className={styles.input}
-                  name='email'
+                  name='userEmail'
                   maxLength={50}
                   placeholder='example@gmail.com'
-                  value={email}
+                  value={userEmail}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                 />
               </div>
             </div>
-            {errors.email ? (
-              <p className={styles.error}>{errors.email}</p>
+            {errors.userEmail ? (
+              <p className={styles.error}>{errors.userEmail}</p>
             ) : (
               ' '
             )}
@@ -487,18 +429,18 @@ export default function SignUp() {
                 <input
                   className={styles.input}
                   type='text'
-                  name='phone'
+                  name='userPhone'
                   minLength={11}
                   maxLength={11}
                   placeholder='ex) 01012345678 - (-) 없이 작성'
-                  value={phone}
+                  value={userPhone}
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                 />
               </div>
             </div>
-            {errors.phone ? (
-              <p className={styles.error}>{errors.phone}</p>
+            {errors.userPhone ? (
+              <p className={styles.error}>{errors.userPhone}</p>
             ) : (
               ' '
             )}
@@ -513,15 +455,16 @@ export default function SignUp() {
                 <div className={styles.input__box}>
                   <input
                     className={styles.input}
-                    name='zipCode'
-                    value={formData.address?.zipCode || ''}
+                    name='userZipCode'
+                    value={userZipCode}
                     placeholder='우편번호'
-                    onChange={handleInputChange}
                     readOnly
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
                   />
                 </div>
                 <Button
-                  onClick={handleSearchtoggle}
+                  onClick={handleSearchAddress}
                   color='info'
                   sx={{
                     borderRadius: '10px',
@@ -537,23 +480,23 @@ export default function SignUp() {
                 <div className={styles.input__box}>
                   <input
                     className={styles.input}
-                    name='roadAddress'
-                    value={formData.address?.roadAddress || ''}
+                    name='userAddress'
+                    value={userAddress}
                     placeholder='도로명주소'
-                    onChange={handleInputChange}
                     readOnly
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
                   />
                 </div>
 
                 <Modal
-                  isOpen={isOpen}
+                  isOpen={isFindModalOpen}
                   style={modalStyles}
                   ariaHideApp={false}
-                  onRequestClose={() => setIsOpen(false)}
+                  onRequestClose={() => setIsFindModalOpen(false)}
                 >
-                  <div
-                    id='closeBtn'
-                    style={{
+                  <Box
+                    sx={{
                       display: 'flex',
                       justifyContent: 'end',
                       marginBottom: '10px',
@@ -561,11 +504,11 @@ export default function SignUp() {
                   >
                     <CloseIcon
                       sx={{ cursor: 'pointer' }}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setIsFindModalOpen(false)}
                     />
-                  </div>
+                  </Box>
                   <DaumPostcodeEmbed
-                    onComplete={finalInput}
+                    onComplete={handleComplete}
                     style={{ height: '95%' }}
                   />
                 </Modal>
@@ -573,9 +516,9 @@ export default function SignUp() {
                 <div className={styles.input__box}>
                   <input
                     className={styles.input}
-                    name='detailAddress'
+                    name='userAddressDetail'
                     maxLength={50}
-                    value={formData.address?.detailAddress || ''}
+                    value={userAddressDetail}
                     placeholder='상세주소'
                     onChange={handleInputChange}
                     onBlur={handleBlur}
@@ -584,12 +527,15 @@ export default function SignUp() {
               </div>
             </div>
             <div className={styles.input__container}>
-              {errors.address.zipCode && (
-                <p className={styles.error}>{errors.address.zipCode}</p>
+              {!userAddress && errors.userAddress && (
+                <p className={styles.error}>{errors.userAddress}</p>
               )}
-              {errors.address.detailAddress && (
-                <p className={styles.error}>{errors.address.detailAddress}</p>
-              )}
+
+              {userAddress &&
+                !userAddressDetail &&
+                errors.userAddressDetail && (
+                  <p className={styles.error}>{errors.userAddressDetail}</p>
+                )}
             </div>
           </div>
 
@@ -605,8 +551,8 @@ export default function SignUp() {
               </div>
               <FormControl>
                 <RadioGroup
-                  name='gender'
-                  value={gender || ''}
+                  name='userGender'
+                  value={userGender}
                   onChange={handleInputChange}
                   sx={{
                     width: '300px',
@@ -640,7 +586,9 @@ export default function SignUp() {
                 <select
                   className={styles.birth__select}
                   value={selectedYear}
-                  onChange={(e) => updateBirthForm('year', e.target.value)}
+                  onChange={(e) => {
+                    handleDateChange('year', e.target.value);
+                  }}
                 >
                   {years.map((item) => (
                     <option value={item} key={item}>
@@ -652,7 +600,7 @@ export default function SignUp() {
                 <select
                   className={styles.birth__select}
                   value={selectedMonth}
-                  onChange={(e) => updateBirthForm('month', e.target.value)}
+                  onChange={(e) => handleDateChange('month', e.target.value)}
                   disabled={selectedYear === '선택'}
                 >
                   {months.map((item) => (
@@ -665,7 +613,7 @@ export default function SignUp() {
                 <select
                   className={styles.birth__select}
                   value={selectedDay}
-                  onChange={(e) => updateBirthForm('day', e.target.value)}
+                  onChange={(e) => handleDateChange('day', e.target.value)}
                   disabled={selectedMonth === '선택' || selectedYear === '선택'}
                 >
                   {days.map((item) => (
@@ -693,3 +641,22 @@ export default function SignUp() {
     </div>
   );
 }
+
+const modalStyles: ReactModal.Styles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+
+  content: {
+    width: '500px',
+    height: '600px',
+    margin: 'auto',
+    overflow: 'hidden',
+    padding: '20px',
+    position: 'absolute',
+    borderRadius: '10px',
+    boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.25)',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+};
