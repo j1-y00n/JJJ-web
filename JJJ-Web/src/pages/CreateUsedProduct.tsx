@@ -21,6 +21,7 @@ import {
   getUsedProducts,
 } from '../services/usedProductServices';
 import { useNavigate } from 'react-router-dom';
+import noImage from '../assets/images/noImage.png';
 
 export default function CreateUsedProduct() {
   const navigate = useNavigate();
@@ -33,8 +34,7 @@ export default function CreateUsedProduct() {
     usedProductPrice: 0,
     usedProductCondition: '새상품(미사용)',
     usedProductDetail: '',
-    usedProductThumbnail:
-      'https://cdn.pixabay.com/photo/2015/04/28/13/35/america-743574_1280.jpg',
+    usedProductThumbnail: noImage,
     usedProductQuantity: 1,
     usedProductTransaction: '가능',
     usedProductIsSold: false,

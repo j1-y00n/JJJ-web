@@ -20,6 +20,8 @@ import {
   getUsedProducts,
 } from '../services/usedProductServices';
 import { getUserById } from '../services/userServices';
+import noImage from '../assets/images/noImage.png';
+
 export default function UsedProductList() {
   const navigate = useNavigate();
   const [usedProducts, setUsedProducts] = useState<UsedProduct[]>([]);
@@ -113,7 +115,7 @@ function UsedProductComponent({
     imgsHeight: '60px',
   };
 
-  const [currentImg, setCurrentImg] = useState(usedProductThumbnail);
+  const [currentImg, setCurrentImg] = useState(usedProductThumbnail || noImage);
   const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const value = e.target as HTMLImageElement;
     if (!value.src) {

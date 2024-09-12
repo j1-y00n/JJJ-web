@@ -41,6 +41,20 @@
       "userBirth": "1990-12-31",
       "userSignUpDate": "2024-08-02T00:00:00Z",
       "userWithdrawDate": null
+    },
+    {
+      "id": "4",
+      "userLoginId": "example",
+      "userPassword": "example123",
+      "userName": "exampleUser",
+      "userPhone": "010-1234-5678",
+      "userEmail": "example@example.com",
+      "userAddress": "경기 성남시 분당구 대왕판교로 477",
+      "userAddressDetail": "000동 000호",
+      "userGender": "female",
+      "userBirth": "2000-06-01",
+      "userSignUpDate": "2024-09-13T00:00:00Z",
+      "userWithdrawDate": null
     }
   ]
 }

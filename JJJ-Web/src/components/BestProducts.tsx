@@ -15,8 +15,9 @@ export default function BestProducts() {
     .slice(0, 8);
 
   const BestReviewProducts = products
-    .sort((a, b) => b.productSalesCount - a.productSalesCount)
-    .slice(8, 12);
+    .filter((product) => Number(product.reviewRating) >= 4)
+    .sort((a, b) => b.reviewCount - a.reviewCount)
+    .slice(0, 4);
 
   const { handleProductClick } = navigateProduct();
 
