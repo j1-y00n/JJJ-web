@@ -14,11 +14,14 @@ import { ModalCart } from '../components/ModalCart';
 import { useOpenModal } from '../hooks/useOpenModal';
 import ClearIcon from '@mui/icons-material/Clear';
 import ModalIsDelete from '../components/ModalIsDelete';
-import { UsedProduct, UsedProductImage } from '../types/type';
+import { UsedProduct } from '../types/type';
 import {
   getUsedProductImages,
   getUsedProducts,
 } from '../services/usedProductServices';
+import { getUserById } from '../services/userServices';
+import noImage from '../assets/images/noImage.png';
+
 export default function UsedProductList() {
   const navigate = useNavigate();
   const [usedProducts, setUsedProducts] = useState<UsedProduct[]>([]);
@@ -33,7 +36,7 @@ export default function UsedProductList() {
       }
     };
     fetchData();
-  }, [usedProducts]);
+  }, []);
 
   return (
     <div className='flex__container'>
@@ -55,7 +58,7 @@ export default function UsedProductList() {
 }
 
 function UsedProductComponent({
-  id,
+  id: usedProductId,
   usedProductTitle,
   usedProductPrice,
   usedProductCondition,
@@ -64,33 +67,40 @@ function UsedProductComponent({
   usedProductQuantity,
   usedProductIsSold,
   usedProductTransaction,
-  userId,
+  userId: sellerUserId,
 }: UsedProduct) {
   const [usedProductImages, setUsedProductImages] = useState<string[]>([]);
+  const [sellerLoginId, setSellerLoginId] = useState<string>('');
+  const { activeState, handleStateChange, handleToggle } =
+    useActiveState(false);
+  const navigate = useNavigate();
 
-  // userId 변수명 겹쳐서 loginUserId로 처리 나중에 수정
-  const loginUserId = 2;
+  const userId = 2;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const usedProductImagesArray = await getUsedProductImages();
         const currentUsedProductImages = usedProductImagesArray.filter(
-          (item) => item.usedProductId === Number(id)
+          (item) => item.usedProductId === Number(usedProductId)
         );
         const imageUrls = currentUsedProductImages.map(
           (images) => images.imageUrl
         );
         setUsedProductImages(imageUrls);
+
+        if (sellerUserId) {
+          const sellerUser = await getUserById(sellerUserId);
+          const sellerLoginId = sellerUser.userLoginId;
+
+          setSellerLoginId(sellerLoginId);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [id]);
+  }, []);
 
-  const { activeState, handleStateChange, handleToggle } =
-    useActiveState(false);
-  const navigate = useNavigate();
   // 장바구니 모달
   const { isOpen, handleOpenModal, handleCloseModal } = useOpenModal();
   const customPosition = { left: 18, top: -9 };
@@ -105,7 +115,7 @@ function UsedProductComponent({
     imgsHeight: '60px',
   };
 
-  const [currentImg, setCurrentImg] = useState(usedProductThumbnail);
+  const [currentImg, setCurrentImg] = useState(usedProductThumbnail || noImage);
   const handleImgClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const value = e.target as HTMLImageElement;
     if (!value.src) {
@@ -115,13 +125,13 @@ function UsedProductComponent({
   };
 
   const checkIfMyProductThenNav = () => {
-    if (loginUserId === userId) {
+    if (userId === sellerUserId) {
       alert('내가 올린 상품입니다.');
       return;
     }
     navigate('/payment', {
       state: {
-        id,
+        usedProductId,
         usedProductTitle,
         usedProductPrice,
         usedProductThumbnail,
@@ -143,8 +153,8 @@ function UsedProductComponent({
         <div className={styles.item__infos}>
           <div className={styles.info__container}>
             <div className={styles.item__user}>
-              <div>{id}</div>
-              {id && (
+              <div>{sellerLoginId}</div>
+              {usedProductId && (
                 <IconButton
                   onClick={isDelete.handleOpenModal}
                   sx={{ padding: '2px' }}
@@ -181,6 +191,7 @@ function UsedProductComponent({
             />
             <IconButton
               className='round nest__icons'
+              disabled={true}
               onClick={handleOpenModal}
               sx={{
                 marginRight: '20px',
@@ -189,7 +200,11 @@ function UsedProductComponent({
               <ShoppingCartOutlinedIcon className='default font__medium' />
               <ShoppingCartIcon className='show font__medium' />
             </IconButton>
-            <IconButton className='round nest__icons' onClick={handleToggle}>
+            <IconButton
+              className='round nest__icons'
+              disabled={true}
+              onClick={handleToggle}
+            >
               <FavoriteBorderIcon className='default font__medium' />
               <FavoriteIcon
                 className={`show font__medium ${activeState ? 'active' : ''}`}

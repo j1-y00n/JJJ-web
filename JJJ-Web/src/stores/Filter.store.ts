@@ -10,7 +10,7 @@ interface FilterState {
 
 export const FilterStore = create<FilterState>((set) => ({
   activeAge: '모두 보기',
-  activeSorting: '최신순',
+  activeSorting: '리뷰많은순',
   setActiveAge: (age) => set({ activeAge: age }),
   setActiveSorting: (filter) => set({ activeSorting: filter }),
 }));

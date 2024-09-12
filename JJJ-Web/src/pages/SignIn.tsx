@@ -5,91 +5,36 @@ import styles from '../styles/pages/SingIn.module.css';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Header';
 import { Button, FormControlLabel, FormGroup, Switch } from '@mui/material';
-
-interface SignUpForm {
-  id: number;
-  userId: string;
-  password: string;
-  name: string;
-}
+import { getUsers } from '../services/userServices';
+import { User } from '../types/type';
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    id: 1,
-    userId: '',
-    password: '',
-    name: '',
-  });
+  const [loginId, setLoginId] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<string | undefined>(undefined);
 
-  const nextId = useRef(2);
-
-  const [errors, setErrors] = useState<SignUpForm>({
-    id: 1,
-    userId: '',
-    password: '',
-    name: '',
-  });
-
-  const { userId, password, name } = formData;
-
-  const validateId = (userId: string): boolean => {
-    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{4,}$/.test(userId);
-  };
-
-  const validatePassword = (password: string): boolean => {
-    return /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/.test(password);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      const users: User[] = await getUsers();
+      const user = users.find(
+        (user) => user.userLoginId === loginId && user.userPassword === password
+      );
 
-    let tempErrors = {
-      id: 1,
-      userId: '',
-      password: '',
-      name: '',
-    };
+      if (!user) {
+        setErrors(`아이디 또는 비밀번호를 잘못 입력했습니다.
+          입력하신 내용을 다시 확인해주세요.`);
+        return;
+      }
 
-    let isValid = true;
-
-    if (
-      !userId ||
-      !validateId(userId) ||
-      !password ||
-      !validatePassword(password)
-    ) {
-      tempErrors.userId = `
-      아이디 또는 비밀번호를 잘못 입력했습니다.
-      입력하신 내용을 다시 확인해주세요.
-      `;
-      // alert('아이디 확인을 완료해주세요');
-      isValid = false;
+      alert(`로그인 성공!! ${user?.userName}님!! `);
+      navigate('/', { state: user });
+      setLoginId('');
+      setPassword('');
+    } catch (error) {
+      console.error(error);
     }
-
-    setErrors(tempErrors);
-
-    if (isValid) {
-      console.log('회원 가입 데이터: ', formData);
-      alert(`로그인 성공!! ${name}님!! `);
-      navigate('/');
-      setFormData({
-        id: nextId.current,
-        userId: '',
-        password: '',
-        name: '',
-      });
-
-      nextId.current += 1;
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
   };
 
   return (
@@ -108,10 +53,10 @@ export default function SignIn() {
                 <input
                   type='text'
                   className={styles.input}
-                  name='userId'
+                  name='loginId'
                   placeholder='4글자 이상 영문과 숫자 조합'
-                  value={userId}
-                  onChange={handleInputChange}
+                  value={loginId}
+                  onChange={(e) => setLoginId(e.target.value)}
                 />
               </div>
             </div>
@@ -129,16 +74,11 @@ export default function SignIn() {
                   name='password'
                   placeholder='8 ~ 12자의 영문과 숫자 조합'
                   value={password}
-                  onChange={handleInputChange}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
-
-            {errors.userId || errors.password ? (
-              <p className={styles.error}>{errors.userId}</p>
-            ) : (
-              ' '
-            )}
+            {errors && <p className={styles.error}>{errors}</p>}
           </div>
 
           <FormGroup

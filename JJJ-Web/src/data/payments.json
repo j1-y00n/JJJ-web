@@ -71,6 +71,262 @@
       "userId": 2,
       "productId": 5,
       "paymentQuantity": 3
+    },
+    {
+      "id": "10",
+      "paymentTimestamp": "2024-01-15T12:10:30Z",
+      "paymentTotalPrice": 45000,
+      "userId": 1,
+      "productId": 7,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "11",
+      "paymentTimestamp": "2024-01-15T12:10:30Z",
+      "paymentTotalPrice": 140000,
+      "userId": 1,
+      "productId": 12,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "12",
+      "paymentTimestamp": "2024-02-05T09:33:11Z",
+      "paymentTotalPrice": 50000,
+      "userId": 2,
+      "productId": 10,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "13",
+      "paymentTimestamp": "2024-02-05T09:33:11Z",
+      "paymentTotalPrice": 400000,
+      "userId": 2,
+      "productId": 15,
+      "paymentQuantity": 4
+    },
+    {
+      "id": "14",
+      "paymentTimestamp": "2024-03-11T14:20:00Z",
+      "paymentTotalPrice": 100000,
+      "userId": 3,
+      "productId": 5,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "15",
+      "paymentTimestamp": "2024-03-11T14:20:00Z",
+      "paymentTotalPrice": 30000,
+      "userId": 3,
+      "productId": 8,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "16",
+      "paymentTimestamp": "2024-04-12T11:25:45Z",
+      "paymentTotalPrice": 60000,
+      "userId": 4,
+      "productId": 3,
+      "paymentQuantity": 5
+    },
+    {
+      "id": "17",
+      "paymentTimestamp": "2024-04-12T11:25:45Z",
+      "paymentTotalPrice": 220000,
+      "userId": 4,
+      "productId": 16,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "18",
+      "paymentTimestamp": "2024-05-13T08:00:00Z",
+      "paymentTotalPrice": 30000,
+      "userId": 1,
+      "productId": 6,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "19",
+      "paymentTimestamp": "2024-05-13T08:00:00Z",
+      "paymentTotalPrice": 40000,
+      "userId": 1,
+      "productId": 9,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "20",
+      "paymentTimestamp": "2024-06-14T14:00:00Z",
+      "paymentTotalPrice": 32000,
+      "userId": 2,
+      "productId": 2,
+      "paymentQuantity": 4
+    },
+    {
+      "id": "21",
+      "paymentTimestamp": "2024-06-14T14:00:00Z",
+      "paymentTotalPrice": 120000,
+      "userId": 2,
+      "productId": 11,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "22",
+      "paymentTimestamp": "2024-07-15T10:10:10Z",
+      "paymentTotalPrice": 270000,
+      "userId": 3,
+      "productId": 14,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "23",
+      "paymentTimestamp": "2024-07-15T10:10:10Z",
+      "paymentTotalPrice": 150000,
+      "userId": 3,
+      "productId": 20,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "24",
+      "paymentTimestamp": "2024-08-16T16:30:00Z",
+      "paymentTotalPrice": 40000,
+      "userId": 4,
+      "productId": 4,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "25",
+      "paymentTimestamp": "2024-08-16T16:30:00Z",
+      "paymentTotalPrice": 390000,
+      "userId": 4,
+      "productId": 18,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "26",
+      "paymentTimestamp": "2024-09-17T09:00:00Z",
+      "paymentTotalPrice": 40000,
+      "userId": 1,
+      "productId": 13,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "27",
+      "paymentTimestamp": "2024-09-17T09:00:00Z",
+      "paymentTotalPrice": 120000,
+      "userId": 1,
+      "productId": 17,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "28",
+      "paymentTimestamp": "2024-08-18T14:30:00Z",
+      "paymentTotalPrice": 75000,
+      "userId": 2,
+      "productId": 8,
+      "paymentQuantity": 5
+    },
+    {
+      "id": "29",
+      "paymentTimestamp": "2024-08-18T14:30:00Z",
+      "paymentTotalPrice": 280000,
+      "userId": 2,
+      "productId": 19,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "30",
+      "paymentTimestamp": "2024-07-19T11:45:00Z",
+      "paymentTotalPrice": 180000,
+      "userId": 3,
+      "productId": 12,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "31",
+      "paymentTimestamp": "2024-07-19T11:45:00Z",
+      "paymentTotalPrice": 100000,
+      "userId": 3,
+      "productId": 15,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "32",
+      "paymentTimestamp": "2024-09-12T16:20:00Z",
+      "paymentTotalPrice": 16000,
+      "userId": 4,
+      "productId": 1,
+      "paymentQuantity": 4
+    },
+    {
+      "id": "33",
+      "paymentTimestamp": "2024-09-12T16:20:00Z",
+      "paymentTotalPrice": 120000,
+      "userId": 4,
+      "productId": 11,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "34",
+      "paymentTimestamp": "2024-09-12T12:00:00Z",
+      "paymentTotalPrice": 280000,
+      "userId": 1,
+      "productId": 19,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "35",
+      "paymentTimestamp": "2024-06-15T08:00:00Z",
+      "paymentTotalPrice": 10000,
+      "userId": 2,
+      "productId": 6,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "36",
+      "paymentTimestamp": "2024-06-15T08:00:00Z",
+      "paymentTotalPrice": 180000,
+      "userId": 3,
+      "productId": 11,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "37",
+      "paymentTimestamp": "2024-06-15T08:00:00Z",
+      "paymentTotalPrice": 440000,
+      "userId": 4,
+      "productId": 16,
+      "paymentQuantity": 4
+    },
+    {
+      "id": "38",
+      "paymentTimestamp": "2024-09-10T14:00:00Z",
+      "paymentTotalPrice": 40000,
+      "userId": 1,
+      "productId": 4,
+      "paymentQuantity": 2
+    },
+    {
+      "id": "39",
+      "paymentTimestamp": "2024-09-10T14:00:00Z",
+      "paymentTotalPrice": 45000,
+      "userId": 2,
+      "productId": 7,
+      "paymentQuantity": 3
+    },
+    {
+      "id": "40",
+      "paymentTimestamp": "2024-09-10T14:00:00Z",
+      "paymentTotalPrice": 50000,
+      "userId": 3,
+      "productId": 10,
+      "paymentQuantity": 1
+    },
+    {
+      "id": "41",
+      "paymentTimestamp": "2024-09-10T14:00:00Z",
+      "paymentTotalPrice": 40000,
+      "userId": 4,
+      "productId": 8,
+      "paymentQuantity": 2
     }
   ]
 }

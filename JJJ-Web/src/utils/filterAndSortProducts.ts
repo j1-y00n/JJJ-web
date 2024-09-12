@@ -55,18 +55,18 @@ export function filterAndSortProducts({
 
   const sortedProducts = [...ageFilteredProducts].sort((a, b) => {
     switch (activeSorting) {
-      case '최신순':
-        return b.id - a.id;
-      case '가격높은순':
-        return b.productPrice - a.productPrice;
-      case '가격낮은순':
-        return a.productPrice - b.productPrice;
+      case '리뷰많은순':
+        return b.reviewCount - a.reviewCount;
       case '판매량순':
         return a.productSalesCount - b.productSalesCount;
       case '별점순':
         return Number(b.reviewRating) - Number(a.reviewRating);
-      case '리뷰많은순':
-        return b.reviewCount - a.reviewCount;
+      case '가격높은순':
+        return b.productPrice - a.productPrice;
+      case '가격낮은순':
+        return a.productPrice - b.productPrice;
+      case '최신순':
+        return b.id - a.id;
       default:
         return 0;
     }

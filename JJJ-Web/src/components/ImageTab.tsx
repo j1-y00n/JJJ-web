@@ -1,4 +1,5 @@
 import styles from '../styles/components/ImageTab.module.css';
+import noImage from '../assets/images/noImage.png';
 
 interface ImageTabProps {
   images: (string | undefined)[];
@@ -30,7 +31,7 @@ export default function ImageTab({
         {images.map((image, index) => (
           <img
             key={index}
-            src={image}
+            src={image || noImage}
             alt={`img${index}`}
             style={{ height: imgsHeight }}
           />

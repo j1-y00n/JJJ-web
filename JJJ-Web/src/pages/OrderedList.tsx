@@ -1,6 +1,5 @@
 // 신승주
 import styles from '../styles/pages/OrderedList.module.css';
-import balloonImg from '../assets/images/balloon.jpg';
 import {
   Box,
   Button,
@@ -283,9 +282,12 @@ const Order = ({
             >
               <Typography id='modal-modal-title' variant='h6' component='h2'>
                 <div className={styles.modal__details}>
-                  <img src={balloonImg} alt='balloonImg' />
+                  <img
+                    src={product?.productThumbnail}
+                    alt={product?.productTitle}
+                  />
                   <div className={styles.modal__details__container}>
-                    <p>상품명 : 풍선</p>
+                    <p>상품명 : {product?.productTitle}</p>
                     <div className={styles.modal__rating}>
                       <p>평가 : </p>
                       <Stack spacing={1} ml={1}>

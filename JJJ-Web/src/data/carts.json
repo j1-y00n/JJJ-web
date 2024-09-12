@@ -3,50 +3,50 @@
     {
       "id": "1",
       "productId": 1,
-      "cartQuantity": 2,
-      "cartTotalPrice": 10000,
+      "cartQuantity": 1,
+      "cartTotalPrice": 4000,
       "userId": 1
     },
     {
       "id": "2",
       "productId": 2,
-      "cartQuantity": 1,
-      "cartTotalPrice": 15000,
+      "cartQuantity": 2,
+      "cartTotalPrice": 16000,
       "userId": 2
     },
     {
       "id": "3",
       "productId": 3,
       "cartQuantity": 2,
-      "cartTotalPrice": 20000,
+      "cartTotalPrice": 24000,
       "userId": 1
     },
     {
       "id": "4",
       "productId": 6,
-      "cartQuantity": 1,
-      "cartTotalPrice": 8900,
+      "cartQuantity": 2,
+      "cartTotalPrice": 20000,
       "userId": 1
     },
     {
       "id": "5",
       "productId": 8,
-      "cartQuantity": 4,
-      "cartTotalPrice": 80000,
+      "cartQuantity": 6,
+      "cartTotalPrice": 180000,
       "userId": 1
     },
     {
       "id": "6",
       "productId": 10,
-      "cartQuantity": 3,
-      "cartTotalPrice": 30000,
+      "cartQuantity": 2,
+      "cartTotalPrice": 100000,
       "userId": 1
     },
     {
       "id": "7",
       "productId": 13,
       "cartQuantity": 1,
-      "cartTotalPrice": 9900,
+      "cartTotalPrice": 80000,
       "userId": 1
     }
   ]

@@ -19,12 +19,12 @@ export default function Filter() {
   ];
 
   const sorting: string[] = [
-    '최신순',
-    '가격높은순',
-    '가격낮은순',
+    '리뷰많은순',
     '판매량순',
     '별점순',
-    '리뷰많은순',
+    '가격높은순',
+    '가격낮은순',
+    '최신순',
   ];
 
   const { activeAge, activeSorting, setActiveAge, setActiveSorting } =

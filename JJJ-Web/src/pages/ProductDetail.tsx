@@ -55,8 +55,6 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<ProductWithReviews>();
   const [productImages, setProductImages] = useState<ProductImage[]>();
   const [wishListId, setWishListId] = useState<number | undefined>(undefined);
-  console.log(wishListId);
-
   const [currentImg, setCurrentImg] = useState('');
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } =

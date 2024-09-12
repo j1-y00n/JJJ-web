@@ -22,7 +22,7 @@
       "usedProductQuantity": 1,
       "usedProductTransaction": "불가",
       "usedProductIsSold": true,
-      "userId": 1
+      "userId": 2
     },
     {
       "id": "3",
@@ -34,7 +34,7 @@
       "usedProductQuantity": 5,
       "usedProductTransaction": "가능",
       "usedProductIsSold": true,
-      "userId": 1
+      "userId": 3
     },
     {
       "id": "4",
@@ -46,7 +46,7 @@
       "usedProductQuantity": 1,
       "usedProductTransaction": "불가",
       "usedProductIsSold": false,
-      "userId": 1
+      "userId": 4
     },
     {
       "id": "5",
@@ -82,7 +82,7 @@
       "usedProductQuantity": 2,
       "usedProductTransaction": "가능",
       "usedProductIsSold": false,
-      "userId": 1
+      "userId": 2
     },
     {
       "id": "8",
@@ -94,7 +94,7 @@
       "usedProductQuantity": 3,
       "usedProductTransaction": "불가",
       "usedProductIsSold": false,
-      "userId": 1
+      "userId": 3
     },
     {
       "id": "9",
@@ -106,7 +106,7 @@
       "usedProductQuantity": 1,
       "usedProductTransaction": "가능",
       "usedProductIsSold": true,
-      "userId": 2
+      "userId": 4
     },
     {
       "id": "10",
@@ -119,6 +119,198 @@
       "usedProductTransaction": "불가",
       "usedProductIsSold": false,
       "userId": 2
+    },
+    {
+      "id": "11",
+      "usedProductTitle": "원목 교구 세트",
+      "usedProductPrice": 12000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "다양한 원목 교구가 포함된 세트입니다. 사용감이 적고 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": "12",
+      "usedProductTitle": "유아 식탁의자",
+      "usedProductPrice": 10000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "아이들을 위한 유아 식탁의자입니다. 거의 새 상품과 같은 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": true,
+      "userId": 2
+    },
+    {
+      "id": "13",
+      "usedProductTitle": "미니 악기 세트",
+      "usedProductPrice": 8000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "작은 악기들이 포함된 세트입니다. 모두 새 상품과 같은 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 3,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 3
+    },
+    {
+      "id": "14",
+      "usedProductTitle": "놀이용 퍼즐",
+      "usedProductPrice": 7000,
+      "usedProductCondition": "사용감 많음",
+      "usedProductDetail": "아이들이 좋아하는 놀이용 퍼즐입니다. 조각 일부에 사용감이 있지만 전체적으로 양호합니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 4
+    },
+    {
+      "id": "15",
+      "usedProductTitle": "동화책 모음",
+      "usedProductPrice": 9000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "다양한 동화책들이 포함된 세트입니다. 사용감이 적어 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": "16",
+      "usedProductTitle": "야외 놀이기구",
+      "usedProductPrice": 13000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "야외에서 사용할 수 있는 놀이기구입니다. 거의 새 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": true,
+      "userId": 1
+    },
+    {
+      "id": "17",
+      "usedProductTitle": "조작형 장난감",
+      "usedProductPrice": 11000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "아이들이 조작하며 노는 장난감입니다. 사용감이 적고 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 3,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 3
+    },
+    {
+      "id": "18",
+      "usedProductTitle": "공주놀이 세트",
+      "usedProductPrice": 14000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "공주놀이를 위한 다양한 아이템이 포함된 세트입니다. 새 상품과 같은 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 4
+    },
+    {
+      "id": "19",
+      "usedProductTitle": "색상 블록 세트",
+      "usedProductPrice": 6000,
+      "usedProductCondition": "사용감 많음",
+      "usedProductDetail": "색상이 다양한 블록 세트입니다. 사용감이 많지만 여전히 사용할 수 있습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": "20",
+      "usedProductTitle": "유아용 소꿉놀이 세트",
+      "usedProductPrice": 12000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "유아용 소꿉놀이 세트입니다. 사용감이 적어 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 3,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 2
+    },
+    {
+      "id": "21",
+      "usedProductTitle": "레고 기본 세트",
+      "usedProductPrice": 10000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "기본 레고 블록 세트입니다. 거의 새 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 3
+    },
+    {
+      "id": "22",
+      "usedProductTitle": "유아용 교육책",
+      "usedProductPrice": 8000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "유아들이 읽기 좋은 교육책입니다. 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 4
+    },
+    {
+      "id": "23",
+      "usedProductTitle": "모양 맞추기 장난감",
+      "usedProductPrice": 7000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "모양을 맞추는 장난감입니다. 새 상품과 같은 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": false,
+      "userId": 1
+    },
+    {
+      "id": "24",
+      "usedProductTitle": "아이들 그림책 세트",
+      "usedProductPrice": 9000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "아이들이 좋아하는 그림책 세트입니다. 사용감이 적어 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 3,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 2
+    },
+    {
+      "id": "25",
+      "usedProductTitle": "미니 카메라 장난감",
+      "usedProductPrice": 10000,
+      "usedProductCondition": "사용감 없음",
+      "usedProductDetail": "미니 카메라 형태의 장난감입니다. 새 상태입니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 1,
+      "usedProductTransaction": "가능",
+      "usedProductIsSold": true,
+      "userId": 3
+    },
+    {
+      "id": "26",
+      "usedProductTitle": "동물 인형 세트",
+      "usedProductPrice": 11000,
+      "usedProductCondition": "사용감 적음",
+      "usedProductDetail": "다양한 동물 인형이 포함된 세트입니다. 사용감이 적어 상태가 좋습니다.",
+      "usedProductThumbnail": "",
+      "usedProductQuantity": 2,
+      "usedProductTransaction": "불가",
+      "usedProductIsSold": false,
+      "userId": 4
     }
   ]
 }
