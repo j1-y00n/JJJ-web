@@ -48,7 +48,8 @@ export function filterAndSortProducts({
     ? products.filter((product) =>
         productAgeCategories?.some(
           (pac) =>
-            pac.productId === product.id && pac.ageCategoryId === ageCategoryId
+            String(pac.productId) === String(product.id) &&
+            String(pac.ageCategoryId) === String(ageCategoryId)
         )
       )
     : products;

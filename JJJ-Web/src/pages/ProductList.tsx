@@ -38,8 +38,6 @@ export default function ProductList() {
     fetchData();
   }, []);
 
-  console.log(productCategory);
-
   const filterCategory = () => {
     if (categoryName) {
       const findCategoryId = Number(
