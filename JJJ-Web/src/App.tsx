@@ -1,5 +1,5 @@
 // 신승주
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -17,10 +17,19 @@ import FloatingActionButtons from './components/FabIcon';
 import ScrollToTop from './utils/scrollToTop';
 import { ProductStore } from './stores/Product.store';
 import { useEffect } from 'react';
+import { UserStore } from './stores/User.store';
 
 function App() {
   const { isFixed } = FixedStore();
   const { products, fetchProducts } = ProductStore();
+  const location = useLocation();
+  const { setUser } = UserStore();
+
+  useEffect(() => {
+    if (location.state && location.state.user) {
+      setUser(location.state.user);
+    }
+  }, [location.state, setUser]);
 
   useEffect(() => {
     fetchProducts();
