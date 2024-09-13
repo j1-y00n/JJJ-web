@@ -22,6 +22,7 @@ import {
 import { getProducts } from '../services/productServices';
 import { useSelectableList } from '../hooks/useSelectableList';
 import { useNavigate } from 'react-router-dom';
+import { UserStore } from '../stores/User.store';
 
 interface CustomSelectProps {
   allSelected: boolean; // 전체 선택 여부
@@ -150,7 +151,7 @@ export default function Cart() {
   const [products, setProducts] = useState<Product[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const navigate = useNavigate();
-
+  const { user } = UserStore();
   useEffect(() => {
     const fetchCarts = async () => {
       const fetchedCarts = await getCarts();
@@ -164,7 +165,9 @@ export default function Cart() {
     fetchProducts();
   }, []);
 
-  const userFilterCart = carts.filter((cart) => cart.userId === 1);
+  const userFilterCart = carts.filter(
+    (cart) => String(cart.userId) === String(user?.id)
+  );
 
   // deleteItems 함수를 수정하여 선택된 항목들을 삭제
   const deleteItems = async (ids: number[]) => {
@@ -248,10 +251,10 @@ export default function Cart() {
     }
   };
 
-  const TotalPriceOfCarts = carts
+  const TotalPriceOfCarts = userFilterCart
     .map((cart) => cart.cartTotalPrice)
     .reduce((acc, price) => acc + price, 0);
-  const TotalNumberOfCarts = carts.length;
+  const TotalNumberOfCarts = userFilterCart.length;
 
   return (
     <div className='flex__container'>

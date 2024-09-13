@@ -28,8 +28,7 @@ export default function SignIn() {
         return;
       }
 
-      alert(`로그인 성공!! ${user?.userName}님!! `);
-      navigate('/', { state: user });
+      navigate('/', { state: { user } });
       setLoginId('');
       setPassword('');
     } catch (error) {

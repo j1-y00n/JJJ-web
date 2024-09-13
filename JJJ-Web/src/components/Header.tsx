@@ -3,17 +3,14 @@ import styles from '../styles/components/Header.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import LogoImg from '../assets/images/logo.png';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FixedStore } from '../stores/Fixed.store';
+import { UserStore } from '../stores/User.store';
 
 interface IPages {
   [key: string]: string;
-}
-
-interface User {
-  userName: string | null;
 }
 
 const links: string[] = [
@@ -36,9 +33,8 @@ const pages: IPages = {
 
 export default function Header() {
   const navigate = useNavigate();
-
   const { isFixed, setIsFixed } = FixedStore();
-  const [user, setUser] = useState<User>({ userName: null });
+  const { user, clearUser } = UserStore();
 
   const handleScroll = () => {
     if (window.scrollY > 79) {
@@ -89,10 +85,17 @@ export default function Header() {
             />
           </li>
 
-          {/* nav__icons 안의 nav__auto에 absolute 적용 */}
-          {user.userName ? (
+          {user ? (
             <ul className={styles.login__auth}>
-              {user.userName}님 안녕하세요!
+              <li onClick={() => navigate('/myPage')}>{user.userName}님</li>
+              <li
+                onClick={() => {
+                  navigate('/');
+                  clearUser();
+                }}
+              >
+                로그아웃
+              </li>
             </ul>
           ) : (
             <ul className={styles.nav__auth}>
@@ -100,11 +103,6 @@ export default function Header() {
               <li onClick={() => navigate('/signUp')}>회원가입</li>
             </ul>
           )}
-
-          {/* <ul className={styles.nav__auth}>
-            <li onClick={() => navigate('/signIn')}>로그인</li>
-            <li onClick={() => navigate('/signUp')}>회원가입</li>
-          </ul> */}
         </ul>
       </nav>
     </header>
