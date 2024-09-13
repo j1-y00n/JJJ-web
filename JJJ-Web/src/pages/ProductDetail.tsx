@@ -13,7 +13,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ProductStore } from '../stores/Product.store';
 import { useCounter } from '../hooks/useCounter';
 import useActiveState from '../hooks/useActiveState';
@@ -47,11 +47,14 @@ import {
   getWishLists,
   getWishListsQuery,
 } from '../services/wishListServices';
+import { UserStore } from '../stores/User.store';
 
 export default function ProductDetail() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { productId } = useParams();
   const { products } = ProductStore();
-  const userId = 1;
+  const { user } = UserStore();
   const [product, setProduct] = useState<ProductWithReviews>();
   const [productImages, setProductImages] = useState<ProductImage[]>();
   const [wishListId, setWishListId] = useState<number | undefined>(undefined);
@@ -59,7 +62,6 @@ export default function ProductDetail() {
   const { count, setCounter, increaseCounter, decreaseCounter } = useCounter(1);
   const { activeState, handleStateChange, handleToggle } =
     useActiveState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +78,7 @@ export default function ProductDetail() {
         );
         setProductImages(productImages);
         const isProductInWishlist = await getWishListsQuery(
-          `userId=${userId}&productId=${productId}`
+          `userId=${user?.id}&productId=${productId}`
         );
         if (isProductInWishlist.length > 0) {
           handleStateChange(true);
@@ -135,8 +137,11 @@ export default function ProductDetail() {
   // 장바구니에 제품 추가
   const handleAddToCart = async (productId: number) => {
     if (!product) {
-      console.error('제품이 없습니다');
+      alert('제품이 없습니다');
       return;
+    }
+    if (!user) {
+      return navigate('/signIn', { state: pathname });
     }
     try {
       const carts = await getCarts();
@@ -154,7 +159,7 @@ export default function ProductDetail() {
           productId,
           cartQuantity: count,
           cartTotalPrice: totalPrice || 0,
-          userId,
+          userId: Number(user.id),
         };
         await createCartProduct(newCart);
       }
@@ -166,6 +171,9 @@ export default function ProductDetail() {
 
   // 찜 목록에 추가 및 삭제가 토글로 작동함
   const handleUpdateWishLists = async (productId: number) => {
+    if (!user) {
+      return navigate('/signIn', { state: pathname });
+    }
     try {
       if (wishListId) {
         await deleteWishList(wishListId);
@@ -175,7 +183,7 @@ export default function ProductDetail() {
         const newWishList = {
           id: getNextId(wishLists),
           productId,
-          userId,
+          userId: Number(user.id),
         };
         await createWishList(newWishList);
         setWishListId(Number(newWishList.id));
