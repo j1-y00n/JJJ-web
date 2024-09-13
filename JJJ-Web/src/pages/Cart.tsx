@@ -250,11 +250,11 @@ export default function Cart() {
       console.error('FAIL to update cart quantity', error);
     }
   };
-
   const TotalPriceOfCarts = userFilterCart
+    .filter((cart) => selectedIds.has(cart.id))
     .map((cart) => cart.cartTotalPrice)
     .reduce((acc, price) => acc + price, 0);
-  const TotalNumberOfCarts = userFilterCart.length;
+  const TotalNumberOfCarts = selectedIds.size;
 
   return (
     <div className='flex__container'>
