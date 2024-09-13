@@ -3,7 +3,7 @@ import styles from '../styles/components/Header.module.css';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import LogoImg from '../assets/images/logo.png';
 import { useEffect } from 'react';
 import { FixedStore } from '../stores/Fixed.store';
@@ -79,7 +79,14 @@ export default function Header() {
               sx={{ fontSize: 'var(--font-size-large)' }}
             />
           </li>
-          <li onClick={() => navigate('/Cart')}>
+          <li
+            onClick={() => {
+              if (!user) {
+                return navigate('/signIn', { state: '/Cart' });
+              }
+              navigate('/Cart');
+            }}
+          >
             <ShoppingBagOutlinedIcon
               sx={{ fontSize: 'var(--font-size-large)' }}
             />

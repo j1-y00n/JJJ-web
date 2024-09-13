@@ -129,7 +129,7 @@
     {
       "id": "15",
       "productTitle": "우주 탐험가 의상",
-      "productPrice": 100000,
+      "productPrice": 40000,
       "productThumbnail": "https://img.freepik.com/free-photo/medium-shot-female-astronaut-wearing-spacesuit_23-2150417573.jpg?ga=GA1.1.1316805051.1725003005&semt=ais_hybrid",
       "productStock": 100,
       "productSalesPrice": 80000,
@@ -138,7 +138,7 @@
     {
       "id": "16",
       "productTitle": "무지개 연",
-      "productPrice": 110000,
+      "productPrice": 10000,
       "productThumbnail": "https://img.freepik.com/free-vector/rainbows-collection-different-shapes_23-2147815723.jpg?ga=GA1.1.1316805051.1725003005&semt=ais_hybrid",
       "productStock": 150,
       "productSalesPrice": 88000,
@@ -174,7 +174,7 @@
     {
       "id": "20",
       "productTitle": "컬러풀 쌓기컵",
-      "productPrice": 150000,
+      "productPrice": 30000,
       "productThumbnail": "https://img.freepik.com/premium-photo/3d-cup-pack_1273023-52843.jpg?ga=GA1.1.1316805051.1725003005&semt=ais_hybrid",
       "productStock": 120,
       "productSalesPrice": 120000,

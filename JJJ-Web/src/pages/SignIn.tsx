@@ -1,8 +1,8 @@
 // 신승주
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/pages/SingIn.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../components/Header';
 import { Button, FormControlLabel, FormGroup, Switch } from '@mui/material';
 import { getUsers } from '../services/userServices';
@@ -10,6 +10,7 @@ import { User } from '../types/type';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<string | undefined>(undefined);
@@ -28,7 +29,11 @@ export default function SignIn() {
         return;
       }
 
-      navigate('/', { state: { user } });
+      if (state) {
+        navigate(state, { state: { user } });
+      } else {
+        navigate('/', { state: { user } });
+      }
       setLoginId('');
       setPassword('');
     } catch (error) {

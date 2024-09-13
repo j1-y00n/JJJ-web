@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useInput } from '../hooks/useInput';
 import { useOpenModal } from '../hooks/useOpenModal';
@@ -30,6 +30,7 @@ import {
   getReviews,
 } from '../services/reviewServices';
 import { getNextId } from '../services/commonServices';
+import { UserStore } from '../stores/User.store';
 
 type PaymentGroupType = { [key: string]: Payment[] };
 
@@ -40,16 +41,21 @@ interface sortedPaymentsProps {
 }
 
 export default function OrderedList() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { value, handleInputChange } = useInput('');
   const [payments, setPayments] = useState<Payment[]>([]);
   const [sortedLatestOrders, setSortedLatestOrders] = useState<
     sortedPaymentsProps[]
   >([]);
-  const userId = 1;
+  const { user } = UserStore();
   useEffect(() => {
     const fetchData = async () => {
       // 로그인된 유저의 아이디
-      const payments = await getPaymentsByUserId(userId);
+      if (!user) {
+        return navigate('/signIn', { state: pathname });
+      }
+      const payments = await getPaymentsByUserId(Number(user.id));
       setPayments(payments);
       const paymentGroups: PaymentGroupType = {};
       payments.forEach((payment) => {
@@ -61,7 +67,7 @@ export default function OrderedList() {
       });
 
       const groupedOrders = Object.keys(paymentGroups).map((timestamp) => ({
-        orderId: `${userId}-${new Date(timestamp).getTime()}`,
+        orderId: `${user.id}-${new Date(timestamp).getTime()}`,
         orderTimestamp: new Date(timestamp).toLocaleString(),
         payments: paymentGroups[timestamp],
       }));
