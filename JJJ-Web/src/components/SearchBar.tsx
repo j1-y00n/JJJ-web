@@ -31,6 +31,7 @@ export default function SearchBar() {
           onKeyDown={handleKeyDown}
         />
         <IconButton
+          className='round'
           color='secondary'
           onClick={handleSearch}
           sx={{

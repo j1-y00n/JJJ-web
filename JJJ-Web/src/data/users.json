@@ -2,7 +2,7 @@
   "users": [
     {
       "id": "1",
-      "userLoginId": "seungju",
+      "userLoginId": "seungju123",
       "userPassword": "seungju123",
       "userName": "신승주",
       "userPhone": "010-9999-9999",
@@ -16,7 +16,7 @@
     },
     {
       "id": "2",
-      "userLoginId": "jiyoon",
+      "userLoginId": "jiyoon123",
       "userPassword": "jiyoon123",
       "userName": "변지윤",
       "userPhone": "010-1111-1111",
@@ -30,7 +30,7 @@
     },
     {
       "id": "3",
-      "userLoginId": "yongjae",
+      "userLoginId": "yongjae123",
       "userPassword": "yongjae123",
       "userName": "박용재",
       "userPhone": "010-5555-5555",
@@ -44,7 +44,7 @@
     },
     {
       "id": "4",
-      "userLoginId": "example",
+      "userLoginId": "example123",
       "userPassword": "example123",
       "userName": "exampleUser",
       "userPhone": "010-1234-5678",

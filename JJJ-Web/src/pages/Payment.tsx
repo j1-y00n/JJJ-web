@@ -20,16 +20,43 @@ import Footer from '../components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { regexPayment } from '../constants/regex';
 import { getUserById } from '../services/userServices';
-import { User } from '../types/type';
+import { Cart, Product, User } from '../types/type';
 import { createPayment, getPayments } from '../services/paymentServices';
 import { getNextId } from '../services/commonServices';
 import {
   getUsedProductById,
   updateUsedProduct,
 } from '../services/usedProductServices';
+import { UserStore } from '../stores/User.store';
+import { getProductById } from '../services/productServices';
+import { deleteCart } from '../services/cartServices';
 
 export default function Payment() {
+  const navigate = useNavigate();
   const location = useLocation();
+  const { pathname } = useLocation();
+  const { user } = UserStore();
+
+  // Cart.tsx로 부터 받아올 때
+  const [products, setProducts] = useState<Product[]>([]);
+  let { carts } = location.state;
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (carts) {
+        try {
+          const productPromises = carts.map((cart: Cart) =>
+            getProductById(cart.productId)
+          );
+          const ProductsFromCarts = await Promise.all(productPromises);
+          setProducts(ProductsFromCarts);
+        } catch (error) {
+          console.error('Failed to fetch products:', error);
+        }
+      }
+    };
+
+    fetchProducts();
+  }, [carts]);
 
   // productDetail.tsx로 부터 받아올 때
   let { product, count, totalPrice } = location.state;
@@ -44,24 +71,13 @@ export default function Payment() {
     usedProductTotalPrice,
   } = location.state;
 
-  // Cart.tsx로 부터 받아올 때 - (팀원 작업을 기다리는 중)
-
+  // 카트에서 온 경우 결제 금액
+  const cartsTotalPrice = carts
+    .map((cart: Cart) => cart.cartTotalPrice)
+    .reduce((acc: number, price: number) => acc + price, 0);
   // 총 결제 금액
-  let totalPaymentAmount = totalPrice || usedProductTotalPrice;
-  // userId 가져옴
-  const userId = 1;
-  const [user, setUser] = useState<User>();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = await getUserById(userId);
-        setUser(user);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [userId]);
+  let totalPaymentAmount =
+    cartsTotalPrice || totalPrice || usedProductTotalPrice;
 
   const [deliveryMemo, setDeliveryMemo] = useState('0');
   const [customMemo, setCustomMemo] = useState('');
@@ -104,9 +120,9 @@ export default function Payment() {
     setIsPay(false);
     handleWhereToGo();
   };
-  const navigate = useNavigate();
+
   const handleWhereToGo = () => {
-    if (product) {
+    if (product || carts) {
       navigate('/myPage');
     } else if (usedProductId) {
       navigate('/usedProductList');
@@ -115,39 +131,74 @@ export default function Payment() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!user) {
+      return navigate('/', { state: pathname });
+    }
     let tempErrors = '';
     let isValid = true;
-    try {
-      // 디테일 페이지 경로를 통해 구매
-      if (product) {
+
+    // 장바구니에서 구매 - 코드 작성해야 함
+    if (carts) {
+      try {
+        const payments = await getPayments();
+        let nextId = Number(getNextId(payments));
+        const paymentPromises = carts.map((cart: Cart) => {
+          const newPayment = {
+            id: String(nextId++),
+            paymentTimestamp: new Date().toISOString().slice(0, -5) + 'Z',
+            paymentTotalPrice: Number(cart.cartTotalPrice),
+            userId: Number(cart.userId),
+            productId: Number(cart.productId),
+            paymentQuantity: Number(cart.cartQuantity),
+          };
+          return createPayment(newPayment).then(() => {
+            return deleteCart(cart.id);
+          });
+        });
+
+        await Promise.all(paymentPromises);
+        handleClosePayModal();
+        handlePayProcess();
+      } catch (error) {
+        console.error('장바구니에서 결제하기 실패', error);
+      }
+    }
+
+    // 디테일 페이지 경로를 통해 구매
+    if (product) {
+      try {
         const payments = await getPayments();
         const newPayment = {
           id: getNextId(payments),
           paymentTimestamp: new Date().toISOString().slice(0, -5) + 'Z',
           paymentTotalPrice: Number(totalPrice),
-          userId,
+          userId: Number(user.id),
           productId: Number(product.id),
           paymentQuantity: Number(count),
         };
         await createPayment(newPayment);
+        handleClosePayModal();
+        handlePayProcess();
+      } catch (error) {
+        console.error('디테일 페이지에서 결제하기 실패', error);
       }
+    }
 
-      // 중고 상품에서 구매
-      // 주문 내역에 포함은 안됨
-      // 판매 유저의 상품이 판매중 -> 판매 완료로 수정됨
-      if (usedProductId) {
+    // 중고 상품에서 구매
+    // 주문 내역에 포함은 안됨
+    // 판매 유저의 상품이 판매중 -> 판매 완료로 수정됨
+    if (usedProductId) {
+      try {
         const makeUsedProductAsSold = {
           usedProductIsSold: true,
         };
         await updateUsedProduct(usedProductId, makeUsedProductAsSold);
+        handleClosePayModal();
+        handlePayProcess();
+      } catch (error) {
+        console.error('중고상품에서 결제하기 실패', error);
       }
-
-      // 카트에서 구매 - 코드 작성해야 함
-
-      handleClosePayModal();
-      handlePayProcess();
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -245,6 +296,20 @@ export default function Payment() {
                 총 결제금액 : {totalPaymentAmount}원
               </div>
               {/* 장바구니에서 구매한 경우 */}
+              {carts &&
+                products.map((product, index) => {
+                  const cart = carts[index];
+                  return (
+                    <DeliveryProduct
+                      key={cart.id}
+                      productTitle={product.productTitle}
+                      productPrice={product.productPrice}
+                      productThumbnail={product.productThumbnail}
+                      numberOfPurchases={cart.cartQuantity}
+                      totalPrice={cart.cartTotalPrice}
+                    />
+                  );
+                })}
               {/* 제품 상세 페이지에서 구매한 경우 */}
               {product && (
                 <DeliveryProduct

@@ -21,16 +21,18 @@ import {
 } from '../services/usedProductServices';
 import { getUserById } from '../services/userServices';
 import noImage from '../assets/images/noImage.png';
+import { UserStore } from '../stores/User.store';
 
 export default function UsedProductList() {
   const navigate = useNavigate();
   const [usedProducts, setUsedProducts] = useState<UsedProduct[]>([]);
+  const { user } = UserStore();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const usedProducts = await getUsedProducts();
-        setUsedProducts(usedProducts);
+        setUsedProducts([...usedProducts].reverse());
       } catch (error) {
         console.error(error);
       }
@@ -42,15 +44,26 @@ export default function UsedProductList() {
     <div className='flex__container'>
       <Header />
       <Button
-        onClick={() => navigate('/createUsedProduct')}
+        onClick={() => {
+          if (!user) {
+            return navigate('/signIn', { state: '/createUsedProduct' });
+          }
+          navigate('/createUsedProduct');
+        }}
         sx={{ marginLeft: '1060px' }}
       >
         중고 상품 등록 +
       </Button>
       <div className={styles.products__container}>
-        {usedProducts.map((usedProduct) => (
-          <UsedProductComponent key={usedProduct.id} {...usedProduct} />
-        ))}
+        {usedProducts.length > 0 ? (
+          usedProducts.map((usedProduct) => (
+            <UsedProductComponent key={usedProduct.id} {...usedProduct} />
+          ))
+        ) : (
+          <div className={styles.no__product}>
+            <h3>이용 가능한 상품이 없습니다</h3>
+          </div>
+        )}
       </div>
       <Footer />
     </div>
