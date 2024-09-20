@@ -1,5 +1,5 @@
 // 신승주
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -22,14 +22,24 @@ import { UserStore } from './stores/User.store';
 function App() {
   const { isFixed } = FixedStore();
   const { products, fetchProducts } = ProductStore();
-  const location = useLocation();
   const { setUser } = UserStore();
+  const location = useLocation();
 
+  // 사용자 정보를 전역에 저장
   useEffect(() => {
     if (location.state && location.state.user) {
       setUser(location.state.user);
     }
   }, [location.state, setUser]);
+
+  // 새로고침해도 로그인 상태 유지
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUser(user);
+    }
+  }, [setUser]);
 
   useEffect(() => {
     fetchProducts();
