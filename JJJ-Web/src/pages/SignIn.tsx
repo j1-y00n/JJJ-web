@@ -14,6 +14,7 @@ export default function SignIn() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<string | undefined>(undefined);
+  const [isRememberLogin, setIsRememberLogin] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +28,10 @@ export default function SignIn() {
         setErrors(`아이디 또는 비밀번호를 잘못 입력했습니다.
           입력하신 내용을 다시 확인해주세요.`);
         return;
+      }
+
+      if (isRememberLogin) {
+        localStorage.setItem('user', JSON.stringify(user));
       }
 
       if (state) {
@@ -91,7 +96,15 @@ export default function SignIn() {
               marginLeft: '40px',
             }}
           >
-            <FormControlLabel control={<Switch />} label='로그인 상태 유지' />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isRememberLogin}
+                  onChange={() => setIsRememberLogin(!isRememberLogin)}
+                />
+              }
+              label='로그인 상태 유지'
+            />
           </FormGroup>
 
           <div className={styles.button__container}>

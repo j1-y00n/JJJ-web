@@ -99,6 +99,7 @@ export default function Header() {
                 onClick={() => {
                   navigate('/');
                   clearUser();
+                  localStorage.removeItem('user');
                 }}
               >
                 로그아웃
