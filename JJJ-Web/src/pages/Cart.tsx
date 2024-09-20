@@ -155,7 +155,7 @@ export default function Cart() {
   useEffect(() => {
     const fetchCarts = async () => {
       const fetchedCarts = await getCarts();
-      setCarts(fetchedCarts);
+      setCarts([...fetchedCarts].reverse());
     };
     const fetchProducts = async () => {
       const fetchedProducts = await getProducts();
@@ -250,11 +250,11 @@ export default function Cart() {
       console.error('FAIL to update cart quantity', error);
     }
   };
-  const TotalPriceOfCarts = userFilterCart
-    .filter((cart) => selectedIds.has(cart.id))
+  const toPayCarts = userFilterCart.filter((cart) => selectedIds.has(cart.id));
+  const totalPriceOfCarts = toPayCarts
     .map((cart) => cart.cartTotalPrice)
     .reduce((acc, price) => acc + price, 0);
-  const TotalNumberOfCarts = selectedIds.size;
+  const totalNumberOfCarts = selectedIds.size;
 
   return (
     <div className='flex__container'>
@@ -271,93 +271,102 @@ export default function Cart() {
 
         {/* 상품리스트 */}
         <div className={styles.cart__list__container}>
-          {userFilterCart.map((item) => {
-            const product = products.find(
-              (p) => Number(p.id) === Number(item.productId)
-            );
+          {userFilterCart.length > 0 ? (
+            userFilterCart.map((item) => {
+              const product = products.find(
+                (p) => Number(p.id) === Number(item.productId)
+              );
 
-            if (!product) {
-              return;
-            }
-            return (
-              <div className={styles.list__container__inner} key={item.id}>
-                <CustomProduct
-                  product={product}
-                  handleDeleteCart={() => deleteItems([item.id])}
-                  isChecked={selectedIds.has(item.id)}
-                  handleCheck={() => handleCheck(item.id)}
-                />
+              if (!product) {
+                return;
+              }
+              return (
+                <div className={styles.list__container__inner} key={item.id}>
+                  <CustomProduct
+                    product={product}
+                    handleDeleteCart={() => deleteItems([item.id])}
+                    isChecked={selectedIds.has(item.id)}
+                    handleCheck={() => handleCheck(item.id)}
+                  />
 
-                <div className={styles.list__quantity}>
-                  <div className={styles.title__font}>상품 주문 수량</div>
-                  <div>
-                    <IconButton
-                      className={styles.btn__quantity}
-                      onClick={() =>
-                        handleQuantityChange(
-                          item.id,
-                          Math.max(item.cartQuantity - 1, 1),
-                          product
-                        )
-                      }
-                    >
-                      <RemoveIcon sx={{ fontSize: '18px' }} />
-                    </IconButton>
-                    <TextField
-                      id='outlined'
-                      type='text'
-                      value={item.cartQuantity}
-                      onChange={(e) =>
-                        handleChange(
-                          e as React.ChangeEvent<HTMLInputElement>,
-                          item.id,
-                          product
-                        )
-                      }
-                      onBlur={() =>
-                        handleBlur(item.cartQuantity, item.id, product)
-                      }
-                      InputProps={{
-                        sx: {
-                          padding: '0 !important',
-                          width: '50px',
-                          height: '28px',
-                          margin: '0 5px',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'center',
+                  <div className={styles.list__quantity}>
+                    <div className={styles.title__font}>상품 주문 수량</div>
+                    <div>
+                      <IconButton
+                        className={styles.btn__quantity}
+                        onClick={() =>
+                          handleQuantityChange(
+                            item.id,
+                            Math.max(item.cartQuantity - 1, 1),
+                            product
+                          )
+                        }
+                      >
+                        <RemoveIcon sx={{ fontSize: '18px' }} />
+                      </IconButton>
+                      <TextField
+                        id='outlined'
+                        type='text'
+                        value={item.cartQuantity}
+                        onChange={(e) =>
+                          handleChange(
+                            e as React.ChangeEvent<HTMLInputElement>,
+                            item.id,
+                            product
+                          )
+                        }
+                        onBlur={() =>
+                          handleBlur(item.cartQuantity, item.id, product)
+                        }
+                        InputProps={{
+                          sx: {
+                            padding: '0 !important',
+                            width: '50px',
+                            height: '28px',
+                            margin: '0 5px',
+                            '& .MuiInputBase-input': {
+                              textAlign: 'center',
+                            },
                           },
-                        },
-                      }}
-                    />
-                    <IconButton
-                      className={styles.btn__quantity}
-                      onClick={() =>
-                        handleQuantityChange(
-                          item.id,
-                          item.cartQuantity + 1,
-                          product
-                        )
-                      }
-                    >
-                      <AddIcon sx={{ fontSize: '18px' }} />
-                    </IconButton>
+                        }}
+                      />
+                      <IconButton
+                        className={styles.btn__quantity}
+                        onClick={() =>
+                          handleQuantityChange(
+                            item.id,
+                            item.cartQuantity + 1,
+                            product
+                          )
+                        }
+                      >
+                        <AddIcon sx={{ fontSize: '18px' }} />
+                      </IconButton>
+                    </div>
+                  </div>
+
+                  <div className={styles.list__price}>
+                    <div className={styles.title__font}>상품금액</div>
+                    <div className={styles.context__font}>
+                      {product && product.productPrice * item.cartQuantity} 원
+                    </div>
+                  </div>
+
+                  <div className={styles.list__delivery}>
+                    <div className={styles.title__font}>배송비</div>
+                    <div className={styles.context__font}>무료</div>
                   </div>
                 </div>
-
-                <div className={styles.list__price}>
-                  <div className={styles.title__font}>상품금액</div>
-                  <div className={styles.context__font}>
-                    {product && product.productPrice * item.cartQuantity} 원
-                  </div>
-                </div>
-
-                <div className={styles.list__delivery}>
-                  <div className={styles.title__font}>배송비</div>
-                  <div className={styles.context__font}>무료</div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <div className={styles.no__cart}>
+              <h3>장바구니에 담긴 상품이 없습니다</h3>
+              <Button onClick={() => navigate('/')} sx={{ mt: 3 }}>
+                쇼핑하러 가기
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -369,13 +378,13 @@ export default function Cart() {
       <div className={styles.fixed__container}>
         <div className={styles.fixed__inner}>
           <div className={styles.fixed__price}>
-            총 {TotalNumberOfCarts}건 주문금액 {TotalPriceOfCarts}원
+            총 {totalNumberOfCarts}건 주문금액 {totalPriceOfCarts}원
           </div>
           <Button
             className={styles.fixed__order}
             onClick={() =>
               navigate('/payment', {
-                state: { carts },
+                state: { carts: toPayCarts },
               })
             }
           >

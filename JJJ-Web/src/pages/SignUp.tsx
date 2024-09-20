@@ -25,6 +25,7 @@ import {
 import { User } from '../types/type';
 import { createUser, getUsers } from '../services/userServices';
 import { getNextId } from '../services/commonServices';
+import { error } from 'console';
 
 interface UserForm extends Omit<User, 'id'> {
   passwordCheck: string;
@@ -87,6 +88,7 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState<ErrorForm>(initialError);
+  const [isDuplicateChecked, setIsDuplicateChecked] = useState(false);
 
   // 정규식을 이용한 검증
   const validateId = (userLoginId: string): boolean => {
@@ -159,7 +161,9 @@ export default function SignUp() {
       }
     });
     setErrors(tempErrors);
-
+    if (userLoginId && !isDuplicateChecked) {
+      alert('중복 확인 버튼을 클릭하여 주세요');
+    }
     if (isValid) {
       const users = await getUsers();
       const newUser = {
@@ -192,6 +196,11 @@ export default function SignUp() {
   ) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
+
+    // 아이디를 바꾸면 중복확인 기능을 해야하도록 작성
+    if (name === 'userLoginId') {
+      setIsDuplicateChecked(false);
+    }
 
     // 에러 메세지가 있는 경우에만 작동
     // 실시간 input 검증
@@ -276,6 +285,22 @@ export default function SignUp() {
     setIsFindModalOpen(false);
   };
 
+  // 중복 확인
+  const checkDuplicate = async () => {
+    if (errors.userLoginId || !userLoginId) {
+      return alert(errorMessages.userLoginId);
+    }
+    const users = await getUsers();
+    const user = users.find((user) => user.userLoginId === userLoginId);
+
+    if (user) {
+      alert('이미 존재하는 아이디 입니다.');
+    } else {
+      alert('사용 가능한 아이디 입니다.');
+      setIsDuplicateChecked(true);
+    }
+  };
+
   return (
     <div className='flex__container'>
       <Logo />
@@ -301,6 +326,7 @@ export default function SignUp() {
               </div>
               <Button
                 color='info'
+                onClick={checkDuplicate}
                 sx={{
                   position: 'absolute',
                   borderRadius: '10px',
