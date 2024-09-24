@@ -73,7 +73,7 @@ export default function Payment() {
 
   // 카트에서 온 경우 결제 금액
   const cartsTotalPrice = carts
-    .map((cart: Cart) => cart.cartTotalPrice)
+    ?.map((cart: Cart) => cart.cartTotalPrice)
     .reduce((acc: number, price: number) => acc + price, 0);
   // 총 결제 금액
   let totalPaymentAmount =

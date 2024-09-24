@@ -3,7 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import styles from '../styles/pages/UsedProductList.module.css';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -14,8 +14,9 @@ import { ModalCart } from '../components/ModalCart';
 import { useOpenModal } from '../hooks/useOpenModal';
 import ClearIcon from '@mui/icons-material/Clear';
 import ModalIsDelete from '../components/ModalIsDelete';
-import { UsedProduct } from '../types/type';
+import { UsedProduct, User } from '../types/type';
 import {
+  deleteUsedProduct,
   getUsedProductImages,
   getUsedProducts,
 } from '../services/usedProductServices';
@@ -38,7 +39,18 @@ export default function UsedProductList() {
       }
     };
     fetchData();
-  }, []);
+  }, [usedProducts]);
+
+  // 중고 상품 삭제
+  const handleDeleteUsedProduct = async (id: number) => {
+    try {
+      await deleteUsedProduct(id);
+      alert('SUCCESS usedProduct delete');
+    } catch (error) {
+      console.error(error);
+      alert('FAIL usedProduct delete');
+    }
+  };
 
   return (
     <div className='flex__container'>
@@ -57,7 +69,14 @@ export default function UsedProductList() {
       <div className={styles.products__container}>
         {usedProducts.length > 0 ? (
           usedProducts.map((usedProduct) => (
-            <UsedProductComponent key={usedProduct.id} {...usedProduct} />
+            <UsedProductComponent
+              key={usedProduct.id}
+              {...usedProduct}
+              handleDeleteUsedProduct={() =>
+                handleDeleteUsedProduct(usedProduct.id)
+              }
+              user={user}
+            />
           ))
         ) : (
           <div className={styles.no__product}>
@@ -70,6 +89,11 @@ export default function UsedProductList() {
   );
 }
 
+interface UsedProductComponentProps extends UsedProduct {
+  handleDeleteUsedProduct: () => void;
+  user: User | null;
+}
+
 function UsedProductComponent({
   id: usedProductId,
   usedProductTitle,
@@ -78,23 +102,25 @@ function UsedProductComponent({
   usedProductDetail,
   usedProductThumbnail,
   usedProductQuantity,
-  usedProductIsSold,
   usedProductTransaction,
+  usedProductIsSold,
   userId: sellerUserId,
-}: UsedProduct) {
+  handleDeleteUsedProduct,
+  user,
+}: UsedProductComponentProps) {
   const [usedProductImages, setUsedProductImages] = useState<string[]>([]);
   const [sellerLoginId, setSellerLoginId] = useState<string>('');
   const { activeState, handleStateChange, handleToggle } =
     useActiveState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const userId = 2;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const usedProductImagesArray = await getUsedProductImages();
         const currentUsedProductImages = usedProductImagesArray.filter(
-          (item) => item.usedProductId === Number(usedProductId)
+          (item) => item.usedProductId === usedProductId
         );
         const imageUrls = currentUsedProductImages.map(
           (images) => images.imageUrl
@@ -137,8 +163,13 @@ function UsedProductComponent({
     setCurrentImg(value.src);
   };
 
-  const checkIfMyProductThenNav = () => {
-    if (userId === sellerUserId) {
+  const handlePurchase = () => {
+    if (!user) {
+      return navigate('/signIn', {
+        state: { pathname },
+      });
+    }
+    if (String(user.id) === String(sellerUserId)) {
       alert('내가 올린 상품입니다.');
       return;
     }
@@ -153,6 +184,7 @@ function UsedProductComponent({
       },
     });
   };
+
   if (usedProductIsSold) return null;
   return (
     <div className={styles.item__container}>
@@ -167,7 +199,7 @@ function UsedProductComponent({
           <div className={styles.info__container}>
             <div className={styles.item__user}>
               <div>{sellerLoginId}</div>
-              {usedProductId && (
+              {String(user?.id) === String(sellerUserId) && (
                 <IconButton
                   onClick={isDelete.handleOpenModal}
                   sx={{ padding: '2px' }}
@@ -178,6 +210,7 @@ function UsedProductComponent({
               <ModalIsDelete
                 isOpen={isDelete.isOpen}
                 handleCloseModal={isDelete.handleCloseModal}
+                handleDeleteContent={handleDeleteUsedProduct}
               />
             </div>
             <div className={styles.item__title}>{usedProductTitle}</div>
@@ -225,7 +258,7 @@ function UsedProductComponent({
             </IconButton>
             <Button
               color='secondary'
-              onClick={checkIfMyProductThenNav}
+              onClick={handlePurchase}
               sx={{ padding: '5px', marginLeft: '20px' }}
             >
               구매하기
