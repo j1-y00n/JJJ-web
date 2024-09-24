@@ -1,6 +1,6 @@
 // Users 테이블
 export interface User {
-  id: string;
+  id: number;
   userLoginId: string;
   userPassword: string;
   userName: string;
@@ -146,6 +146,6 @@ export interface UsedProductImage {
 
 // Slider Images
 export interface SliderImages {
-  id: string;
+  id: number;
   imageUrl: string;
 }

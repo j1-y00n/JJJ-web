@@ -22,10 +22,12 @@ import {
 } from '../services/usedProductServices';
 import { useNavigate } from 'react-router-dom';
 import noImage from '../assets/images/noImage.png';
+import { UserStore } from '../stores/User.store';
 
 export default function CreateUsedProduct() {
   const navigate = useNavigate();
   const formRef = useRef<HTMLFormElement>(null);
+  const { user } = UserStore();
 
   const [usedProducts, setUsedProducts] = useState<UsedProduct[]>();
 
@@ -38,7 +40,7 @@ export default function CreateUsedProduct() {
     usedProductQuantity: 1,
     usedProductTransaction: '가능',
     usedProductIsSold: false,
-    userId: 1,
+    userId: Number(user?.id),
   });
 
   useEffect(() => {

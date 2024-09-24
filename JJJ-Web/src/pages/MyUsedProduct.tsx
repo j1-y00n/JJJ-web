@@ -12,6 +12,7 @@ import {
   getUsedProducts,
 } from '../services/usedProductServices';
 import { useNavigate } from 'react-router-dom';
+import { UserStore } from '../stores/User.store';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -91,7 +92,7 @@ const CustomMyUsedItem = ({
 export default function MyUsedProduct() {
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
-
+  const { user } = UserStore();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -101,7 +102,9 @@ export default function MyUsedProduct() {
   useEffect(() => {
     const fetchUsedProducts = async () => {
       const fetchedUsedProducts = await getUsedProducts();
-      const filterUser = fetchedUsedProducts.filter((i) => i.userId === 1);
+      const filterUser = fetchedUsedProducts.filter(
+        (i) => Number(i.userId) === Number(user?.id)
+      );
       setUsedProducts([...filterUser].reverse());
     };
     fetchUsedProducts();

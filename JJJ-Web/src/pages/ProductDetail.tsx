@@ -26,6 +26,7 @@ import {
   ProductWithReviews,
   Review,
   ReviewImage,
+  User,
 } from '../types/type';
 import { DeleteReview, getReviewImages } from '../services/reviewServices';
 import { getProductImagesQuery } from '../services/productServices';
@@ -48,6 +49,7 @@ import {
   getWishListsQuery,
 } from '../services/wishListServices';
 import { UserStore } from '../stores/User.store';
+import { getUserById } from '../services/userServices';
 
 export default function ProductDetail() {
   const navigate = useNavigate();
@@ -307,7 +309,7 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
-        <DetailTab productId={productId} />
+        <DetailTab productId={productId} loginedUserId={Number(user?.id)} />
       </div>
       <Footer />
     </div>
@@ -321,9 +323,10 @@ const randomDescImg = detailDescriptions[randomIndex];
 
 interface DetailTabProp {
   productId: string | undefined;
+  loginedUserId: number | undefined;
 }
 
-function DetailTab({ productId }: DetailTabProp) {
+function DetailTab({ productId, loginedUserId }: DetailTabProp) {
   const [value, setValue] = React.useState(0);
   const { reviews } = ReviewStore();
   const [productReviews, setProductReviews] = useState<Review[]>([]);
@@ -402,6 +405,7 @@ function DetailTab({ productId }: DetailTabProp) {
               <ReviewComponent
                 key={review.id}
                 {...review}
+                loginedUserId={loginedUserId}
                 handleDeleteReview={() => handleDeleteReview(review.id)}
               />
             ))
@@ -427,6 +431,7 @@ interface ReviewComponentProps {
   reviewContent: string;
   reviewRating: number;
   userId: number;
+  loginedUserId: number | undefined;
   handleDeleteReview: () => void;
 }
 
@@ -435,6 +440,7 @@ function ReviewComponent({
   reviewContent,
   reviewRating,
   userId,
+  loginedUserId,
   handleDeleteReview,
 }: ReviewComponentProps) {
   // 로그인된 사용자의 리뷰에만 삭제 버튼이 보이도록 해야 함
@@ -442,6 +448,7 @@ function ReviewComponent({
   const [reviewImages, setReviewImages] = useState<ReviewImage[] | undefined>(
     undefined
   );
+  const [reviewUser, setReviewUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -450,6 +457,8 @@ function ReviewComponent({
           (images) => images.reviewId === Number(id)
         );
         setReviewImages(productImages);
+        const reviewUser = await getUserById(userId);
+        setReviewUser(reviewUser);
       } catch (error) {
         console.error(error);
       }
@@ -465,8 +474,8 @@ function ReviewComponent({
   return (
     <div className={styles.review}>
       <div className={styles.review__id}>
-        <div>{userId}</div>
-        {userId && (
+        <div>{reviewUser?.userLoginId}</div>
+        {Number(reviewUser?.id) === loginedUserId && (
           <IconButton
             onClick={isDelete.handleOpenModal}
             sx={{ padding: '5px' }}

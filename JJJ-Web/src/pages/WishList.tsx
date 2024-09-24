@@ -9,17 +9,21 @@ import { getProducts } from '../services/productServices';
 import { useSelectableList } from '../hooks/useSelectableList';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { UserStore } from '../stores/User.store';
 
 export default function WishList() {
   const [wishLists, setWishLists] = useState<WishListType[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const { user } = UserStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWishLists = async () => {
       const fetchedWishLists = await getWishLists();
-      const filterUser = fetchedWishLists.filter((i) => i.userId === 1);
+      const filterUser = fetchedWishLists.filter(
+        (i) => Number(i.userId) === Number(user?.id)
+      );
       setWishLists([...filterUser].reverse());
     };
     const fetchProducts = async () => {
